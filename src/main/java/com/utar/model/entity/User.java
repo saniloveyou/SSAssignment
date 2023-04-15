@@ -1,12 +1,10 @@
 package com.utar.model.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "users", schema = "classicmodels")
+
 public class User {
     @Id
     @Column(name = "username", nullable = false, length = 7)

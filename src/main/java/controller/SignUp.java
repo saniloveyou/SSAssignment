@@ -1,14 +1,17 @@
 package controller;
 
+import com.utar.model.entity.User;
 import com.utar.model.sessionbean.SignUpSessionBean;
 
 import javax.ejb.EJB;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -29,28 +32,26 @@ public class SignUp extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        String hashedPassword = hashPassword(password);
-        String[] s = {username, hashedPassword};
 
-        signUpSessionBean.addSignUp(s);
+        String[] s = {username, password};
 
-        response.setContentType("text/html");
-        response.getWriter().println("<html><body>");
-        response.getWriter().println("<h1>Account Created</h1>");
-        response.getWriter().println("<p>Your account has been successfully created.</p>");
-        response.getWriter().println("</body></html>");
-        response.setHeader("Refresh", "5; URL=index.html");
 
-    }
-    private String hashPassword(String password) {
-        try {
-            MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            byte[] hash = digest.digest(password.getBytes(StandardCharsets.UTF_8));
-            String encodedHash = Base64.getEncoder().encodeToString(hash);
-            return encodedHash;
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException("Error hashing password", e);
-        }
+       Boolean flag = signUpSessionBean.addSignUp(s);
+
+       if (flag){
+           request.setAttribute("flag","True");
+           RequestDispatcher req = request.getRequestDispatcher("SignUp.jsp");
+           req.forward(request, response);
+       }
+       else
+       {
+           request.setAttribute("flag","False");
+           RequestDispatcher req = request.getRequestDispatcher("SignUp.jsp");
+           req.forward(request, response);
+       }
+
+
+
     }
 
 }

@@ -10,26 +10,47 @@ import javax.persistence.Query;
 import java.math.BigInteger;
 
 @Stateless
-public class SignUpSession implements SignUpSessionBean{
+public class SignUpSession implements SignUpSessionBean {
     @PersistenceContext(unitName = "SSAssignment")
     EntityManager em;
 
     @Override
     public int getNumberOfRows() {
-        System.out.println("getNumberOfRows");
+
         Query q = null;
         q = em.createNativeQuery("SELECT COUNT(*) AS totalrow FROM classicmodels.users");
         BigInteger results = (BigInteger) q.getSingleResult();
-        System.out.println("getNumberOfRows");
+
         int i = results.intValue();
         return i;
     }
 
     @Override
-    public void addSignUp(String[] s) throws EJBException {
+    public User findUser(String id) throws EJBException {
+        User info = em.find(User.class,id);
+
+        return info;
+    }
+
+
+    @Override
+    public boolean addSignUp(String[] s) throws EJBException {
     User user = new User();
     user.setId(s[0]);
     user.setPassword(s[1]);
-    em.persist(user);
+
+    User info = findUser(s[0]);
+        System.out.println((info));
+        if (info == null) {
+            String sql = "INSERT INTO classicmodels.users VALUES (?, ?)";
+            Query query = em.createNativeQuery(sql);
+            query.setParameter(1, s[0]);
+            query.setParameter(2, s[1]);
+            query.executeUpdate();
+        } else {
+            return false;
+        }
+        return true;
+
     }
 }
