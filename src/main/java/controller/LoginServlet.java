@@ -26,15 +26,12 @@ public class LoginServlet extends HttpServlet {
             throws ServletException, IOException {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        String user_role = request.getParameter("user_role");
 
-        System.out.println("username.." + username);
-        System.out.println("password.." + password);
         if (loginSessionBean.authenticate(username, password))
         {
             HttpSession httpSession = request.getSession();
             httpSession.setAttribute("username", username);
-            httpSession.setAttribute("user_role", user_role);
+            httpSession.setAttribute("user_role", loginSessionBean.getUserRole(username));
             response.sendRedirect("index.jsp");
         }
         else {

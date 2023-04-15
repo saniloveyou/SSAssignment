@@ -5,8 +5,8 @@
     <title>JSP - Hello World</title>
 </head>
 <body>
-<h1><%= session.getAttribute("username").toString() %></h1>
-<h1><%= session.getAttribute("user_role").toString() %></h1>
+<h1>Username: <%= session.getAttribute("username").toString() %></h1>
+<h1>Role: <%= session.getAttribute("user_role").toString() %></h1>
 <br/>
 </body>
 </html>
