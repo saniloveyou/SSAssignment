@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd"
+             version="2.2">
+    <persistence-unit name="SSAssignment">
+        <jta-data-source>java:/MyPostGresClassicmodel</jta-data-source>
+        <class>com.utar.model.entity.Customer</class>
+        <class>com.utar.model.entity.Office</class>
+        <class>com.utar.model.entity.OrderdetailId</class>
+        <class>com.utar.model.entity.Orderdetail</class>
+        <class>com.utar.model.entity.PaymentId</class>
+        <class>com.utar.model.entity.Product</class>
+        <class>com.utar.model.entity.Productline</class>
+        <class>com.utar.model.entity.UserRoleId</class>
+        <class>com.utar.model.entity.UserRole</class>
+        <class>com.utar.model.entity.Employee</class>
+        <class>com.utar.model.entity.User</class>
+        <class>com.utar.model.entity.Order</class>
+        <class>com.utar.model.entity.Payment</class>
+    </persistence-unit>
+</persistence>
