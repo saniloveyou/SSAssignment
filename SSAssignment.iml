@@ -20,7 +20,7 @@
         <setting name="validation-enabled" value="true" />
         <setting name="provider-name" value="Hibernate" />
         <datasource-mapping>
-          <factory-entry name="SSAssignment" value="f558010d-2948-4a4e-b4e4-c2cf275ef63e" />
+          <factory-entry name="SSAssignment" value="e346d4f6-9294-42b2-a289-68bad7550b36" />
         </datasource-mapping>
         <naming-strategy-map>
           <unit-entry name="SSAssignment" />
