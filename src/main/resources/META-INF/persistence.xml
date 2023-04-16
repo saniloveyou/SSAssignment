@@ -4,7 +4,7 @@
              xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd"
              version="2.2">
     <persistence-unit name="SSAssignment">
-        <jta-data-source>java:/MyPostGresClassicmodel</jta-data-source>
+        <jta-data-source>java:/MyPostGresClassicmodels</jta-data-source>
         <class>com.utar.model.entity.Customer</class>
         <class>com.utar.model.entity.Office</class>
         <class>com.utar.model.entity.OrderdetailId</class>
