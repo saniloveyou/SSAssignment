@@ -42,7 +42,6 @@ public class ProductSession implements ProductSessionBean{
     public List<Product> readProduct(int currentPage, int recordsPerPage) {
         Query q = null;
         q = em.createNativeQuery("SELECT * FROM classicmodels.products order by productcode" , Product.class);
-        System.out.println("this is here " + q);
         int start = currentPage * recordsPerPage - recordsPerPage;
         List<Product> results = q.setFirstResult(start).setMaxResults(recordsPerPage).getResultList();
         return results;
