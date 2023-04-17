@@ -31,65 +31,58 @@ public class PaymentServlet extends HttpServlet {
         String customernumber = request.getParameter("customernumber");
         String customername = request.getParameter("customername");
         String checknumber = request.getParameter("checknumber");
-        String paymentdate = request.getParameter("paymentdate");
-
         String fromDateStr = request.getParameter("from_date");
-
         String toDateStr = request.getParameter("to_date");
-
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-//        Date fromDate = null;
-//        Date toDate = null;
-//        if (fromDateStr != null && toDateStr != null) {
-//            try {
-//                fromDate = dateFormat.parse(fromDateStr);
-//                toDate = dateFormat.parse(toDateStr);
-//            } catch (ParseException e) {
-//            }
-//        }
-
-        System.out.println("this line here"+fromDateStr);
-
         String category;
-        List<Object[]> lists;
 
-//        check customer number contain alphabet or not
-
-        if (customernumber != null && customernumber.length() > 0 && !customernumber.matches(".*[a-zA-Z]+.*") ) {
-            category = "c.customernumber = " +"'"+customernumber+"'" ;
-            lists = paymentSessionBean.findPayment(category);
-
-        }
-        else if(customername != null && customername.length() > 0){
-            System.out.println("customername"+customername);
-            category = "c.customername LIKE " + "'"+customername+"'";
-            lists = paymentSessionBean.findPayment(category);
-        }
-        else if(checknumber != null && checknumber.length() > 0){
-            System.out.println("checknumber"+checknumber);
-            category = "pd.checknumber = " + "'"+checknumber+"'";
-            lists = paymentSessionBean.findPayment(category);
-        }
-        else if(fromDateStr != null && toDateStr != null && fromDateStr.length() > 0 && toDateStr.length() > 0){
-            System.out.println("fromDateStr"+fromDateStr);
-            System.out.println("toDateStr"+toDateStr);
-            category = "AND pd.paymentdate BETWEEN " + "'"+fromDateStr+"'" + " AND " + "'"+toDateStr+"'";
-            lists = paymentSessionBean.findPayment(category);
-        }
-        else{
-            lists = paymentSessionBean.getpaymentdetails();
-        }
+        List<Object[]> lists = null;
+        int nOfpages = 0,currentPage = 1,recordsPerPage = 20;
+        String direction = "ASC";
 
 
-        HttpSession session = request.getSession();
+        System.out.println("customernumber: " + customernumber);
+            if (customernumber != null && customernumber.length() > 0 && !customernumber.matches(".*[a-zA-Z]+.*")) {
+                category = "c.customernumber = " + "'" + customernumber + "'";
+                lists = paymentSessionBean.findPayment(category);
 
-        session.setAttribute("payment",lists);
+            } else if (customername != null && customername.length() > 0) {
+                category = "c.customername LIKE " + "'" + customername + "'";
+                lists = paymentSessionBean.findPayment(category);
+            } else if (checknumber != null && checknumber.length() > 0) {
+                category = "pd.checknumber = " + "'" + checknumber + "'";
+                lists = paymentSessionBean.findPayment(category);
+            } else if (fromDateStr != null && toDateStr != null && fromDateStr.length() > 0 && toDateStr.length() > 0) {
+                category = "pd.paymentdate BETWEEN " + "'" + fromDateStr + "'" + " AND " + "'" + toDateStr + "'";
+                lists = paymentSessionBean.findPayment(category);
+            } else {
+                try {
+                    currentPage = Integer.parseInt(request.getParameter("currentPage"));
+                    recordsPerPage = Integer.parseInt(request.getParameter("recordsPerPage"));
+                    int rows = paymentSessionBean.getNumberOfRows();
+                    nOfpages = (rows + recordsPerPage - 1) / recordsPerPage;
+                    currentPage = Math.min(currentPage, nOfpages);
+                    direction = request.getParameter("direction");
+                    lists = paymentSessionBean.readpaymentdetails(currentPage, recordsPerPage, direction);
+                } catch (Exception e) {
+
+                }
+
+            }
+        request.setAttribute("nOfPages", nOfpages);
+        request.setAttribute("currentPage", currentPage);
+        request.setAttribute("recordsPerPage", recordsPerPage);
+        request.setAttribute("direction", direction);
+            HttpSession session = request.getSession();
+            session.setAttribute("payment",lists);
+
+//        }catch (Exception e) {
+//            request.setAttribute("msg", "Unable to access the method ");
+//            RequestDispatcher req = request.getRequestDispatcher("DeniedAccessMethod.jsp");
+//            req.forward(request, response);
+//        }
 
         RequestDispatcher req = request.getRequestDispatcher("DisplayPayment.jsp");
         req.forward(request, response);
-
-
-
         }
 
     @Override

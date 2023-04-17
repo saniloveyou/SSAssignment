@@ -21,27 +21,25 @@ public class PaymentSession implements PaymentSessionBean {
     public List<Payment> getAllPayment() throws EJBException {
         Query q = null;
         q = em.createNativeQuery("SELECT * FROM classicmodels.payments order by customernumber", Payment.class);
-        System.out.println("this line is here");
         List<Payment> results = q.getResultList();
-        System.out.println("this line is here"+ results);
-//        q = em.createNativeQuery("select p.productname, o.ordernumber, cd.customernumber,c.customername,cd.checknumber,cd.paymentdate,cd.amount from classicmodels.payments cd join classicmodels.customers c on cd.customernumber = c.customernumber join classicmodels.orders o on c.customernumber = o.customernumber join classicmodels.orderdetails od on o.ordernumber = od.ordernumber join classicmodels.products p on od.productcode = p.productcode order by cd.customernumber ");
 
     return results;
 
     }
 
     @Override
-    public List<Object[]> getpaymentdetails() throws EJBException {
+    public List<Object[]> readpaymentdetails(int currentPage, int recordsPerPage, String direction) throws EJBException {
 
-        String sql = "SELECT c.customernumber, c.customername,pd.checknumber,pd.paymentdate,pd.amount\n" +
+        String sql = "SELECT c.customernumber, c.customername,c.phone,c.creditlimit,pd.checknumber,pd.paymentdate,pd.amount\n" +
                 "                            from classicmodels.customers c\n" +
                 "                            join classicmodels.payments pd on c.customernumber = pd.customernumber\n" +
                 "                                join classicmodels.orders o on c.customernumber = o.customernumber\n" +
-                "                                where o.status = 'Shipped' group by c.customernumber,pd.checknumber,pd.paymentdate,pd.amount,o.status order by c.customernumber,pd.checknumber,pd.paymentdate,pd.amount DESC";
+                "                                where c.creditlimit IS NOT NULL  AND o.status = 'Shipped' group by c.customernumber,pd.checknumber,pd.paymentdate,pd.amount,o.status order by c.customernumber "+direction;
         Query q = null;
         q = em.createNativeQuery(sql);
+        int start = currentPage * recordsPerPage - recordsPerPage;
 
-        List<Object[]> results = q.getResultList();
+        List<Object[]> results = q.setFirstResult(start).setMaxResults(recordsPerPage).getResultList();
 
         return results;
     }
@@ -50,12 +48,12 @@ public class PaymentSession implements PaymentSessionBean {
     @Override
     public List<Object[]>  findPayment(String category) throws EJBException {
 
-        String sql = "SELECT c.customernumber, c.customername,pd.checknumber,pd.paymentdate,pd.amount\n" +
+        String sql = "SELECT c.customernumber, c.customername,c.phone,c.creditlimit,pd.checknumber,pd.paymentdate,pd.amount\n" +
                 "                            from classicmodels.customers c\n" +
                 "                            join classicmodels.payments pd on c.customernumber = pd.customernumber\n" +
                 "                                join classicmodels.orders o on c.customernumber = o.customernumber\n" +
-                "                                where o.status = 'Shipped' "+ category +" group by c.customernumber,pd.checknumber,pd.paymentdate,pd.amount,o.status " +
-                "order by c.customernumber,pd.checknumber,pd.paymentdate,pd.amount DESC";
+                "                                where c.creditlimit IS NOT NULL  AND o.status = 'Shipped' AND "+ category +" group by c.customernumber,pd.checknumber,pd.paymentdate,pd.amount,o.status " +
+                "order by c.customernumber ";
         Query q = null;
         q = em.createNativeQuery(sql);
         List<Object[]> results = q.getResultList();
