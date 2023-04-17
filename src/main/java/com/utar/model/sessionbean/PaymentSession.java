@@ -8,6 +8,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import java.math.BigInteger;
 import java.util.List;
 
 @Stateless
@@ -32,22 +33,33 @@ public class PaymentSession implements PaymentSessionBean {
     @Override
     public List<Object[]> getpaymentdetails() throws EJBException {
 
-        String sql = "select c.customernumber,c.customername,c.phone,pd.amount,pd.paymentdate\n" +
-                "from classicmodels.customers c\n" +
-                "join classicmodels.payments pd on c.customernumber = pd.customernumber";
+        String sql = "SELECT c.customernumber, c.customername,pd.checknumber,pd.paymentdate,pd.amount\n" +
+                "                            from classicmodels.customers c\n" +
+                "                            join classicmodels.payments pd on c.customernumber = pd.customernumber\n" +
+                "                                join classicmodels.orders o on c.customernumber = o.customernumber\n" +
+                "                                where o.status = 'Shipped' group by c.customernumber,pd.checknumber,pd.paymentdate,pd.amount,o.status order by c.customernumber,pd.checknumber,pd.paymentdate,pd.amount DESC";
         Query q = null;
         q = em.createNativeQuery(sql);
-
 
         List<Object[]> results = q.getResultList();
 
         return results;
     }
 
-
+//this is for search function in payment
     @Override
-    public Payment findPayment(String id) throws EJBException {
-        return null;
+    public List<Object[]>  findPayment(String category) throws EJBException {
+
+        String sql = "SELECT c.customernumber, c.customername,pd.checknumber,pd.paymentdate,pd.amount\n" +
+                "                            from classicmodels.customers c\n" +
+                "                            join classicmodels.payments pd on c.customernumber = pd.customernumber\n" +
+                "                                join classicmodels.orders o on c.customernumber = o.customernumber\n" +
+                "                                where o.status = 'Shipped' AND pd.paymentdate "+ "BETWEEN '05/06/2003' AND '05/06/2010'" +" group by c.customernumber,pd.checknumber,pd.paymentdate,pd.amount,o.status " +
+                "order by c.customernumber,pd.checknumber,pd.paymentdate,pd.amount DESC";
+        Query q = null;
+        q = em.createNativeQuery(sql);
+        List<Object[]> results = q.getResultList();
+        return results;
     }
 
     @Override
@@ -57,7 +69,11 @@ public class PaymentSession implements PaymentSessionBean {
 
     @Override
     public int getNumberOfRows() throws EJBException {
-        return 0;
+        Query q = null;
+        q = em.createNativeQuery("SELECT COUNT(*) AS totalrow FROM classicmodels.payments");
+        BigInteger results = (BigInteger) q.getSingleResult();
+        int i = results.intValue();
+        return i;
     }
 
     @Override

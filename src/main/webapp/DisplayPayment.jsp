@@ -12,6 +12,11 @@
     <style>
         body {
             font-family: Arial, Helvetica, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
         }
         * {
             box-sizing: border-box;
@@ -55,6 +60,13 @@
             border: none;
             background: #f1f1f1;
         }
+        h1 {
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            margin: 50px 0;
+        }
         /* When the inputs get focus, do something */
         .form-container input[type=text]:focus, .form-container input[type=password]:focus
         {
@@ -84,7 +96,117 @@
             text-align: center;
             font-weight: bold;
         }
+        input[type=text], select {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        input[type=submit] {
+            width: 100%;
+            background-color: #4CAF50;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        input[type=submit]:hover {
+            background-color: #45a049;
+        }
+
+        div.container {
+            border-radius: 5px;
+            background-color: #f2f2f2;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        form {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 50px 0;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            border-radius: 4px;
+        }
+
+        select, input[type="text"], input[type="submit"], input[type="date"] {
+            font-size: 1.2em;
+            padding: 10px;
+            margin: 5px;
+            border: none;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        select:focus, input[type="text"]:focus, input[type="submit"]:focus, input[type="date"]:focus {
+            outline: none;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #3e8e41;
+        }
+
+        .range-select {
+            display: none;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+
+        .range-select.show {
+            display: flex;
+        }
+
+        label {
+            font-weight: bold;
+            margin: 5px;
+        }
+
+        @media (max-width: 768px) {
+            form {
+                flex-direction: column;
+                box-shadow: none;
+                padding: 0;
+                background-color: transparent;
+            }
+        }
+
     </style>
+
+    <script>
+
+        function categorySelected() {
+            var categorySelect = document.getElementById("category-select");
+            var selectedValue = categorySelect.options[categorySelect.selectedIndex].value;
+            var rangeSelect = document.getElementById("range-select");
+
+            if (selectedValue == "date" || selectedValue == "price") {
+                rangeSelect.classList.add("show");
+            } else {
+                console.log("this here"+selectedValue);
+                document.getElementById("search-now").setAttribute("name",selectedValue);
+                rangeSelect.classList.remove("show");
+            }
+        }
+    </script>
     <link rel="stylesheet"
           href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">
 </head>
@@ -93,24 +215,54 @@
 <div class="row col-md-6">
     <table class="table table-striped table-bordered table-sm">
         <tr>
-            <th>ID</th>
-            <th>Product Name</th>
-            <th>Product line</th>
-            <th>Quantity</th>
-            <th>Vendor</th>
-            <th>Price</th>
+            <th>Customer Number</th>
+            <th>Customer Name</th>
+            <th>Check Number</th>
+            <th>Payment Date</th>оо
+            <th>Amount</th>о
             <th>Update</th>
             <th>Delete</th>
         </tr>
+
+        <h1>Search Products by Category</h1>
+        <form>
+            <label for="category-select"></label>
+            <select id="category-select" onchange="categorySelected()">
+                <option value="customernumber">Customer Number</option>
+                <option value="customername">Customer Name</option>
+                <option value="checknumber">Check Number</option>
+                <option value="date">Payment Date</option>
+            </select>
+
+            <input type="text" name="customernumber" placeholder="Search..." id="search-now" >
+            <input type="submit" value="Search">
+
+            <div id="range-select" class="range-select">
+
+                <label for="from_date">From:</label>
+                <input type="date" id="from_date" name="from_date">
+
+                <label for="to_date">To:</label>
+                <input type="date" id="to_date" name="to_date">
+            </div>
+        </form>
+</body>
+
+</html>
+
         <%
             List<Object[]> list = (List<Object[]>) session.getAttribute("payment");
 
             for (Object[] row : list) {
-                System.out.println("Product Name: " + row[0]);
-                System.out.println("Product Name: " + row[1]);
-                System.out.println("Product Name: " + row[2]);
-                System.out.println("Product Name: " + row[3]);
-                System.out.println("Product Name: " + row[4]);
+                out.println("<tr>");
+                out.println("<td>" + row[0] + "</td>");
+                out.println("<td>" + row[1] + "</td>");
+                out.println("<td>" + row[2] + "</td>");
+                out.println("<td>" + row[3]+ "</td>");
+                out.println("<td>" + row[4] + "</td>");
+                out.println("<td><a href=\"EmployeeController?id=" +  row[0] + "\">Update</a></td>");
+                out.println("<td><a href=\"EmployeeController?id=" +  row[0] + "\">Delete</a></td>");
+                out.println("</tr>");
             }
         %>
     </table>
@@ -164,31 +316,6 @@
 <script
         src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
 
-<button class="open-button" onclick="openForm()">Open Form</button>
-<div class="form-popup" id="myForm">
-    <form action="EmployeeController" class="form-container" method="post">
-        <h1>Add Employee</h1>
-        <fieldset>
-            <legend>Add Employee Details:</legend>
-            <br> First Name:
-            <input type="text" name="fname" /> <br>
-            Last Name: <input type="text" name="lname" /> <br>
-            Gender: <input type="text" name="gender" /> <br>
-            DOB: <input type="text" name="dob" />
-            <br> Hired Date: <input type="text" name="hdate" />
-        </fieldset>
-        <button type="submit" class="btn">Submit Test</button>
-        <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
-        <button type="reset" class="btn">Reset</button>
-    </form>
-</div>
-<script>
-    function openForm() {
-        document.getElementById("myForm").style.display = "block";
-    }
-    function closeForm() {
-        document.getElementById("myForm").style.display = "none";
-    }
-</script>
+
 </body>
 </html>
