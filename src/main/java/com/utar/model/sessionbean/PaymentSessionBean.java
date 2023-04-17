@@ -11,7 +11,7 @@ public interface PaymentSessionBean {
 
     public List<Payment> getAllPayment() throws EJBException;
     public List<Object[]> getpaymentdetails() throws EJBException;
-    public List<Object[]> findPayment(String category) throws EJBException;
+    public Payment findPayment(String id) throws EJBException;
     public List<Payment> readPayment(int currentPage, int recordsPerPage) throws EJBException;
     public int getNumberOfRows() throws EJBException ;
     public void updatePayment(String[] s) throws EJBException;

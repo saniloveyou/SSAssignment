@@ -12,11 +12,7 @@ import javax.servlet.annotation.*;
 import java.awt.*;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 @WebServlet(name = "PaymentServlet", value = "/PaymentServlet")
 public class PaymentServlet extends HttpServlet {
@@ -27,59 +23,9 @@ public class PaymentServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+        List<Object[]> lists = paymentSessionBean.getpaymentdetails();
 
-        String customernumber = request.getParameter("customernumber");
-        String customername = request.getParameter("customername");
-        String checknumber = request.getParameter("checknumber");
-        String paymentdate = request.getParameter("paymentdate");
-
-        String fromDateStr = request.getParameter("from_date");
-
-        String toDateStr = request.getParameter("to_date");
-
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-//        Date fromDate = null;
-//        Date toDate = null;
-//        if (fromDateStr != null && toDateStr != null) {
-//            try {
-//                fromDate = dateFormat.parse(fromDateStr);
-//                toDate = dateFormat.parse(toDateStr);
-//            } catch (ParseException e) {
-//            }
-//        }
-
-        System.out.println("this line here"+fromDateStr);
-
-        String category;
-        List<Object[]> lists;
-
-//        check customer number contain alphabet or not
-
-        if (customernumber != null && customernumber.length() > 0 && !customernumber.matches(".*[a-zA-Z]+.*") ) {
-            category = "c.customernumber = " +"'"+customernumber+"'" ;
-            lists = paymentSessionBean.findPayment(category);
-
-        }
-        else if(customername != null && customername.length() > 0){
-            System.out.println("customername"+customername);
-            category = "c.customername LIKE " + "'"+customername+"'";
-            lists = paymentSessionBean.findPayment(category);
-        }
-        else if(checknumber != null && checknumber.length() > 0){
-            System.out.println("checknumber"+checknumber);
-            category = "pd.checknumber = " + "'"+checknumber+"'";
-            lists = paymentSessionBean.findPayment(category);
-        }
-        else if(fromDateStr != null && toDateStr != null && fromDateStr.length() > 0 && toDateStr.length() > 0){
-            System.out.println("fromDateStr"+fromDateStr);
-            System.out.println("toDateStr"+toDateStr);
-            category = "pd.paymentdate BETWEEN " + "'"+fromDateStr+"'" + " AND " + "'"+toDateStr+"'";
-            lists = paymentSessionBean.findPayment(category);
-        }
-        else{
-            lists = paymentSessionBean.getpaymentdetails();
-        }
-
+        System.out.println("this is here " + lists.size());
 
         HttpSession session = request.getSession();
 
@@ -87,6 +33,15 @@ public class PaymentServlet extends HttpServlet {
 
         RequestDispatcher req = request.getRequestDispatcher("DisplayPayment.jsp");
         req.forward(request, response);
+
+        for (Object[] row : lists) {
+            System.out.println("Product Name: " + row[0]);
+            System.out.println("Product Name: " + row[1]);
+            System.out.println("Product Name: " + row[2]);
+            System.out.println("Product Name: " + row[3]);
+            System.out.println("Product Name: " + row[4]);
+        }
+
 
 
 
