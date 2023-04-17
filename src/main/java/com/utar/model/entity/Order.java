@@ -1,13 +1,12 @@
 package com.utar.model.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
 @Table(name = "orders", schema = "classicmodels")
+@NamedQuery(name = "Order.findbyId", query = "SELECT order FROM Order order WHERE order.id = :id")
+@NamedQuery(name = "Order.findAll", query = "SELECT order FROM Order order")
 public class Order {
     @Id
     @Column(name = "ordernumber", nullable = false)
