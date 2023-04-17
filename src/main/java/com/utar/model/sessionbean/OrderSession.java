@@ -56,9 +56,10 @@ public class OrderSession implements OrderSessionBean{
     }
 
     @Override
-    public List<Order> readOrder(int currentPage, int recordsPerPage, String direction) throws EJBException {
-        Query query = entityManager.createNativeQuery("SELECT ordernumber, orderdate, requireddate, CASE WHEN shippeddate = '' THEN null ELSE shippeddate END, status, comments, customerNumber FROM classicmodels.orders order by ordernumber  "+direction , Order.class);
-
+    public List<Order> readOrder(int currentPage, int recordsPerPage, String sortBy, String direction) throws EJBException {
+        String orderBy = sortBy + " " + direction;
+        String statement = "SELECT ordernumber, orderdate, requireddate, CASE WHEN shippeddate = '' THEN null ELSE shippeddate END, status, comments, customerNumber FROM classicmodels.orders order by "+orderBy;
+        Query query = entityManager.createNativeQuery(statement, Order.class);
         int start = currentPage * recordsPerPage - recordsPerPage;
         return query.setFirstResult(start).setMaxResults(recordsPerPage).getResultList();
     }

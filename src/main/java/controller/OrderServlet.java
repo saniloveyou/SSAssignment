@@ -25,13 +25,14 @@ public class OrderServlet extends HttpServlet {
         int currentPage = Integer.parseInt(request.getParameter("currentPage"));
         int recordsPerPage = Integer.parseInt(request.getParameter("recordsPerPage"));
         String direction = request.getParameter("direction");
+        String sortBy = request.getParameter("sortBy");
 
         try {
             int rows = orderSessionBean.getNumberOfRows();
             nOfPages = rows / recordsPerPage;
             if (rows % recordsPerPage != 0) nOfPages++;
             if (currentPage > nOfPages && nOfPages != 0) currentPage = nOfPages;
-            List<Order> orders = orderSessionBean.readOrder(currentPage, recordsPerPage, direction);
+            List<Order> orders = orderSessionBean.readOrder(currentPage, recordsPerPage, sortBy, direction);
             request.setAttribute("orders", orders);
 
         } catch (EJBException ex) {
@@ -45,6 +46,7 @@ public class OrderServlet extends HttpServlet {
         request.setAttribute("currentPage", currentPage);
         request.setAttribute("recordsPerPage", recordsPerPage);
         request.setAttribute("direction", direction);
+        request.setAttribute("sortBy", sortBy);
 
         RequestDispatcher dispatcher = request.getRequestDispatcher("DisplayOrder.jsp");
         dispatcher.forward(request, response);
