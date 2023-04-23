@@ -13,7 +13,7 @@ public class Order {
     private Integer id;
 
     @Column(name = "orderdate", nullable = false, length = 10)
-    private String orderdate;
+    private Date orderdate;
 
     @Column(name = "requireddate", nullable = false, length = 10)
     private Date requireddate;
@@ -70,11 +70,11 @@ public class Order {
         this.requireddate = requireddate;
     }
 
-    public String getOrderdate() {
+    public Date getOrderdate() {
         return orderdate;
     }
 
-    public void setOrderdate(String orderdate) {
+    public void setOrderdate(Date orderdate) {
         this.orderdate = orderdate;
     }
 
