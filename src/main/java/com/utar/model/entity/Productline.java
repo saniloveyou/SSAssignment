@@ -1,12 +1,12 @@
 package com.utar.model.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "productlines", schema = "classicmodels")
+@NamedQuery(name = "productlines.findById", query = "SELECT pl FROM Productline pl WHERE pl.id = :id")
+@NamedQuery(name = "productlines.findAll", query = "SELECT pl FROM Productline pl ORDER BY pl.id")
+
 public class Productline {
     @Id
     @Column(name = "productline", nullable = false, length = 16)

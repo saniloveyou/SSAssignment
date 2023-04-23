@@ -2,10 +2,14 @@ package com.utar.model.entity;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "products", schema = "classicmodels")
-@NamedQueries({@NamedQuery(name = "Product.findAll", query = "SELECT p FROM Product p"), @NamedQuery(name = "Product.findbyId", query = "SELECT p FROM Product p WHERE p.id = :id")})
+
+@NamedQuery(name = "product.findById", query = "SELECT p FROM Product p WHERE p.id = :id")
+@NamedQuery(name = "product.findAll", query = "SELECT p FROM Product p")
 
 public class Product {
     @Id
@@ -36,6 +40,17 @@ public class Product {
 
     @Column(name = "msrp", nullable = false, precision = 5, scale = 2)
     private BigDecimal msrp;
+
+    @OneToMany(mappedBy = "productcode")
+    private Set<Orderdetail> orderdetails = new LinkedHashSet<>();
+
+    public Set<Orderdetail> getOrderdetails() {
+        return orderdetails;
+    }
+
+    public void setOrderdetails(Set<Orderdetail> orderdetails) {
+        this.orderdetails = orderdetails;
+    }
 
     public BigDecimal getMsrp() {
         return msrp;

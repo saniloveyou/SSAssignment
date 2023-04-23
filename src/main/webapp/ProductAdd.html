@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Update Product Information</title>
+    <style>
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+    </style>
+</head>
+<body>
+
+<form action="ProductController" method="post">
+    <table>
+        <tr>
+            <td>Product Code</td>
+            <td>
+                <input type="text" name="productId">
+            </td>
+        </tr>
+        <tr>
+            <td>Product Name</td>
+            <td>
+                <textarea name="productName" cols="50" ></textarea>
+            </td>
+        </tr>
+        <tr>
+            <td>Productline</td>
+            <td>
+                <textarea name="productline" cols="50" > </textarea>
+            </td>
+        </tr>
+        <tr>
+            <td>Product Scale</td>
+            <td>
+                <input type="text" name="productScale">
+            </td>
+        </tr>
+        <tr>
+            <td>Product Vendor</td>
+            <td>
+                <textarea name="productVendor" cols="50" ></textarea>
+            </td>
+            </tr>
+        <tr>
+            <td>Product Description</td>
+            <td>
+                <textarea name="productDescription" rows ="10" cols="100" ></textarea>
+            </td>
+        </tr>
+        <tr>
+            <td>Quantity in Stock</td>
+            <td>
+                <input type="text" name="productInStock">
+             </td>
+
+        </tr>
+        <tr>
+            <td>Buy Price</td>
+            <td>
+                <input type="text" name="buyPrice">
+            </td>
+        </tr>
+        <tr>
+            <td>MSRP</td>
+            <td>
+                <input type="text" name="msrp">
+            </td>
+        </tr>
+    </table>
+    <input type="submit" name="ADD" value="ADD" />
+</form>
+</body>
+</html>

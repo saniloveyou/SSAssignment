@@ -1,6 +1,15 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: Admin
+  Date: 4/16/2023
+  Time: 2:14 PM
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<html>
+
 <%@ page import="com.utar.model.entity.Product" %>
 <%@ page import="java.util.List" %>
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
 <!DOCTYPE html>
 <!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
@@ -9,7 +18,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
 <head>
     <meta charset="utf-8">
-    <title>Kool Store - Responsive eCommerce Template</title>
+    <title>Kool Store | Products</title>
 
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
@@ -24,9 +33,22 @@
     <link rel="stylesheet" href="css/templatemo-style.css">
 
     <script src="js/vendor/modernizr-2.6.2.min.js"></script>
+
     <style>
+        .product-item-1 .product-content {
+            height: 550px;
+            border-top: 0;
+            padding: 20px 20px 15px 20px;
+        }
+        .pageref {
+            text-align: center;
+            font-weight: bold;
+        }
         .product-content h5 {
             text-transform: none;
+        }
+        form {
+            padding: 15px;
         }
 
     </style>
@@ -44,8 +66,8 @@
             <div class="row">
                 <div class="col-md-6 col-sm-6">
                     <div class="top-header-left">
-                        <a href="SignUp.jsp">Sign Up</a>
-                        <a href="Login.jsp">Log In</a>
+                        <a href="#">Sign Up</a>
+                        <a href="#">Log In</a>
                     </div> <!-- /.top-header-left -->
                 </div> <!-- /.col-md-6 -->
                 <div class="col-md-6 col-sm-6">
@@ -76,13 +98,11 @@
                             <i class="fa fa-bars"></i>
                         </a>
                         <ul class="menu">
-                            <li><a href="index.html">Shop</a></li>
-                            <li><a href="ProductPaginationServlet?currentPage=1&recordsPerPage=12&admin=false&keyword=&sort=ASC">Catalogs</a></li>
-                            <li><a href="ProductlineDisplayServlet?currentPage=1&recordsPerPage=12&&keyword=&sort=ASC">Productline</a></li>
-                            <li><a href="OrderServlet?currentPage=1&recordsPerPage=20&sortBy=ordernumber&direction=asc">Order Details</a></li>
-                            <li><a href="PaymentServlet">Order payment</a></li>
-                            <li><a href="contact.html">Contact</a></li>
-                            <li><a href="adminProductPage.html">Product Edit</a></li>
+                            <li><a href="#">Home</a></li>
+                            <li><a href="#">Catalogs</a></li>
+                            <li><a href="#">FAQs</a></li>
+                            <li><a href="#">Policies</a></li>
+                            <li><a href="#">About</a></li>
                         </ul>
                     </div> <!-- /.main-menu -->
                 </div> <!-- /.col-md-8 -->
@@ -92,18 +112,21 @@
     <div class="main-nav">
         <div class="container">
             <div class="row">
-                <div class="col">
+                <div class="col-md-6 col-sm-7">
                     <div class="list-menu">
                         <ul>
                             <li><a href="index.html">Shop</a></li>
                             <li><a href="ProductPaginationServlet?currentPage=1&recordsPerPage=12&admin=false&keyword=&sort=ASC">Catalogs</a></li>
                             <li><a href="ProductlineDisplayServlet?currentPage=1&recordsPerPage=12&&keyword=&sort=ASC">Productline</a></li>
-                            <li><a href="adminProductPage.html">Product Edit</a></li>
-                            <li><a href="OrderServlet?currentPage=1&recordsPerPage=20&sortBy=ordernumber&direction=asc">Order Details</a></li>
-                            <li><a href="PaymentServlet">Order payment</a></li>
                             <li><a href="contact.html">Contact</a></li>
+                            <li><a href="adminProductPage.html">Product Edit</a></li>
                         </ul>
                     </div> <!-- /.list-menu -->
+                </div> <!-- /.col-md-6 -->
+                <div class="col-md-6 col-sm-5">
+                    <div class="notification">
+                        <span>Free Shipping on any order above $50</span>
+                    </div>
                 </div> <!-- /.col-md-6 -->
             </div> <!-- /.row -->
         </div> <!-- /.container -->
@@ -114,13 +137,38 @@
     <div class="container">
         <div class="row">
             <%
-                List<Product> products = (List<Product>) request.getAttribute("products");
-                for (Product p:products){
+                int currentPage = (int) request.getAttribute("currentPage");
+                int recordsPerPage = (int) request.getAttribute("recordsPerPage");
+                int nOfPages = (int) request.getAttribute("nOfPages");
+                String keyword = (String) request.getAttribute("keyword");
+                String sort = (String) request.getAttribute("sort");
             %>
+
+            <form class="form-inline md-form mr-auto mb-4"
+                  action="ProductPaginationServlet" method="get">
+                <input class="form-control mr-sm-2" type="text" aria-label="Search"
+                       name="keyword" />
+                <select class="form-control" id="sort" name="sort">
+                    <option value="ASC">Ascending</option>
+                    <option value="DESC">Descending</option>
+                </select>
+                <button class="btn aqua-gradient btn-rounded btn-sm my-0 btn btn-info"
+                        type="submit">Search</button>
+                <input type="hidden" name="currentPage" value="<%=currentPage%>" />
+                <input type="hidden" name="recordsPerPage" value="<%=recordsPerPage%>" />
+                <input type="hidden" name="admin" value="false"/>
+            </form>
+
+            <%
+                List<Product> products = (List<Product>) request.getAttribute("products");
+                if (products.size() != 0) {
+                    for (Product p:products){
+            %>
+
             <div class="col-md-3">
                 <div class="product-item-1">
-                     <div class="product-thumb">
-                        <img src="images/gallery-image-1.jpg" alt="Product Title">
+                    <div class="product-thumb">
+                        <img src="images/<%=p.getProductline().getId()%>.jpg" alt="Product Title">
                     </div> <!-- /.product-thumb -->
                     <div class="product-content">
                         <h5><a href="ProductController?display=product&id=<%=p.getId()%>"><%=p.getProductname()%></a></h5>
@@ -130,19 +178,60 @@
                     </div> <!-- /.product-content -->
                 </div> <!-- /.product-item -->
             </div> <!-- /.col-md-3 -->
-            <%}%>
+            <%      }
+                 }else{%>
         </div> <!-- /.row -->
-        <form id="moreProduct" action="ProductPaginationServlet">
-            <input type="hidden" name="admin" value="false">
-            <input type="hidden" id="currPage" name="currentPage" value="1">
-            <input type="hidden" id="recPerPage" name="recordsPerPage" value="12">
-            <input type="hidden" name="keyword" value=""/>
-            <input type="hidden" name="sort" value="ASC"/>
-        </form>
-        <a onclick="document.getElementById('moreProduct').submit();" style="cursor: pointer;float: right;">View More >>></a>
+        <h1>No relevant product found</h1>
+        <%}%>
+        <nav>
+            <ul class="pagination">
+                <%
 
+                    if (currentPage != 1 && nOfPages != 0) {
+                    out.println("<li class=\"page-item\">");
+
+                    //&admin=true might affect going to next page
+                    out.println("<a class=\"page-link\" href=\"" + "ProductPaginationServlet?admin=false&recordsPerPage=" + recordsPerPage
+                            + "&currentPage=1" + "&keyword=" + keyword + "&sort="  +
+                            sort +"\">First</a>");
+                    out.println("</li>");
+                %>
+                <li class="page-item">
+                    <%
+                        out.println("<a class=\"page-link\" href=\"" + "ProductPaginationServlet?admin=false&recordsPerPage=" + recordsPerPage
+                                + "&currentPage=" + (currentPage - 1) + "&keyword=" + keyword + "&sort="  +
+                                sort +"\">Previous</a>");
+                    %>
+                </li>
+                <%
+                    }
+                %>
+                <%
+                    if (currentPage < nOfPages) {
+                        out.println("<li class=\"page-item\">");
+                        out.println("<a class=\"page-link\" href=\"" + "ProductPaginationServlet?admin=false&recordsPerPage=" + recordsPerPage
+                                + "&currentPage=" + (currentPage + 1) + "&keyword=" + keyword + "&sort="  +
+                                sort + "\">Next</a>");
+                        out.println("</li>");
+                        out.println("<li class=\"page-item\">");
+                        out.println("<a class=\"page-link\" href=\"" + "ProductPaginationServlet?admin=false&recordsPerPage=" + recordsPerPage
+                                + "&currentPage=" + nOfPages + "&keyword=" + keyword +"&sort="  +
+                                sort + "\">Last</a>");
+                        out.println("</li>");
+                    }
+                %>
+            </ul>
+        </nav>
+        <%
+            if (nOfPages != 0) {
+                out.println("<p class=\"pageref\">");
+                out.println("Page " + currentPage + " of " + nOfPages);
+                out.println("</p>");
+            }
+        %>
     </div> <!-- /.container -->
 </div> <!-- /.content-section -->
+
 
 <footer class="site-footer">
     <div class="main-footer">
@@ -213,8 +302,6 @@
 <script src="js/bootstrap.js"></script>
 <script src="js/plugins.js"></script>
 <script src="js/main.js"></script>
-
-
 
 </body>
 </html>
