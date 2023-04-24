@@ -23,6 +23,19 @@ public class LoginServlet extends HttpServlet {
     @EJB
     private CustomerSessionBean customerSessionBean;
 
+    protected void doGet(HttpServletRequest request, HttpServletResponse response){
+        String action = request.getParameter("action");
+        if (action.equals("logout")) {
+            HttpSession httpSession = request.getSession();
+            httpSession.invalidate();
+            try {
+                response.sendRedirect("Login.jsp");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String username = request.getParameter("username");

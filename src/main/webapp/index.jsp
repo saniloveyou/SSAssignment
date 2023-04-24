@@ -1,5 +1,6 @@
 <%@ page import="com.utar.model.entity.Product" %>
 <%@ page import="java.util.List" %>
+<%@ page import="com.utar.model.entity.Customer" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
 <!DOCTYPE html>
@@ -43,20 +44,22 @@
             <div class="row">
                 <div class="col-md-6 col-sm-6">
                     <div class="top-header-left">
-                        <a href="SignUp">Sign Up</a>
-                        <a href="Login.jsp">Log In</a>
+                        <%
+                            Customer customer = session.getAttribute("customer") == null ? null : (Customer) session.getAttribute("customer");
+                            if(customer != null){
+                        %>
+                        <p style="color: black">Welcome, <b><%=customer.getCustomername()%></b></p>
+                        <%} else {%>
+                            <a href="SignUp">Sign Up</a>
+                            <a href="Login.jsp">Log In</a>
+                        <%}%>
                     </div> <!-- /.top-header-left -->
                 </div> <!-- /.col-md-6 -->
                 <div class="col-md-6 col-sm-6">
-                    <div class="social-icons">
-                        <ul>
-                            <li><a href="#" class="fa fa-facebook"></a></li>
-                            <li><a href="#" class="fa fa-dribbble"></a></li>
-                            <li><a href="#" class="fa fa-twitter"></a></li>
-                            <li><a href="#" class="fa fa-linkedin"></a></li>
-                        </ul>
-                        <div class="clearfix"></div>
-                    </div> <!-- /.social-icons -->
+                    <div class="top-header-left text-right">
+                        <a href="LoginServlet?action=logout">Logout</a>
+                    </div> <!-- /.top-header-left -->
+                </div> <!-- /.col-md-6 -->
                 </div> <!-- /.col-md-6 -->
             </div> <!-- /.row -->
         </div> <!-- /.container -->
