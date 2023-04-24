@@ -14,6 +14,7 @@ import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.List;
 
 @WebServlet(name = "AddToCartServlet", value = "/AddToCartServlet")
 public class AddToCartServlet extends HttpServlet {
@@ -54,6 +55,14 @@ public class AddToCartServlet extends HttpServlet {
         } catch (EJBException e) {
             System.out.println("Error adding order details");
         }
+
+        List<Orderdetail> orderdetails = orderSessionBean.readOrderdetail(ordernumber);
+        session.setAttribute("cart_list", orderdetails);
+
+        PrintWriter out = response.getWriter();
+        out.println("<h1>Added to cart</h1>");
+        // refresh page
+        response.setHeader("Refresh", "1; URL=index.jsp");
     }
 
 

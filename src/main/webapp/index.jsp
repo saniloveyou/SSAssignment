@@ -3,6 +3,7 @@
 <%@ page import="com.utar.model.entity.Customer" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="Cart.Cart" %>
+<%@ page import="com.utar.model.entity.Orderdetail" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
 <!DOCTYPE html>
@@ -60,7 +61,7 @@
                 <div class="col-md-6 col-sm-6">
                     <div class="top-header-left text-right">
                         <a href="Profile?currentPage=1&recordsPerPage=20&direction=asc">Edit Profile</a>
-                        <a href="Cart.jsp">Cart (<%= ((ArrayList<Cart>)session.getAttribute("cart_list")) != null ? ((ArrayList<Cart>)session.getAttribute("cart_list")).size() : 0%>) </a>
+                        <a href="Cart.jsp">Cart (<%= ((ArrayList<Orderdetail>)session.getAttribute("cart_list")) != null ? ((ArrayList<Orderdetail>)session.getAttribute("cart_list")).size() : 0%>) </a>
                         <a href="LoginServlet?action=logout">Logout</a>
                     </div> <!-- /.top-header-left -->
                 </div> <!-- /.col-md-6 -->

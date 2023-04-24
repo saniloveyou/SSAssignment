@@ -12,7 +12,7 @@
 
     if (cart_list != null)
     for ( Orderdetail o: cart_list) {
-        System.out.println(o.getProductcode().getId());
+     //   System.out.println(o.getProductcode().getId());
     }
 
     double total = 0;
@@ -82,7 +82,6 @@
             <th scope="col">Name</th>
             <th scope="col">Price</th>
             <th scope="col">Quantity</th>
-            <th scope="col">Buy Now</th>
             <th scope="col">Cancel</th>
         </tr>
         </thead>
@@ -91,10 +90,12 @@
         <%
             if (cart_list != null) {
                 for (Orderdetail c : cart_list) {
+
         %>
         <tr>
             <td><%=c.getProductcode().getId()%></td>
             <td><%=c.getProductcode().getProductname()%></td>
+            <%System.out.println(c.getProductcode().getId());%>
             <td><%=priceFormatter.format(c.getPriceeach().doubleValue())%></td>
             <td>
                 <div class="form-group d-flex justify-content-between">
