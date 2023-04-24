@@ -58,7 +58,7 @@ public class SignUpSession implements SignUpSessionBean {
             query1.setParameter(2, "user");
             query1.executeUpdate();
 
-            String sql2 = "INSERT INTO classicmodels.customers VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            String sql2 = "INSERT INTO classicmodels.customers VALUES (?,?,?,?,?,?,?,?,?,?,?,NULL,?)";
             Query query2 = em.createNativeQuery(sql2);
             query2.setParameter(1, Short.parseShort(s[0]));
             query2.setParameter(2, s[1]);
@@ -71,8 +71,7 @@ public class SignUpSession implements SignUpSessionBean {
             query2.setParameter(9, s[9]);
             query2.setParameter(10, s[10]);
             query2.setParameter(11, s[11]);
-            query2.setParameter(12, Short.parseShort("0"));
-            query2.setParameter(13, new BigDecimal(s[12]));
+            query2.setParameter(12, new BigDecimal(s[12]));
             query2.executeUpdate();
 
         } else {
