@@ -26,7 +26,7 @@ public class PaymentCart extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-//        try {
+        try {
 
             HttpSession session = request.getSession();
             String username = session.getAttribute("username").toString();
@@ -48,10 +48,10 @@ public class PaymentCart extends HttpServlet {
                 dispatcher.forward(request, response);
             }
 
-//        }catch (Exception e) {
-////            RequestDispatcher dispatcher = request.getRequestDispatcher("Login.jsp");
-////            dispatcher.forward(request, response);
-//        }
+        }catch (Exception e) {
+            RequestDispatcher dispatcher = request.getRequestDispatcher("Login.jsp");
+            dispatcher.forward(request, response);
+        }
     }
 
     @Override

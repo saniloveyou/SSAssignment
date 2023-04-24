@@ -74,6 +74,7 @@ public class SignUpSession implements SignUpSessionBean {
             query2.setParameter(12, new BigDecimal(s[12]));
             query2.executeUpdate();
 
+
         } else {
             return false;
         }

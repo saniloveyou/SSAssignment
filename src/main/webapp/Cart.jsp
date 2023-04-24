@@ -97,14 +97,14 @@
             <td>
                 <div class="form-group d-flex justify-content-between">
                     <a class="btn bnt-sm btn-incre" href="quantity-inc-dec?action=dec&id=<%=c.product.getId()%>"><i class="glyphicon glyphicon-minus"></i></a>
-                    <input type="text" name="quantity" class="form-control"  value="<%=c.getOrderdetail().getQuantityordered()%>" readonly>
+                    <input type="text" name="quantity" class="form-control"  value="<%=c.getOrderdetail().getQuantityordered()%>" >
                     <a class="btn bnt-sm btn-incre" href="quantity-inc-dec?action=inc&id=<%=c.product.getId()%>"><i class="glyphicon glyphicon-plus"></i></a>
                 </div>
             </td>
             <td>
                     <input type="hidden" name="productid" value="<%= c.product.getId()%>" class="form-input">
                 <input type="hidden" name="productid" value="<%= c.product.getId()%>" class="form-input">
-                    <button type="button"  class="btn btn-primary btn-sm"><a href="PaymentCart?quantity=<%="1"%>&productid=<%=c.product.getId()%>" >Buy</a></button>
+                    <button type="button"  class="btn btn-primary btn-sm"><a href="PaymentCart?quantity=<%="2"%>&productid=<%=c.product.getId()%>" >Buy</a></button>
             </td>
             <td><a href="remove-from-cart?id=<%=c.product.getId() %>" class="btn btn-sm btn-danger">Remove</a></td>
         </tr>

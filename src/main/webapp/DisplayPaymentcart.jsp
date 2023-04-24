@@ -409,6 +409,7 @@
 <%
     Product p = (Product) request.getSession().getAttribute("product");
     Customer c = (Customer) request.getSession().getAttribute("customer");
+    String quantity = request.getParameter("quantity");
 
 %>
 
@@ -511,7 +512,12 @@
         String address = c.getAddressline1()  +   c.getAddressline2();
 
         DecimalFormat df = new DecimalFormat("0.00");
-        String totalString = df.format(p.getMsrp().floatValue() - random);
+
+        float total = p.getMsrp().floatValue() * Integer.parseInt(quantity);
+
+        String totalString = df.format(total - random);
+
+
     %>
 
 
@@ -550,8 +556,10 @@
                         </div>
 
                         <div class="d-flex flex-column dis">
+                            <div class="d-flex align-items-center justify-content-between mb-2"><p>Quantity</p>
+                                <p><span class=""></span><%=quantity%></p></div>
                             <div class="d-flex align-items-center justify-content-between mb-2"><p>Subtotal</p>
-                                <p><span class="fas fa-dollar-sign"></span><%=p.getMsrp()%></p></div>
+                                <p><span class="fas fa-dollar-sign"></span><%=total%></p></div>
                             <div class="d-flex align-items-center justify-content-between mb-2">
                                 <div class="d-flex align-items-center"><p class="pe-2">Discount
                                 </p></div>
@@ -561,7 +569,7 @@
                                 Total</p>
                                 <p class="fw-bold"><span class="fas fa-dollar-sign"></span><%=totalString%></p></div>
                             <div  class="btn btn-primary mt-2">
-                                <input style="background-color: #7700ff; color: white " type="submit" value="Pay Now" />
+                                <input style="background-color: #7700ff; color: white; border: none; " type="submit" value="Pay Now" />
                             </div>
                         </div>
                     </div>

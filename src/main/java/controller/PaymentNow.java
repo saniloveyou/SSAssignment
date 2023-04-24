@@ -39,8 +39,6 @@ public class PaymentNow extends HttpServlet {
            HttpSession session = request.getSession();
            String username = session.getAttribute("username").toString();
            String user_role = session.getAttribute("user_role").toString();
-//           System.out.println("username: " + username);
-//           System.out.println("user_role: " + user_role);
 
            if (user_role.equals("[user]")) {
                RequestDispatcher dispatcher = request.getRequestDispatcher("DisplayPaymentUser.jsp");
@@ -94,13 +92,6 @@ public class PaymentNow extends HttpServlet {
 
         RequestDispatcher dispatcher = request.getRequestDispatcher("paymentsuccesfull.jsp");
         dispatcher.forward(request, response);
-//
-
-
-
-
-
-
 
     }
 }
