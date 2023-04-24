@@ -2,7 +2,6 @@ package com.utar.model.sessionbean;
 
 import com.utar.model.entity.Order;
 import com.utar.model.entity.Orderdetail;
-import com.utar.model.entity.OrderdetailId;
 import com.utar.model.entity.Product;
 
 import javax.ejb.EJBException;
@@ -109,41 +108,18 @@ public class OrderSession implements OrderSessionBean{
 
     @Override
     public List<Order> readOrder(int currentPage, int recordsPerPage, String sql) throws EJBException {
-//        String statement = "SELECT ordernumber, orderdate, requireddate, CASE WHEN shippeddate = '' THEN null ELSE shippeddate END, status, comments, customerNumber FROM classicmodels.orders order by "+orderBy;
         Query query = entityManager.createNativeQuery(sql, Order.class);
         int start = currentPage * recordsPerPage - recordsPerPage;
         return query.setFirstResult(start).setMaxResults(recordsPerPage).getResultList();
     }
-//
-//    @Override
-//    public List<Order> readOrder(int currentPage, int recordsPerPage, String sortBy, String direction, String ordernumber, String customernumber, String fromOrderDate, String toOrderDate, String fromRequiredDate, String toRequiredDate, String fromShippedDate, String toShippedDate) throws EJBException {
-//        String orderBy = sortBy + " " + direction;
-//        String where = "WHERE ";
-//        if (!ordernumber.isEmpty()) where += "ordernumber = " + ordernumber + " AND ";
-//        if (!customernumber.isEmpty()) where += "customernumber = " + customernumber + " AND ";
-////        if (!fromOrderDate.isEmpty()) where += "orderdate >= '" + fromOrderDate + "' AND ";
-////        if (!toOrderDate.isEmpty()) where += "orderdate <= '" + toOrderDate + "' AND ";
-////        if (!fromRequiredDate.isEmpty()) where += "requireddate >= '" + fromRequiredDate + "' AND ";
-////        if (!toRequiredDate.isEmpty()) where += "requireddate <= '" + toRequiredDate + "' AND ";
-////        if (!fromShippedDate.isEmpty()) where += "shippeddate >= '" + fromShippedDate + "' AND ";
-////        if (!toShippedDate.isEmpty()) where += "shippeddate <= '" + toShippedDate + "' AND ";
-////        if (status.length > 0) {
-////            where += " status IN (";
-////            for (int i = 0; i < status.length; i++) {
-////                where += "'" + status[i] + "'";
-////                if (i != status.length - 1) where += ", ";
-////            }
-////            where += ") AND ";
-////        }
-//
-//        if (where.equals("WHERE ")) where = "";
-//        else where = where.substring(0, where.length() - 5);
-//
-//        String statement = "SELECT ordernumber, orderdate, requireddate, CASE WHEN shippeddate = '' THEN null ELSE shippeddate END, status, comments, customerNumber FROM classicmodels.orders " + where + " order by "+orderBy;
-//        Query query = entityManager.createNativeQuery(statement, Order.class);
-//        int start = currentPage * recordsPerPage - recordsPerPage;
-//        return query.setFirstResult(start).setMaxResults(recordsPerPage).getResultList();
-//    }
+
+    @Override
+    public List<Orderdetail> readOrderdetail(int ordernumber) throws EJBException {
+        Query query = entityManager.createNativeQuery("SELECT * FROM classicmodels.orderdetails WHERE ordernumber = :ordernumber ORDER BY orderlinenumber", Orderdetail.class);
+        query.setParameter("ordernumber", ordernumber);
+        return query.getResultList();
+    }
+
 
     @Override
     public void updateOrder(int ordernumber, String requiredDate, String shippedDate, String status, String comments) throws EJBException {

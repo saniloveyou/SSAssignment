@@ -1,24 +1,26 @@
 <%@page import="java.util.*"%>
 <%@page import="java.text.DecimalFormat"%>
 <%@ page import="Cart.Cart" %>
+<%@ page import="com.utar.model.entity.Orderdetail" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%
     DecimalFormat priceFormatter = new DecimalFormat("$#0.00");
 
 //    User auth = (User) request.getSession().getAttribute("auth");
 //    if (auth != null) {request.setAttribute("person", auth);}
-    ArrayList<Cart> cart_list = (ArrayList<Cart>) session.getAttribute("cart_list");
+    List<Orderdetail> cart_list = (List<Orderdetail>) session.getAttribute("cart_list");
 
-
-    System.out.println("Test 1");
+    if (cart_list != null)
+    for ( Orderdetail o: cart_list) {
+        System.out.println(o.getProductcode().getId());
+    }
 
     double total = 0;
     if (cart_list != null) {
-        for (Cart c : cart_list) {
-            total += (c.orderdetail.getQuantityordered() * c.product.getMsrp().doubleValue());
+        for (Orderdetail o : cart_list) {
+            total += (o.getQuantityordered() * o.getPriceeach().doubleValue());
         }
     }
-    System.out.println("Test 2");
 
 //    List<Cart> cartProduct = null;
 //    if (cart_list != null) {
@@ -88,25 +90,25 @@
         <tbody>
         <%
             if (cart_list != null) {
-                for (Cart c : cart_list) {
+                for (Orderdetail c : cart_list) {
         %>
         <tr>
-            <td><%=c.product.getId()%></td>
-            <td><%=c.product.getProductname()%></td>
-            <td><%=priceFormatter.format(c.product.getMsrp())%></td>
+            <td><%=c.getProductcode().getId()%></td>
+            <td><%=c.getProductcode().getProductname()%></td>
+            <td><%=priceFormatter.format(c.getPriceeach().doubleValue())%></td>
             <td>
                 <div class="form-group d-flex justify-content-between">
-                    <a class="btn bnt-sm btn-incre" href="quantity-inc-dec?action=dec&id=<%=c.product.getId()%>"><i class="glyphicon glyphicon-minus"></i></a>
-                    <input type="text" name="quantity" class="form-control"  value="<%=c.getOrderdetail().getQuantityordered()%>" >
-                    <a class="btn bnt-sm btn-incre" href="quantity-inc-dec?action=inc&id=<%=c.product.getId()%>"><i class="glyphicon glyphicon-plus"></i></a>
+                    <a class="btn bnt-sm btn-incre" href="quantity-inc-dec?action=dec&id=<%=c.getProductcode().getId()%>"><i class="glyphicon glyphicon-minus"></i></a>
+                    <input type="text" name="quantity" class="form-control"  value="<%=c.getQuantityordered()%>" >
+                    <a class="btn bnt-sm btn-incre" href="quantity-inc-dec?action=inc&id=<%=c.getProductcode().getId()%>"><i class="glyphicon glyphicon-plus"></i></a>
                 </div>
             </td>
             <td>
-                    <input type="hidden" name="productid" value="<%= c.product.getId()%>" class="form-input">
-                <input type="hidden" name="productid" value="<%= c.product.getId()%>" class="form-input">
-                    <button type="button"  class="btn btn-primary btn-sm"><a href="PaymentCart?quantity=<%="2"%>&productid=<%=c.product.getId()%>" >Buy</a></button>
+                    <input type="hidden" name="productid" value="<%= c.getProductcode().getId()%>" class="form-input">
+                <input type="hidden" name="productid" value="<%= c.getProductcode().getId()%>" class="form-input">
+                    <button type="button"  class="btn btn-primary btn-sm"><a href="PaymentCart?quantity=<%="2"%>&productid=<%=c.getProductcode().getId()%>" >Buy</a></button>
             </td>
-            <td><a href="remove-from-cart?id=<%=c.product.getId() %>" class="btn btn-sm btn-danger">Remove</a></td>
+            <td><a href="remove-from-cart?id=<%=c.getProductcode().getId() %>" class="btn btn-sm btn-danger">Remove</a></td>
         </tr>
 
         <%}}%>

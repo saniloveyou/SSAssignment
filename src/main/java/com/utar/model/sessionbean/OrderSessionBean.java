@@ -1,6 +1,7 @@
 package com.utar.model.sessionbean;
 
 import com.utar.model.entity.Order;
+import com.utar.model.entity.Orderdetail;
 
 import javax.ejb.EJBException;
 import javax.ejb.Local;
@@ -24,6 +25,8 @@ public interface OrderSessionBean {
     void addOrderDetails(int ordernumber, String productcode) throws EJBException;
 
     List<Order> readOrder(int currentPage, int recordsPerPage, String sql) throws EJBException;
+
+    List<Orderdetail> readOrderdetail(int ordernumber) throws EJBException;
 
     void updateOrder(int ordernumber, String requiredDate, String shippedDate, String status, String comments) throws EJBException;
 
