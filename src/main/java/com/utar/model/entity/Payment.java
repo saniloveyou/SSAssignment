@@ -10,6 +10,7 @@ public class Payment {
     @EmbeddedId
     private PaymentId id;
 
+
     @MapsId("customernumber")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "customernumber", nullable = false)
@@ -17,6 +18,7 @@ public class Payment {
 
     @Column(name = "paymentdate", nullable = false, length = 10)
     private Date paymentdate;
+
 
     @Column(name = "amount", nullable = false, precision = 8, scale = 2)
     private BigDecimal amount;

@@ -28,7 +28,7 @@ public class LoginServlet extends HttpServlet {
             HttpSession httpSession = request.getSession();
             httpSession.setAttribute("username", username);
             httpSession.setAttribute("user_role", loginSessionBean.getUserRole(username));
-            response.sendRedirect("index.jsp");
+            response.sendRedirect("SuccesfullLogin.jsp.jsp");
         }
         else {
             request.setAttribute("error", "true");

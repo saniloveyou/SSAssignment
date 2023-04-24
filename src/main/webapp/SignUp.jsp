@@ -10,7 +10,7 @@
 
         .container {
             margin: 50px auto;
-            max-width: 450px;
+            max-width: 500px;
             padding: 35px;
             background-color: #fff;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
@@ -28,7 +28,7 @@
 
         input[type="text"],
         input[type="password"] {
-            width: 100%;
+            width: 95%;
             padding: 10px;
             margin-bottom: 20px;
             border: none;
@@ -58,6 +58,21 @@
         <input type="text" id="username" name="username" required>
         <label for="password">Password</label>
         <input type="password" id="password" name="password" required>
+        <label for="phone">Phone</label>
+        <input type="text" id="phone" name="phone" required>
+        <label for="address">Address Line 1</label>
+        <input type="text" id="address" name="address" required>
+        <label for="address">Address Line 2</label>
+        <input type="text" id="address" name="address" required>
+        <label for="city">City</label>
+        <input type="text" id="city" name="city" required>
+        <label for="state">State</label>
+        <input type="text" id="state" name="state" required>
+        <label for="zip">Postal Code</label>
+        <input type="text" id="zip" name="zip" required>
+        <label for="country">Country</label>
+        <input type="text" id="country" name="country" required>
+
         <button type="submit">Sign Up</button>
 
         <%           String flag = (String) request.getAttribute("flag"); %>
