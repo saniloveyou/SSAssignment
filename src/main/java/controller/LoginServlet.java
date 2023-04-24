@@ -18,10 +18,6 @@ public class LoginServlet extends HttpServlet {
     @EJB
     private LoginSessionBean loginSessionBean;
 
-    public LoginServlet() {
-        super();
-    }
-
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String username = request.getParameter("username");
