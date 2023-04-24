@@ -15,7 +15,7 @@ public interface OrderSessionBean {
 
     public int getNumberOfRows(String sql) throws EJBException;
 
-    int getNextOrderNumber(String keyword) throws EJBException;
+    int getNextOrderNumber() throws EJBException;
 
     void addOrder(int customernumber, String requiredDate) throws EJBException, ParseException;
 

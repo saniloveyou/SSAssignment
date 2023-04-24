@@ -38,7 +38,7 @@ public class OrderSession implements OrderSessionBean{
     }
 
     @Override
-    public int getNextOrderNumber(String keyword) throws EJBException {
+    public int getNextOrderNumber() throws EJBException {
         Query query = entityManager.createNativeQuery("SELECT max(ordernumber)+1 FROM classicmodels.orders");
         return Integer.parseInt(query.getSingleResult().toString());
     }
@@ -46,7 +46,7 @@ public class OrderSession implements OrderSessionBean{
     @Override
     public void addOrder(int customernumber, String requiredDate) throws EJBException, ParseException {
         Query query = entityManager.createNativeQuery("INSERT INTO classicmodels.orders VALUES (:ordernumber, :orderdate, :requireddate, :shippeddate, :status, :comments, :customernumber)");
-        query.setParameter("ordernumber", getNextOrderNumber("ordernumber"));
+        query.setParameter("ordernumber", getNextOrderNumber());
         query.setParameter("orderdate", java.sql.Date.valueOf(java.time.LocalDate.now()));
         query.setParameter("requireddate", new SimpleDateFormat("yyyy-MM-dd").parse(requiredDate));
         query.setParameter("shippeddate", null);

@@ -1,27 +1,20 @@
 package Cart;
 
+import com.utar.model.entity.Orderdetail;
 import com.utar.model.entity.Product;
 
 public class Cart{
-    public Product product;
-    private int quantity;
+    public Orderdetail orderdetail;
+    private Product product;
 
     public Cart() {}
 
-    public Product getProduct() {
-        return this.product;
+    public Orderdetail getOrderdetail() {
+        return this.orderdetail;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
+    public void setOrderdetail(Orderdetail orderdetail) {
+        this.orderdetail = orderdetail;
     }
 
 }

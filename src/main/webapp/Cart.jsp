@@ -5,7 +5,6 @@
 <%
     DecimalFormat priceFormatter = new DecimalFormat("$#0.00");
 
-//    request.setAttribute("dcf", dcf);
 //    User auth = (User) request.getSession().getAttribute("auth");
 //    if (auth != null) {request.setAttribute("person", auth);}
     ArrayList<Cart> cart_list = (ArrayList<Cart>) session.getAttribute("cart_list");
