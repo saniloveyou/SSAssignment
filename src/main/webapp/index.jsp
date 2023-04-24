@@ -55,6 +55,8 @@
                         <%} else {%>
                             <a href="SignUp">Sign Up</a>
                             <a href="Login.jsp">Log In</a>
+
+
                         <%}%>
                     </div> <!-- /.top-header-left -->
                 </div> <!-- /.col-md-6 -->
@@ -63,6 +65,7 @@
                         <a href="Profile?currentPage=1&recordsPerPage=20&direction=asc">Edit Profile</a>
                         <a href="Cart.jsp">Cart (<%= ((ArrayList<Orderdetail>)session.getAttribute("cart_list")) != null ? ((ArrayList<Orderdetail>)session.getAttribute("cart_list")).size() : 0%>) </a>
                         <a href="LoginServlet?action=logout">Logout</a>
+
                     </div> <!-- /.top-header-left -->
                 </div> <!-- /.col-md-6 -->
                 </div> <!-- /.col-md-6 -->

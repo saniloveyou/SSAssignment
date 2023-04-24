@@ -105,7 +105,7 @@ public class Profile extends HttpServlet {
             request.setAttribute("recordsPerPage", recordsPerPage);
             request.setAttribute("direction", direction);
             HttpSession session = request.getSession();
-            session.setAttribute("customer",lists);
+            session.setAttribute("customers",lists);
 
         }catch (Exception e) {
             request.setAttribute("msg", "Unable to access the method ");

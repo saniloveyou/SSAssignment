@@ -664,7 +664,7 @@
 </html>
 
 <%
-    List<Object[]> list = (List<Object[]>) session.getAttribute("customer");
+    List<Object[]> list = (List<Object[]>) session.getAttribute("customers");
     if (list.size() != 0) {
         for (Object[] row : list) {
             out.println("<tr>");
