@@ -79,7 +79,7 @@
                             <li><a href="ProductPaginationServlet?currentPage=1&recordsPerPage=12&admin=false&keyword=&sort=ASC">Catalogs</a></li>
                             <li><a href="ProductlineDisplayServlet?currentPage=1&recordsPerPage=12&&keyword=&sort=ASC">Productline</a></li>
                             <li><a href="OrderServlet?currentPage=1&recordsPerPage=20&sortBy=ordernumber&direction=asc">Order Details</a></li>
-                            <li><a href="PaymentServlet">Order payment</a></li>
+                            <li><a href="PaymentServlet?currentPage=1&recordsPerPage=20&direction=asc">Payment Details</a></li>
                             <li><a href="contact.html">Contact</a></li>
                             <li><a href="adminProductPage.html">Product Edit</a></li>
                         </ul>
@@ -99,7 +99,7 @@
                             <li><a href="ProductlineDisplayServlet?currentPage=1&recordsPerPage=12&&keyword=&sort=ASC">Productline</a></li>
                             <li><a href="adminProductPage.html">Product Edit</a></li>
                             <li><a href="OrderServlet?currentPage=1&recordsPerPage=20&sortBy=ordernumber&direction=asc">Order Details</a></li>
-                            <li><a href="PaymentServlet">Order payment</a></li>
+                            <li><a href="PaymentServlet?currentPage=1&recordsPerPage=20&direction=asc">Payment Details</a></li>
                             <li><a href="contact.html">Contact</a></li>
                         </ul>
                     </div> <!-- /.list-menu -->

@@ -55,7 +55,7 @@
 <body>
 <div class="container">
   <h1>Please login as user</h1>
-  <p>Your Login as an admin please login as a user to continue purchasing</p>
+  <p>You Login as an admin please login as a user to continue purchasing</p>
   <h1>Username: <%= session.getAttribute("username").toString() %></h1>
   <h1>Role: <%= session.getAttribute("user_role").toString() %></h1>
   <button onclick="window.location.href='index.html'">Return Home</button>

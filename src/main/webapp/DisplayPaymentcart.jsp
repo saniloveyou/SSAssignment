@@ -407,9 +407,8 @@
 
 
 <%
-    Product p = (Product) request.getSession().getAttribute("product");
+    Product p = (Product) request.getSession().getAttribute("info");
     Customer c = (Customer) request.getSession().getAttribute("customer");
-
 
 
 %>
@@ -521,7 +520,7 @@
         <div class="box-inner-2">
             <div><p class="fw-bold">Payment Details</p>
                 <p class="dis mb-3">Complete your purchase by providing your payment details</p></div>
-            <form action="PaymentNow" method="post">
+            <form action="PaymentCart" method="post">
                 <div class="mb-3"><p class="dis fw-bold mb-2">Customer Name</p>
                     <input class="form-control" type="text" value=<%=c.getCustomername()%>></div>
                 <div class="mb-3"><p class="dis fw-bold mb-2">Phone Number</p>
@@ -535,16 +534,16 @@
                             <input type="password" maxlength=3 class="form-control px-0" placeholder="CVV" value="123"></div>
                     </div>
                     <div class="my-3 cardname"><p class="dis fw-bold mb-2">Cardholder name</p> <input
-                          value="<%=c.getContactfirstname()%>"  class="form-control" type="text"></div>
+                            value="<%=c.getContactfirstname()%>"  class="form-control" type="text"></div>
                     <div class="mb-3"><p class="dis fw-bold mb-2">Address </p>
                         <input class="form-control" type="text" value=<%=address%>></div>
 
                     <div class="address"><p class="dis fw-bold mb-3">Billing address</p>
                         <select class="form-select" aria-label="Default select example">
-                        <option selected hidden><%=c.getCountry()%></option>
-                    </select>
+                            <option selected hidden><%=c.getCountry()%></option>
+                        </select>
                         <div class="d-flex"><input class="form-control zip" type="text" value="<%=c.getPostalcode()%>" placeholder="ZIP"> <input
-                              value="<%=c.getState()%>"  class="form-control state" type="text" placeholder="State"></div>
+                                value="<%=c.getState()%>"  class="form-control state" type="text" placeholder="State"></div>
                         <div class=" my-3"><p class="dis fw-bold mb-2">Discount price</p>
                             <div class="inputWithcheck">
                                 <input class="form-control" type="text" value="<%=random%>" name = "discount">
@@ -594,7 +593,7 @@ valcode.addEventListener("change", function () {
 
 function processpayment(){
 
-        alert("Payment successful")
+    alert("Payment successful")
 
 }
 

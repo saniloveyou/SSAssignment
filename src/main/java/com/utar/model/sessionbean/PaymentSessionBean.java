@@ -13,6 +13,7 @@ public interface PaymentSessionBean {
     public List<Object[]> findPaymentCustomer(String category) throws EJBException;
     public List<Payment> readPayment(int currentPage, int recordsPerPage) throws EJBException;
     public Object findpayment(String id) throws EJBException ;
+    public int getNextPaymentNumber() throws EJBException;
     public int getNumberOfRows() throws EJBException ;
     public void updatePayment(String[] s) throws EJBException;
     public void deletePayment(String id) throws EJBException;

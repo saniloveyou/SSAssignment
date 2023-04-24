@@ -84,7 +84,7 @@
             <th scope="col">Cancel</th>
         </tr>
         </thead>
-        <form action="order-now" method="post" class="form-inline">
+        <form action="PaymentCart" method="get" class="form-inline">
         <tbody>
         <%
             if (cart_list != null) {
@@ -102,8 +102,9 @@
                 </div>
             </td>
             <td>
-                    <input type="hidden" name="id" value="<%= c.product.getId()%>" class="form-input">
-                    <button type="submit" class="btn btn-primary btn-sm">Buy</button>
+                    <input type="hidden" name="productid" value="<%= c.product.getId()%>" class="form-input">
+                <input type="hidden" name="productid" value="<%= c.product.getId()%>" class="form-input">
+                    <button type="button"  class="btn btn-primary btn-sm"><a href="PaymentCart?quantity=<%="1"%>&productid=<%=c.product.getId()%>" >Buy</a></button>
             </td>
             <td><a href="remove-from-cart?id=<%=c.product.getId() %>" class="btn btn-sm btn-danger">Remove</a></td>
         </tr>

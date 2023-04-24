@@ -54,8 +54,8 @@
 </head>
 <body>
 <div class="container">
-    <h1>Account Successfully Login</h1>
-    <p>Your account has been successfully login!</p>
+    <h1>Please login as Admin</h1>
+    <p>You Login as an user please login as a admin to view payment details</p>
     <h1>Username: <%= session.getAttribute("username").toString() %></h1>
     <h1>Role: <%= session.getAttribute("user_role").toString() %></h1>
     <button onclick="window.location.href='index.html'">Return Home</button>

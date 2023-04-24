@@ -9,6 +9,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 @Stateless
@@ -74,6 +75,11 @@ public class PaymentSession implements PaymentSessionBean {
         return results;
     }
 
+    public int getNextPaymentNumber() throws EJBException {
+        Query query = em.createNativeQuery("SELECT COUNT(*)+1 AS totalrow FROM classicmodels.payments");
+        return Integer.parseInt(query.getSingleResult().toString());
+    }
+
     @Override
     public int getNumberOfRows() throws EJBException {
         Query q = null;
@@ -108,6 +114,13 @@ public class PaymentSession implements PaymentSessionBean {
 
     @Override
     public void addPayment(String[] s) throws EJBException {
+        Query query = em.createNativeQuery("INSERT INTO classicmodels.payments VALUES (?, ?, ?, ?)");
 
+        query.setParameter(1,Short.parseShort(s[0]) );
+        query.setParameter(2,s[1]);
+        query.setParameter(3,s[2] );
+        query.setParameter(4,new BigDecimal(s[3]) );
+
+        query.executeUpdate();
     }
 }

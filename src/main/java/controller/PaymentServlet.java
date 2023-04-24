@@ -23,6 +23,22 @@ public class PaymentServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+
+        try {
+            HttpSession session = request.getSession();
+            String userrole = session.getAttribute("user_role").toString();
+            if (userrole.equals("[user]")) {
+                RequestDispatcher dispatcher = request.getRequestDispatcher("adminrights.jsp");
+                dispatcher.forward(request, response);
+            }
+        }catch (Exception e) {
+            RequestDispatcher dispatcher = request.getRequestDispatcher("Login.jsp");
+            dispatcher.forward(request, response);
+        }
+
+
+
+
         String customernumber = request.getParameter("customernumber");
         String customername = request.getParameter("customername");
         String checknumber = request.getParameter("checknumber");
