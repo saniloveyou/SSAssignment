@@ -42,6 +42,12 @@ public class CustomerSession implements CustomerSessionBean{
     }
 
     @Override
+    public int getNextOrderNumber() throws EJBException {
+        Query query = em.createNativeQuery("SELECT max(customernumber)+1 FROM classicmodels.customers");
+        return Integer.parseInt(query.getSingleResult().toString());
+    }
+
+    @Override
     public void updateCustomer(String[] s) throws EJBException {
         String sql = "UPDATE classicmodels.customers SET creditlimit = ? WHERE customernumber = ?";
         Query query = em.createNativeQuery(sql);

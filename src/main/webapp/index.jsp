@@ -43,7 +43,7 @@
             <div class="row">
                 <div class="col-md-6 col-sm-6">
                     <div class="top-header-left">
-                        <a href="SignUp.jsp">Sign Up</a>
+                        <a href="SignUp">Sign Up</a>
                         <a href="Login.jsp">Log In</a>
                     </div> <!-- /.top-header-left -->
                 </div> <!-- /.col-md-6 -->

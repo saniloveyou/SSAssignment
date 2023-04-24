@@ -50,20 +50,58 @@
         }
     </style>
 </head>
+
+<style>
+    .input-row1 {
+        display: inline-block;
+        vertical-align: top;
+        margin-right: 20px;
+        width: 30px;
+        text-align: left;
+    }
+    .input-row {
+        display: inline-block;
+        vertical-align: top;
+        margin-right: 20px;
+        width: 83%;
+        text-align: left;
+    }
+
+</style>
+
+<%
+String customernumber = session.getAttribute("customernumber").toString();
+%>
+
 <body>
 <div class="container">
     <h1>Sign Up</h1>
     <form action="SignUp" method="post">
-        <label for="username">Username</label>
-        <input type="text" id="username" name="username" required>
+
+        <div class="input-group">
+            <div class="input-row1">
+                <label  for="ids">ID</label>
+                <br>
+                <input readonly  type="text" id="ids" name="ids" required style="width: 100%;">
+            </div>
+            <div class="input-row">
+                <label for="username">Username</label>
+                <br>
+                <input type="text" id="username" name="username" required style="width: 100%;">
+            </div>
+        </div>
         <label for="password">Password</label>
         <input type="password" id="password" name="password" required>
+        <label for="firstname">First Name</label>
+        <input type="text" id="firstname" name="firstname" required>
+        <label for="lastname">Last Name</label>
+        <input type="text" id="lastname" name="lastname" required>
         <label for="phone">Phone</label>
         <input type="text" id="phone" name="phone" required>
         <label for="address">Address Line 1</label>
-        <input type="text" id="address" name="address" required>
+        <input type="text" id="address" name="address1" required>
         <label for="address">Address Line 2</label>
-        <input type="text" id="address" name="address" required>
+        <input type="text" id="address" name="address2" required>
         <label for="city">City</label>
         <input type="text" id="city" name="city" required>
         <label for="state">State</label>
@@ -72,8 +110,10 @@
         <input type="text" id="zip" name="zip" required>
         <label for="country">Country</label>
         <input type="text" id="country" name="country" required>
+        <label for="creditlimit">Credit Limit</label>
+        <input type="text" id="creditlimit" name="creditlimit" required>
+<div><button type="submit">Sign Up</button></div>
 
-        <button type="submit">Sign Up</button>
 
         <%           String flag = (String) request.getAttribute("flag"); %>
         <%           if(flag == "True"){%>
@@ -89,6 +129,10 @@
         <label style="color: red">This username already taken please try other username</label>
         <% }%>
     </form>
+
+    <script>
+        document.getElementById("ids").value = <%=customernumber%>;
+    </script>
 
 </div>
 </body>
