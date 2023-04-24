@@ -407,9 +407,8 @@
 
 
 <%
-    Product p = (Product) request.getSession().getAttribute("info");
+    Product p = (Product) request.getSession().getAttribute("product");
     Customer c = (Customer) request.getSession().getAttribute("customer");
-
 
 %>
 
