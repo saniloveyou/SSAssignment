@@ -10,7 +10,7 @@ public interface CustomerSessionBean {
 
     public List<Customer> getAllcustomer() throws EJBException;
     public List<Object[]> readpaymentdetails(int currentPage, int recordsPerPage, String direction) throws EJBException;
-    public List<Object[]> findcustomer(String id) throws EJBException;
+    public Customer findcustomer(String id) throws EJBException;
     public List<Customer> readCustomer(int currentPage, int recordsPerPage) throws EJBException;
     public int getNextOrderNumber() throws EJBException;
     public int getNumberOfRows() throws EJBException ;

@@ -47,14 +47,14 @@ public class SignUpSession implements SignUpSessionBean {
             //this function is for adding new user into database
             String sql = "INSERT INTO classicmodels.users VALUES (?, ?)";
             Query query = em.createNativeQuery(sql);
-            query.setParameter(1, s[1]);
+            query.setParameter(1, s[0]);
             query.setParameter(2, s[2]);
             query.executeUpdate();
 
             //this function os for adding new role into database
             String sql1 = "INSERT INTO classicmodels.user_roles VALUES (?, ?)";
             Query query1 = em.createNativeQuery(sql1);
-            query1.setParameter(1, s[1]);
+            query1.setParameter(1, s[0]);
             query1.setParameter(2, "user");
             query1.executeUpdate();
 

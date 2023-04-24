@@ -27,8 +27,15 @@ public class CustomerSession implements CustomerSessionBean{
     }
 
     @Override
-    public List<Object[]> findcustomer(String id) throws EJBException {
-        return null;
+    public Customer findcustomer(String id) throws EJBException {
+
+
+        int idInt = Integer.parseInt(id);
+
+
+        Customer info = em.find(Customer.class, idInt);
+
+        return info;
     }
 
     @Override

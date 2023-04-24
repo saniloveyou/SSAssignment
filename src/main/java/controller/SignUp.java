@@ -1,5 +1,6 @@
 package controller;
 
+import com.utar.model.entity.Customer;
 import com.utar.model.entity.User;
 import com.utar.model.sessionbean.CustomerSessionBean;
 import com.utar.model.sessionbean.SignUpSessionBean;
@@ -74,8 +75,11 @@ public class SignUp extends HttpServlet {
            RequestDispatcher req = request.getRequestDispatcher("SignUp.jsp");
            req.forward(request, response);
        }
-
-
+        HttpSession httpSession = request.getSession();
+        httpSession.setAttribute("username", username);
+        httpSession.setAttribute("user_role", "user");
+        Customer info = customerSessionBean.findcustomer(username);
+        httpSession.setAttribute("customer", info);
 
     }
 

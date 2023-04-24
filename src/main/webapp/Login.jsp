@@ -30,7 +30,7 @@
 
         input[type="text"],
         input[type="password"] {
-            width: 100%;
+            width: 95%;
             padding: 10px;
             margin-bottom: 20px;
             border: none;
@@ -56,7 +56,7 @@
 <div class="container">
     <h1>Login</h1>
     <form action="LoginServlet" method="post">
-        <label for="username">Username</label>
+        <label for="username">User ID</label>
         <input type="text" id="username" name="username" required>
 
         <label for="password">Password</label>

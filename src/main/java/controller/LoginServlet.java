@@ -1,5 +1,7 @@
 package controller;
 
+import com.utar.model.entity.Customer;
+import com.utar.model.sessionbean.CustomerSessionBean;
 import com.utar.model.sessionbean.LoginSessionBean;
 
 import java.io.IOException;
@@ -18,6 +20,9 @@ public class LoginServlet extends HttpServlet {
     @EJB
     private LoginSessionBean loginSessionBean;
 
+    @EJB
+    private CustomerSessionBean customerSessionBean;
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String username = request.getParameter("username");
@@ -25,10 +30,13 @@ public class LoginServlet extends HttpServlet {
 
         if (loginSessionBean.authenticate(username, password))
         {
+
             HttpSession httpSession = request.getSession();
             httpSession.setAttribute("username", username);
             httpSession.setAttribute("user_role", loginSessionBean.getUserRole(username));
-            response.sendRedirect("SuccesfullLogin.jsp.jsp");
+            Customer info = customerSessionBean.findcustomer(username);
+            httpSession.setAttribute("customer", info);
+            response.sendRedirect("SuccesfullLogin.jsp");
         }
         else {
             request.setAttribute("error", "true");

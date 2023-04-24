@@ -1,3 +1,6 @@
+<%@ page import="com.utar.model.entity.Product" %>
+<%@ page import="com.utar.model.entity.Customer" %>
+<%@ page import="java.text.DecimalFormat" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 
 <!doctype html>
@@ -9,6 +12,18 @@
     <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css' rel='stylesheet'>
     <link href='https://use.fontawesome.com/releases/v5.7.2/css/all.css' rel='stylesheet'>
     <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/normalize.min.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/animate.css">
+    <link rel="stylesheet" href="css/templatemo-misc.css">
+    <link rel="stylesheet" href="css/templatemo-style.css">
+
+    <script src="js/vendor/modernizr-2.6.2.min.js"></script>
+
     <style>::-webkit-scrollbar {
         width: 8px;
     }
@@ -86,7 +101,8 @@
 
     .box-2 .box-inner-2 input.form-control {
         font-size: 12px;
-        font-weight: 600
+        font-weight: 600;
+        width: 100%;
     }
 
     .box-2 .box-inner-2 .inputWithIcon {
@@ -130,7 +146,7 @@
 
     .box-2 .card-atm .form-control {
         border: none;
-        box-shadow: none
+        box-shadow: none;
     }
 
     .form-select {
@@ -304,6 +320,10 @@
         animation-fill-mode: forwards
     }
 
+    .main-header{
+        padding: 0px;
+    }
+
     @keyframes moving {
         0% {
             opacity: 0;
@@ -391,16 +411,96 @@
         }
     }</style>
 </head>
+
+
+<%
+    Product p = (Product) request.getSession().getAttribute("product");
+    Customer c = (Customer) request.getSession().getAttribute("customer");
+%>
+
 <body className='snippet-body'>
+
+<header class="site-header">
+<div class="top-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-sm-6">
+                <div class="top-header-left">
+                    <a href="SignUp">Sign Up</a>
+                    <a href="Login.jsp">Log In</a>
+                </div> <!-- /.top-header-left -->
+            </div> <!-- /.col-md-6 -->
+            <div class="col-md-6 col-sm-6">
+                <div class="social-icons">
+                    <ul>
+                        <li><a href="#" class="fa fa-facebook"></a></li>
+                        <li><a href="#" class="fa fa-dribbble"></a></li>
+                        <li><a href="#" class="fa fa-twitter"></a></li>
+                        <li><a href="#" class="fa fa-linkedin"></a></li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div> <!-- /.social-icons -->
+            </div> <!-- /.col-md-6 -->
+        </div> <!-- /.row -->
+    </div> <!-- /.container -->
+</div> <!-- /.top-header -->
+<div class="main-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 col-sm-6 col-xs-8">
+                <div class="logo">
+                    <h1><a href="#">Kool Store</a></h1>
+                </div> <!-- /.logo -->
+            </div> <!-- /.col-md-4 -->
+            <div class="col-md-8 col-sm-6 col-xs-4">
+                <div class="main-menu">
+                    <a href="#" class="toggle-menu">
+                        <i class="fa fa-bars"></i>
+                    </a>
+                    <ul class="menu">
+                        <li><a href="index.html">Shop</a></li>
+                        <li><a href="ProductPaginationServlet?currentPage=1&recordsPerPage=12&admin=false&keyword=&sort=ASC">Catalogs</a></li>
+                        <li><a href="ProductlineDisplayServlet?currentPage=1&recordsPerPage=12&&keyword=&sort=ASC">Productline</a></li>
+                        <li><a href="OrderServlet?currentPage=1&recordsPerPage=20&sortBy=ordernumber&direction=asc">Order Details</a></li>
+                        <li><a href="PaymentServlet">Order payment</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="adminProductPage.html">Product Edit</a></li>
+                    </ul>
+                </div> <!-- /.main-menu -->
+            </div> <!-- /.col-md-8 -->
+        </div> <!-- /.row -->
+    </div> <!-- /.container -->
+</div> <!-- /.main-header -->
+<div class="main-nav">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="list-menu">
+                    <ul>
+                        <li><a href="index.html">Shop</a></li>
+                        <li><a href="ProductPaginationServlet?currentPage=1&recordsPerPage=12&admin=false&keyword=&sort=ASC">Catalogs</a></li>
+                        <li><a href="ProductlineDisplayServlet?currentPage=1&recordsPerPage=12&&keyword=&sort=ASC">Productline</a></li>
+                        <li><a href="adminProductPage.html">Product Edit</a></li>
+                        <li><a href="OrderServlet?currentPage=1&recordsPerPage=20&sortBy=ordernumber&direction=asc">Order Details</a></li>
+                        <li><a href="PaymentServlet">Order payment</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div> <!-- /.list-menu -->
+            </div> <!-- /.col-md-6 -->
+        </div> <!-- /.row -->
+    </div> <!-- /.container -->
+</div> <!-- /.main-nav -->
+</header> <!-- /.site-header -->
+
 <div class="container d-lg-flex">
     <div class="box-1 bg-light user">
         <div class="d-flex align-items-center mb-3"><img
                 src="https://images.pexels.com/photos/4925916/pexels-photo-4925916.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
                 class="pic rounded-circle" alt="">
-            <p class="ps-2 name">Oliur</p></div>
+            <p class="ps-2 name"><%=c.getCustomername()%></p></div>
         <div class="box-inner-1 pb-3 mb-3 ">
-            <div class="d-flex justify-content-between mb-3 userdetails"><p class="fw-bold">Minimal Icons by Oliur</p>
-                <p class="fw-lighter"><span class="fas fa-dollar-sign"></span>19.00</p></div>
+            <div class="d-flex justify-content-between mb-3 userdetails"><p class="fw-bold"><%=p.getProductname()%></p>
+                <p class="fw-lighter"><span class="fas fa-dollar-sign"></span><%=p.getMsrp()%></p></div>
             <div id="my" class="carousel slide carousel-fade img-details" data-bs-ride="carousel"
                  data-bs-interval="2000">
                 <div class="carousel-indicators">
@@ -427,65 +527,74 @@
                     <div class="icon"><span class="fas fa-arrow-right"></span></div>
                     <span class="visually-hidden">Next</span></button>
             </div>
-            <p class="dis my-3 info">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate quos ipsa sed
-                officiis odio libero consectetur placeat dignissimos et ab dolorum, nemo id provident quidem modi,
-                dolorem dolores quas quasi. </p>
-            <p class="dis mb-3 updates">Free updates forever</p>
-            <p class="dis mb-3 different">Three different colored sets:</p>
+            <p class="dis my-3 info"><%=p.getProductdescription()%> </p>
+            <p class="dis mb-3 updates"><%=p.getProductline().getId()%></p>
+            <p class="dis mb-3 different">Product Code =  <%=p.getId()%></p>
+            <p class="dis mb-3 different">Quantity in stock = <%=p.getQuantityinstock()%></p>
             <div class="dis"><p class="black"><span class="fas fa-arrow-right mb-3 pe-2"></span>Black</p>
                 <p class="white"><span class="fas fa-arrow-right mb-3 pe-2"></span>White</p>
                 <p class="pastel"><span class="fas fa-arrow-right mb-3 pe-2"></span>Pastel</p></div>
-            <div><p class="dis footer my-3">Here is a quick guide on how to apply them</p></div>
+            <div><p class="dis footer my-3"></p></div>
         </div>
     </div>
+
+    <%
+        int random = (int)(Math.random() * 10 + 40);
+
+        String address = c.getAddressline1()  +   c.getAddressline2();
+
+        DecimalFormat df = new DecimalFormat("0.00");
+        String totalString = df.format(p.getMsrp().floatValue() - random);
+    %>
+
+
     <div class="box-2">
         <div class="box-inner-2">
             <div><p class="fw-bold">Payment Details</p>
                 <p class="dis mb-3">Complete your purchase by providing your payment details</p></div>
-            <form action="">
-                <div class="mb-3"><p class="dis fw-bold mb-2">Phone number</p>
-                    <input class="form-control" type="text"
-                                                                                       value="luke@skywalker.com"></div>
+            <form action="PaymentNow" method="post">
+                <div class="mb-3"><p class="dis fw-bold mb-2">Customer Name</p>
+                    <input class="form-control" type="text" value=<%=c.getCustomername()%>></div>
+                <div class="mb-3"><p class="dis fw-bold mb-2">Phone Number</p>
+                    <input class="form-control" type="text" value=<%=c.getPhone()%>></div>
                 <div><p class="dis fw-bold mb-2">Card details</p>
                     <div class="d-flex align-items-center justify-content-between card-atm border rounded">
                         <div class="fab fa-cc-visa ps-3"></div>
-                        <input type="text" class="form-control" placeholder="Card Details">
-                        <div class="d-flex w-50"><input type="text" class="form-control px-0" placeholder="MM/YY">
-                            <input type="password" maxlength=3 class="form-control px-0" placeholder="CVV"></div>
+                        <input type="text" class="form-control" value="1234 5678 1234 5678" placeholder="Card Details">
+                        <div class="d-flex w-50">
+                            <input type="text" class="form-control px-0" placeholder="MM/YY" value="12/12">
+                            <input type="password" maxlength=3 class="form-control px-0" placeholder="CVV" value="123"></div>
                     </div>
                     <div class="my-3 cardname"><p class="dis fw-bold mb-2">Cardholder name</p> <input
-                            class="form-control" type="text"></div>
-                    <div class="address"><p class="dis fw-bold mb-3">Billing address</p> <select class="form-select"
-                                                                                                 aria-label="Default select example">
-                        <option selected hidden>United States</option>
-                        <option value="1">India</option>
-                        <option value="2">Australia</option>
-                        <option value="3">Canada</option>
+                          value="<%=c.getContactfirstname()%>"  class="form-control" type="text"></div>
+                    <div class="mb-3"><p class="dis fw-bold mb-2">Address </p>
+                        <input class="form-control" type="text" value=<%=address%>></div>
+
+                    <div class="address"><p class="dis fw-bold mb-3">Billing address</p>
+                        <select class="form-select" aria-label="Default select example">
+                        <option selected hidden><%=c.getCountry()%></option>
                     </select>
-                        <div class="d-flex"><input class="form-control zip" type="text" placeholder="ZIP"> <input
-                                class="form-control state" type="text" placeholder="State"></div>
-                        <div class=" my-3"><p class="dis fw-bold mb-2">VAT Number</p>
-                            <div class="inputWithcheck"><input class="form-control" type="text" value="GB012345B9">
+                        <div class="d-flex"><input class="form-control zip" type="text" value="<%=c.getPostalcode()%>" placeholder="ZIP"> <input
+                              value="<%=c.getState()%>"  class="form-control state" type="text" placeholder="State"></div>
+                        <div class=" my-3"><p class="dis fw-bold mb-2">Discount price</p>
+                            <div class="inputWithcheck">
+                                <input class="form-control" type="text" value="<%=random%>" name = "discount">
                                 <span class="fas fa-check"></span></div>
                         </div>
-                        <div class="my-3"><p class="dis fw-bold mb-2">Discount Code</p> <input
-                                class="form-control text-uppercase" type="text" value="BLACKFRIDAY" id="discount"></div>
+
                         <div class="d-flex flex-column dis">
                             <div class="d-flex align-items-center justify-content-between mb-2"><p>Subtotal</p>
-                                <p><span class="fas fa-dollar-sign"></span>19.00</p></div>
+                                <p><span class="fas fa-dollar-sign"></span><%=p.getMsrp()%></p></div>
                             <div class="d-flex align-items-center justify-content-between mb-2">
-                                <div class="d-flex align-items-center"><p class="pe-2">Discount <span
-                                        class="d-inline-flex align-items-center justify-content-between bg-light px-2 couponCode"> <span
-                                        id="code" class="pe-2"></span> <span class="fas fa-times close"></span> </span>
+                                <div class="d-flex align-items-center"><p class="pe-2">Discount
                                 </p></div>
-                                <p><span class="fas fa-dollar-sign"></span>5.00</p></div>
-                            <div class="d-flex align-items-center justify-content-between mb-2"><p>VAT<span>(20%)</span>
-                            </p>
-                                <p><span class="fas fa-dollar-sign"></span>2.80</p></div>
+                                <p><span class="fas fa-dollar-sign"></span><%=random%></p></div>
+                            <input type="hidden" name="total" value="<%=totalString%>">
                             <div class="d-flex align-items-center justify-content-between mb-2"><p class="fw-bold">
                                 Total</p>
-                                <p class="fw-bold"><span class="fas fa-dollar-sign"></span>16.80</p></div>
-                            <div class="btn btn-primary mt-2">Pay<span class="fas fa-dollar-sign px-1"></span>16.80
+                                <p class="fw-bold"><span class="fas fa-dollar-sign"></span><%=totalString%></p></div>
+                            <div  class="btn btn-primary mt-2">
+                                <input  type="submit" value="Pay Now" />
                             </div>
                         </div>
                     </div>
@@ -494,6 +603,8 @@
         </div>
     </div>
 </div>
+
+
 <script type='text/javascript'
         src='https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js'></script>
 <script type='text/javascript' src='#'></script>
@@ -512,6 +623,12 @@ valcode.addEventListener("change", function () {
     checkDiscountCoupon()
 })
 
+function processpayment(){
+
+        alert("Payment successful")
+
+}
+
 function checkDiscountCoupon() {
     if (valcode.value.length === 0) {
 // namecode.style.display = "none"
@@ -526,7 +643,13 @@ function checkDiscountCoupon() {
 function close() {
     couponCode.classList.add("d-none")
     valcode.value = ""
-}</script>
+}
+
+
+
+
+
+</script>
 <script type='text/javascript'>var myLink = document.querySelector('a[href="#"]');
 myLink.addEventListener('click', function (e) {
     e.preventDefault();
