@@ -19,9 +19,7 @@ public interface OrderSessionBean {
 
     void addOrder(int customernumber, String requiredDate) throws EJBException, ParseException;
 
-    List<Order> readOrder(int currentPage, int recordsPerPage, String sortBy, String direction) throws EJBException;
-
-    List<Order> readOrder(int currentPage, int recordsPerPage, String sortBy, String direction, String ordernumber, String customernumber, String fromOrderDate, String toOrderDate, String fromRequiredDate, String toRequiredDate, String fromShippedDate, String toShippedDate) throws EJBException;
+    List<Order> readOrder(int currentPage, int recordsPerPage, String sql) throws EJBException;
 
     void updateOrder(int ordernumber, String requiredDate, String shippedDate, String status, String comments) throws EJBException;
 
