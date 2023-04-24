@@ -563,7 +563,7 @@
                                 Total</p>
                                 <p class="fw-bold"><span class="fas fa-dollar-sign"></span><%=totalString%></p></div>
                             <div  class="btn btn-primary mt-2">
-                                <input style="background-color: #7700ff; color: white " type="submit" value="Pay Now" />
+                                <input style="background-color: #7700ff; color: white; border: none; " type="submit" value="Pay Now" />
                             </div>
                         </div>
                     </div>

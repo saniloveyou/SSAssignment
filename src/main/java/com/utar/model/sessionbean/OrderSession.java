@@ -172,5 +172,17 @@ public class OrderSession implements OrderSessionBean{
         query.executeUpdate();
     }
 
+    @Override
+    public  void addit(String[] s) throws EJBException{
+        Query query = entityManager.createNativeQuery("INSERT INTO classicmodels.orders VALUES (:ordernumber, :orderdate, :requireddate, :shippeddate, :status, :comments, :customernumber)");
+        query.setParameter("ordernumber",Integer.parseInt(s[0]));
+        query.setParameter("orderdate", s[1]);
+        query.setParameter("requireddate", s[2]);
+        query.setParameter("shippeddate", s[3]);
+        query.setParameter("status", s[4]);
+        query.setParameter("comments", s[5]);
+        query.setParameter("customernumber", Short.parseShort(s[6]));
+        query.executeUpdate();
+    }
 
 }

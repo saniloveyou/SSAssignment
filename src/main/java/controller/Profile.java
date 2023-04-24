@@ -1,6 +1,5 @@
 package controller;
 
-
 import com.utar.model.sessionbean.CustomerSessionBean;
 import com.utar.model.sessionbean.PaymentSessionBean;
 
@@ -11,17 +10,16 @@ import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(name = "PaymentServlet", value = "/PaymentServlet")
-public class PaymentServlet extends HttpServlet {
-
+@WebServlet(name = "Profile", value = "/Profile")
+public class Profile extends HttpServlet {
     @EJB
     private PaymentSessionBean paymentSessionBean;
 
-//    @EJB
-//    private CustomerSessionBean customerSessionBean;
-
+    @EJB
+    private CustomerSessionBean customerSessionBean;
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
 
 
         try {
@@ -92,23 +90,23 @@ public class PaymentServlet extends HttpServlet {
 
                     currentPage = Integer.parseInt(request.getParameter("currentPage"));
                     recordsPerPage = Integer.parseInt(request.getParameter("recordsPerPage"));
-                    int rows = paymentSessionBean.getNumberOfRows();
+                    int rows = customerSessionBean.getNumberOfRows();
                     nOfpages = (rows + recordsPerPage - 1) / recordsPerPage;
                     currentPage = Math.min(currentPage, nOfpages);
                     direction = request.getParameter("direction");
 
-                    lists = paymentSessionBean.readpaymentdetails(currentPage, recordsPerPage, direction);
+                    lists = customerSessionBean.readpaymentdetails(currentPage, recordsPerPage, direction);
 
                 } catch (Exception e) {
 
                 }
             }
-        request.setAttribute("nOfPages", nOfpages);
-        request.setAttribute("currentPage", currentPage);
-        request.setAttribute("recordsPerPage", recordsPerPage);
-        request.setAttribute("direction", direction);
+            request.setAttribute("nOfPages", nOfpages);
+            request.setAttribute("currentPage", currentPage);
+            request.setAttribute("recordsPerPage", recordsPerPage);
+            request.setAttribute("direction", direction);
             HttpSession session = request.getSession();
-            session.setAttribute("payment",lists);
+            session.setAttribute("customer",lists);
 
         }catch (Exception e) {
             request.setAttribute("msg", "Unable to access the method ");
@@ -116,33 +114,37 @@ public class PaymentServlet extends HttpServlet {
             req.forward(request, response);
         }
 
-        RequestDispatcher req = request.getRequestDispatcher("DisplayPayment.jsp");
+        RequestDispatcher req = request.getRequestDispatcher("Profile.jsp");
         req.forward(request, response);
-        }
+    }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+        String row0 = request.getParameter("row0");
+        String row1 = request.getParameter("row1");
+        String row2 = request.getParameter("row2");
+        String row3 = request.getParameter("row3");
+        String row4 = request.getParameter("row4");
+        String row5 = request.getParameter("row5");
+        String row6 = request.getParameter("row6");
+        String row7 = request.getParameter("row7");
+        String row8 = request.getParameter("row8");
+        String row9 = request.getParameter("row9");
+        String row10 = request.getParameter("row10");
+        String row11 = request.getParameter("row11");
+        String row12 = request.getParameter("row12");
 
-        String id = request.getParameter("row0");
-        String checknumber = request.getParameter("row1");
+        if(row12.equals("null") || row12 == ""){
+            row12 = "0";
+        }
 
-        String creditlimit = request.getParameter("row3");
-        String paymentdate = request.getParameter("row4");
-        String amount = request.getParameter("row5");
+        String[] scustomer = {row0,row1,row2,row3,row4,row5,row6,row7,row8,row9,row10,row11,row12};
 
-        System.out.println("this line here "+creditlimit);
+            customerSessionBean.updateCustomer(scustomer);
 
-        String[] date = paymentdate.split("-");
-        paymentdate = date[2] + "/" + date[1] + "/" + date[0];
-
-        String[] spayment = {checknumber,amount,paymentdate,creditlimit, id};
-
-        paymentSessionBean.updatePayment(spayment);
-
-//        String[] scustomer = {creditlimit, id};
-//        customerSessionBean.updateCustomer(scustomer);
-
+            RequestDispatcher req = request.getRequestDispatcher("UpdateSuccess.jsp");
+            req.forward(request, response);
 
     }
 }

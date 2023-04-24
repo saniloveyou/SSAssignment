@@ -68,17 +68,10 @@ public class PaymentNow extends HttpServlet {
 
 
         int check = paymentbean.getNextPaymentNumber();
+
+        System.out.println("check: " + check);
+
         String today = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
-        Date date = new Date();
-        long t = date.getTime();
-        Date aftersixDays = new Date(t + (6 * 24 * 3600 * 1000));
-        String requiredate = new SimpleDateFormat("yyyy-MM-dd").format(aftersixDays);
-
-        //this section is for checkout
-        String productidcart = request.getParameter("productid");
-        String quantity = request.getParameter("quantity");
-
-
 
         String[]  s = {String.valueOf(c.getId()), String.valueOf(check), today,total};
         paymentbean.addPayment(s);

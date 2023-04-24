@@ -115,7 +115,7 @@
 
         div.container {
             /*background-color: #f2f2f2;*/
-        /*    make the background size to be smaller*/
+            /*    make the background size to be smaller*/
 
 
         }
@@ -137,6 +137,7 @@
             border: none;
             border-radius: 4px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 10%;
         }
 
         select:focus, input[type="text"]:focus, input[type="submit"]:focus,button[type="reset"], input[type="date"]:focus {
@@ -149,6 +150,7 @@
             color: white;
             cursor: pointer;
             transition: background-color 0.2s ease-in-out;
+            width: 20%;
         }
 
         button[type="reset"] {
@@ -293,7 +295,8 @@
 
         .box-2 .box-inner-2 input.form-control {
             font-size: 12px;
-            font-weight: 600
+            font-weight: 600;
+            width: 100%;
         }
 
         .box-2 .box-inner-2 .inputWithIcon {
@@ -519,15 +522,14 @@
         }
 
 
+
     </style>
 
     <%
-
         int nOfPages = (int) request.getAttribute("nOfPages");
         int currentPage = (int) request.getAttribute("currentPage");
         int recordsPerPage = (int) request.getAttribute("recordsPerPage");
         String direction = (String) request.getAttribute("direction");
-
     %>
 
     <script>
@@ -547,11 +549,6 @@
                 document.getElementById("search-now").setAttribute("value",selectedValue);
                 document.getElementById("search-now").setAttribute("name",selectedValue);
             }
-            else if(selectedValue == "amount" ) {
-                rangeSelect1.classList.add("show");
-                document.getElementById("search-now").setAttribute("value",selectedValue);
-                document.getElementById("search-now").setAttribute("name",selectedValue);
-            }
             else {
                 rangeSelect.classList.remove("show");
                 document.getElementById("search-now").setAttribute("name",selectedValue);
@@ -564,30 +561,25 @@
 <body class="m-3">
 
 
-<div class="row col-md-6">
+<div class="">
     <table class="table table-striped table-bordered table-sm">
 
-        <h1> Payment Details </h1>
-        <form action="PaymentServlet">
+        <h1> Customer Details </h1>
+        <form action="Profile">
             <label for="category-select"></label>
             <select id="category-select" onchange="categorySelected()">
                 <option value="customernumber">Customer Number</option>
                 <option value="customername">Customer Name</option>
-                <option value="checknumber">Check Number</option>
                 <option value="phonenumber">Phone Number</option>
-                <option value="creditlimit">Credit Limit</option>
-                <option value="amount">Product Price</option>
-                <option value="date">Payment Date</option>
+                <option value="Address">Address 1</option>
+                <option value="Address">Address 2</option>
+                <option value="City">City</option>
+                <option value="State">State</option>
+                <option value="postal">Postal code</option>
+                <option value="Country">Country</option>
+                <option value="Limit">Credit limit</option>
             </select>
 
-            <div id="range-select" class="range-select">
-
-                <label for="from_date">From:</label>
-                <input type="date" id="from_date" name="from_date" >
-
-                <label for="to_date">To:</label>
-                <input type="date" id="to_date" name="to_date" >
-            </div>
 
             <div id="range-sel" class="range-sel">
                 <div>
@@ -604,10 +596,11 @@
                 </div>
             </div>
 
+
             <input type="text" name="customernumber" placeholder="Search..." id="search-now" >
             <input type="submit" value="Search" id="search-it">
             <div id="reset-home" >
-            <button id="resetbtn" type="reset" value="Reset">Reset</button>
+                <button id="resetbtn" type="reset" value="Reset">Reset</button>
                 <button id="home" type="reset" value="Home" >Home</button>
             </div>
 
@@ -616,8 +609,8 @@
         <script>
             let amount = 0;
             let amount1 = 0;
-             amount = document.getElementById("minamount");
-             amount1 = document.getElementById("maxamount");
+            amount = document.getElementById("minamount");
+            amount1 = document.getElementById("maxamount");
             const amountOutput = document.getElementById("minamount-output");
             const amountOutput1 = document.getElementById("maxamount-output");
 
@@ -630,7 +623,7 @@
 
             document.getElementById("search-it").onclick = function (event) {
                 if (amount.value > amount1.value) {
-                   alert("Minimum amount should be less than maximum amount")
+                    alert("Minimum amount should be less than maximum amount")
                     event.preventDefault();
                 }
             };
@@ -638,59 +631,71 @@
 
         <script type="text/javascript">
             document.getElementById("home").onclick = function () {
-                location.href = "index.jsp";
+                location.href = "index.html";
             };
             document.getElementById("resetbtn").onclick = function () {
-                location.href = "PaymentServlet?direction=<%="ASC"%>&currentPage=<%=currentPage%>&recordsPerPage=<%=recordsPerPage%>";
+                location.href = "Profile?direction=<%="ASC"%>&currentPage=<%=currentPage%>&recordsPerPage=<%=recordsPerPage%>";
             };
         </script>
 
 
+
         <tr>
             <th>
-                <a href="PaymentServlet?direction=<%=(direction.equals("ASC") ? "DESC" : "ASC")%>&currentPage=<%=currentPage%>&recordsPerPage=<%=recordsPerPage%>">Customer Number</a>
+                <a href="Profile?direction=<%=(direction.equals("ASC") ? "DESC" : "ASC")%>&currentPage=<%=currentPage%>&recordsPerPage=<%=recordsPerPage%>">Customer Number</a>
             </th>
             <th>Customer Name</th>
-            <th>Customer Phone</th>
-            <th>Customer Credit Limit</th>
-            <th>Check Number</th>
-            <th>Payment Date</th>
-            <th>Amount</th>
+            <th>Customer Last Name</th>
+            <th>Customer First Name</th>
+            <th>Phone</th>
+            <th>Address Line 1</th>
+            <th>Address Line 2</th>
+            <th>City</th>
+            <th>State</th>
+            <th>Postal</th>
+            <th>Country</th>
+            <th>Sales Rep</th>
+            <th>Credit Limit</th>
             <th>Update</th>
-            <th>Delete</th>
         </tr>
 
 </body>
 
 </html>
 
-        <%
-            List<Object[]> list = (List<Object[]>) session.getAttribute("payment");
-            if (list.size() != 0) {
-                for (Object[] row : list) {
-                    out.println("<tr>");
-                    out.println("<td>" + row[0] + "</td>");
-                    out.println("<td>" + row[1] + "</td>");
-                    out.println("<td>" + row[2] + "</td>");
-                    out.println("<td>" + row[3] + "</td>");
-                    out.println("<td>" + row[4] + "</td>");
-                    out.println("<td>" + row[5] + "</td>");
-                    out.println("<td>" + row[6] + "</td>");
-                    out.println("<td><button onclick=\"openForm('"+ row[0] + "','" + row[4] + "','" + row[1] + "','" + row[3] +"','" + row[5]  +"','" + row[6]  +"'  )\" > Update</button></td>");
-                    out.println("<td><a href=\"DeletePayment?id=" + row[4] + "&flag=true" + "\">Delete</a></td>");
-                    out.println("</tr>");
-                }
-            } else {
-                out.println("<tr>");
-                String status = "No records";
-                for (int i = 0; i < 8; i++) {
-                    out.println("<td>" + status + "</td>");
-                }
-                out.println("</tr>");
-            }
-        %>
+<%
+    List<Object[]> list = (List<Object[]>) session.getAttribute("customer");
+    if (list.size() != 0) {
+        for (Object[] row : list) {
+            out.println("<tr>");
+            out.println("<td>" + row[0] + "</td>");
+            out.println("<td>" + row[1] + "</td>");
+            out.println("<td>" + row[2] + "</td>");
+            out.println("<td>" + row[3] + "</td>");
+            out.println("<td>" + row[4] + "</td>");
+            out.println("<td>" + row[5] + "</td>");
+            out.println("<td>" + row[6] + "</td>");
+            out.println("<td>" + row[7] + "</td>");
+            out.println("<td>" + row[8] + "</td>");
+            out.println("<td>" + row[9] + "</td>");
+            out.println("<td>" + row[10] + "</td>");
+            out.println("<td>" + row[11] + "</td>");
+            out.println("<td>" + row[12] + "</td>");
 
-    </table>
+            out.println("<td><button onclick=\"openForm('"+ row[0] + "','" + row[1] + "','" + row[2] + "','" + row[3] +"','" + row[4]  +"','" + row[5] + "','" + row[6] + "','" + row[7] + "','" + row[8] + "','" + row[9] +"','" + row[10]  +"','" + row[11] + "','" + row[12] +"'  )\" > Update</button></td>");
+            out.println("</tr>");
+        }
+    } else {
+        out.println("<tr>");
+        String status = "No records";
+        for (int i = 0; i < 8; i++) {
+            out.println("<td>" + status + "</td>");
+        }
+        out.println("</tr>");
+    }
+%>
+
+</table>
 </div>
 
 <%--store value in session storage--%>
@@ -704,12 +709,12 @@
         <%if (currentPage != 1 && nOfPages != 0) {%>
         <%
             out.println("<li class=\"page-item\">");
-            out.println("<a class=\"page-link\" href=\"" + "PaymentServlet?recordsPerPage=" + recordsPerPage + "&currentPage=1"  + "&direction=" + direction + "\">First</a>");
+            out.println("<a class=\"page-link\" href=\"" + "Profile?recordsPerPage=" + recordsPerPage + "&currentPage=1"  + "&direction=" + direction + "\">First</a>");
             out.println("</li>");
         %>
         <li class="page-item">
             <%
-                out.println("<a class=\"page-link\" href=\"" + "PaymentServlet?recordsPerPage=" + recordsPerPage
+                out.println("<a class=\"page-link\" href=\"" + "Profile?recordsPerPage=" + recordsPerPage
                         + "&currentPage=" + (currentPage - 1)  + "&direction=" + direction + "\">Previous</a>");
             %>
         </li>
@@ -719,10 +724,10 @@
         <%
             if (currentPage < nOfPages) {
                 out.println("<li class=\"page-item\">");
-                out.println("<a class=\"page-link\" href=\"" + "PaymentServlet?recordsPerPage=" + recordsPerPage + "&currentPage=" + (currentPage + 1)  + "&direction=" + direction + "\">Next</a>");
+                out.println("<a class=\"page-link\" href=\"" + "Profile?recordsPerPage=" + recordsPerPage + "&currentPage=" + (currentPage + 1)  + "&direction=" + direction + "\">Next</a>");
                 out.println("</li>");
                 out.println("<li class=\"page-item\">");
-                out.println("<a class=\"page-link\" href=\"" + "PaymentServlet?recordsPerPage=" + recordsPerPage + "&currentPage=" + nOfPages  + "&direction=" + direction + "\">Last</a>");
+                out.println("<a class=\"page-link\" href=\"" + "Profile?recordsPerPage=" + recordsPerPage + "&currentPage=" + nOfPages  + "&direction=" + direction + "\">Last</a>");
                 out.println("</li>");
             }
         %>
@@ -755,81 +760,99 @@
     <div class="container d-lg-flex">
         <div class="box-2">
             <div class="box-inner-2">
-                <form  action="PaymentServlet" method="post">
+                <form  action="Profile" method="post">
                     <div style="overflow: auto;">
-                        <p class="fw-bold left"><strong>Update Payment Details</strong></p>
+                        <p class="fw-bold left"><strong>Update Customer Details</strong></p>
                         <p onclick="closeForm()" style="color: red" class="fw-bold right"><strong>X</strong></p>
                     </div>
 
-                <div>
-                    <div class="mb-3"><p class="dis fw-bold mb-2">Customer Number</p>
-                        <input readonly class="form-control" type="text" id="row0" name="row0"
-                               value=""></div>
-                    <div class="mb-3"><p class="dis fw-bold mb-2">Check Number</p>
-                        <input readonly class="form-control" type="text" id="row1" name="row1"
-                               value=""></div>
-                    <div class="mb-3"><p class="dis fw-bold mb-2">Customer Name</p>
-                        <input readonly class="form-control" type="text" id="row2" name="row2"
-                               value=""></div>
-                    <div class="mb-3"><p class="dis fw-bold mb-2">Credit Card Limit</p>
-                        <input class="form-control" type="text" required id="row3" name="row3"
-                               value=""></div>
-                    <div class="mb-3"><p class="dis fw-bold mb-2">Payment Date</p>
-                        <input class="form-control" type="date"   required id="row4" name="row4"
-                               value="2017-06-01"></div>
-                    <div class="mb-3"><p class="dis fw-bold mb-2">Product Amount</p>
-                        <input class="form-control" type="text"   required id="row5" name="row5"
-                               value="12345"></div>
-                    <div  class="mb-3"><p class="dis fw-bold mb-2">Discount</p>
-                        <input readonly class="form-control" type="number" id="row6" name="row6"
-                               value="5"></div>
+                    <div>
+                        <div class="mb-3"><p class="dis fw-bold mb-2">Customer Number</p>
+                            <input readonly class="form-control" type="text" id="row0" name="row0"
+                                   value=""></div>
+                        <div class="mb-3"><p class="dis fw-bold mb-2">Customer Name</p>
+                            <input  class="form-control" type="text" id="row1" name="row1"
+                                   value=""></div>
+                        <div class="mb-3"><p class="dis fw-bold mb-2">Customer Last Name</p>
+                            <input  class="form-control" type="text" id="row2" name="row2"
+                                   value=""></div>
+                        <div class="mb-3"><p class="dis fw-bold mb-2">Customer First Name</p>
+                            <input class="form-control" type="text" required id="row3" name="row3"
+                                   value=""></div>
+                        <div class="mb-3"><p class="dis fw-bold mb-2">Phone</p>
+                            <input class="form-control" type="text"   required id="row4" name="row4"
+                                   value="2017-06-01"></div>
+                        <div class="mb-3"><p class="dis fw-bold mb-2">Address Line 1</p>
+                            <input class="form-control" type="text"   required id="row5" name="row5"
+                                   value="12345"></div>
+                        <div  class="mb-3"><p class="dis fw-bold mb-2">Address Line 2</p>
+                            <input  class="form-control" type="text" id="row6" name="row6"
+                                   value="5"></div>
+                        <div  class="mb-3"><p class="dis fw-bold mb-2">City</p>
+                            <input  class="form-control" type="text" id="row7" name="row7"
+                                   value="5"></div>
 
-                            <div class="d-flex flex-column dis">
-                                <div class="d-flex align-items-center justify-content-between mb-2"><p>Subtotal</p>
-                                    <p id="p1"><span class="fas fa-dollar-sign"></span></p></div>
-                                <div class="d-flex align-items-center justify-content-between mb-2">
-                                    <div class="d-flex align-items-center"><p class="pe-2">Discount <span
-                                            class="d-inline-flex align-items-center justify-content-between bg-light px-2 couponCode"> <span
-                                            id="code" class="pe-2"></span> <span class="fas fa-times close"></span> </span>
-                                    </p></div>
-                                    <p id="p2"><span class="fas fa-dollar-sign"></span></p></div>
+                        <div  class="mb-3"><p class="dis fw-bold mb-2">State</p>
+                            <input  class="form-control" type="text" id="row8" name="row8"
+                                   value="5"></div>
 
-                                <div class="d-flex align-items-center justify-content-between mb-2"><p class="fw-bold"><strong> Total</strong></p>
+                        <div  class="mb-3"><p class="dis fw-bold mb-2">Postal</p>
+                            <input  class="form-control" type="text" id="row9" name="row9"
+                                   value="5"></div>
 
-                                    <p id="p3" class="fw-bold"><span class="fas fa-dollar-sign"></span></p></div>
+                        <div  class="mb-3"><p class="dis fw-bold mb-2">Country</p>
+                            <input  class="form-control" type="text" id="row10" name="row10"
+                                   value="5"></div>
 
-                                <div  class="btn btn-primary mt-2"><span class="fas fa-dollar-sign px-1">  <input style=" background-color: #7700ff" type="submit" value="Update" > </span>
-                                </div>
+                        <div  class="mb-3"><p class="dis fw-bold mb-2">Sales Rep</p>
+                            <input readonly class="form-control" type="text" id="row11" name="row11"
+                                   value="5"></div>
 
+                        <div  class="mb-3"><p class="dis fw-bold mb-2">Credit Limit</p>
+                            <input  class="form-control" type="text" id="row12" name="row12"
+                                   value="5"></div>
+
+
+
+                            <div  class="btn btn-primary mt-2"><span class="fas fa-dollar-sign px-1">  <input style=" background-color: #7700ff; width: 100%" type="submit" value="Update" > </span>
                             </div>
+
                         </div>
                     </div>
-                </form>
             </div>
+            </form>
         </div>
     </div>
+</div>
 
 </div>
 
 
 <script>
-    function openForm(id,checknum,name,creditlimit,paymentdate,productamount){
+    function openForm(id,name,first,last,phone,add1,add2,city,state,postal,country,salesrep,creditlimit) {
         var random = Math.floor(Math.random() * 3000) + 2000;
         document.getElementById("myForm").style.display = "block";
         document.getElementById("row0").value = id;
-         document.getElementById("row1").value = checknum;
-        document.getElementById("row2").value = name;
-            document.getElementById("row3").value = creditlimit;
-            document.getElementById("row4").value = paymentdate;
-            document.getElementById("row5").value = productamount;
-            document.getElementById("row6").value = random;
-         document.getElementById("p1").innerHTML = productamount;
-        document.getElementById("p2").innerHTML = random.toString();
+        document.getElementById("row1").value = name;
+        document.getElementById("row2").value = first;
+        document.getElementById("row3").value = last;
+        document.getElementById("row4").value = phone;
+        document.getElementById("row5").value = add1;
+        document.getElementById("row6").value = add2;
+        document.getElementById("row7").value = city;
+        document.getElementById("row8").value = state;
+        document.getElementById("row9").value = postal;
+        document.getElementById("row10").value = country;
+        document.getElementById("row11").value = salesrep;
+        document.getElementById("row12").value = creditlimit;
 
-        //conver the string to number
-        var productamount = parseFloat(productamount);
-        var random = parseInt(random);
-        document.getElementById("p3").innerHTML = (productamount-random).toFixed(2).toString();
+        // document.getElementById("p1").innerHTML = productamount;
+        // document.getElementById("p2").innerHTML = random.toString();
+        //
+        // //conver the string to number
+        // var productamount = parseFloat(productamount);
+        // var random = parseInt(random);
+        // document.getElementById("p3").innerHTML = (productamount-random).toFixed(2).toString();
 
     }
 

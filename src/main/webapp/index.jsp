@@ -59,6 +59,7 @@
                 </div> <!-- /.col-md-6 -->
                 <div class="col-md-6 col-sm-6">
                     <div class="top-header-left text-right">
+                        <a href="Profile?currentPage=1&recordsPerPage=20&direction=asc">Edit Profile</a>
                         <a href="Cart.jsp">Cart (<%= ((ArrayList<Cart>)session.getAttribute("cart_list")) != null ? ((ArrayList<Cart>)session.getAttribute("cart_list")).size() : 0%>) </a>
                         <a href="LoginServlet?action=logout">Logout</a>
                     </div> <!-- /.top-header-left -->

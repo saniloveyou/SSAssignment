@@ -109,7 +109,10 @@ public class PaymentSession implements PaymentSessionBean {
 
     @Override
     public void deletePayment(String id) throws EJBException {
-
+        String sql = "DELETE FROM classicmodels.payments WHERE checknumber = ?";
+        Query query = em.createNativeQuery(sql);
+        query.setParameter(1, id);
+        query.executeUpdate();
     }
 
     @Override
