@@ -315,7 +315,6 @@
                 </ul>
             </nav>
 
-
             <div class="container text-center">
                 <%if (nOfPages != 0) {%>
                 <p class="pageref"><%=currentPage%> of <%=nOfPages%>

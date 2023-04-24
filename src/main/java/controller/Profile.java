@@ -17,10 +17,9 @@ public class Profile extends HttpServlet {
 
     @EJB
     private CustomerSessionBean customerSessionBean;
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-
 
         try {
             HttpSession session = request.getSession();

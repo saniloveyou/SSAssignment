@@ -638,7 +638,7 @@
 
         <script type="text/javascript">
             document.getElementById("home").onclick = function () {
-                location.href = "index.jsp";
+                location.href = "index.html";
             };
             document.getElementById("resetbtn").onclick = function () {
                 location.href = "PaymentServlet?direction=<%="ASC"%>&currentPage=<%=currentPage%>&recordsPerPage=<%=recordsPerPage%>";

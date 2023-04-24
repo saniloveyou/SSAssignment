@@ -71,7 +71,6 @@ public class PaymentCart extends HttpServlet {
         Date date = new Date();
 
 
-        //this section is for checkout
         String productidcart = request.getParameter("productid");
         String quantity = request.getParameter("quantity");
 

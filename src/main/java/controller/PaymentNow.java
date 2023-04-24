@@ -14,7 +14,6 @@ import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 
 @WebServlet(name = "PaymentNow", value = "/PaymentNow")
@@ -64,7 +63,6 @@ public class PaymentNow extends HttpServlet {
         request.setAttribute("discount", discount);
         Customer c = (Customer) request.getSession().getAttribute("customer");
         Product p = (Product) request.getSession().getAttribute("product");
-        ArrayList<Cart> cart_list = (ArrayList<Cart>) request.getSession().getAttribute("cart_list");
 
 
         int check = paymentbean.getNextPaymentNumber();

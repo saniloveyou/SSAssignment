@@ -70,8 +70,8 @@
     <h1>Username: <%= session.getAttribute("username").toString() %></h1>
 </br>
     <p>Product purchased = <%=p.getProductname()%></p>
-    <p>Product price = <%=discount%></p>
-    <p>Product price = <%=total%></p>
+    <p>Product Discount = <%=discount%></p>
+    <p>Total price = <%=total%></p>
     <button onclick="window.location.href='index.html'">Return Home</button>
 </div>
 </body>
