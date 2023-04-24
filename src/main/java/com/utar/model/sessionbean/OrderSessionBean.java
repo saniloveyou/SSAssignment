@@ -17,7 +17,11 @@ public interface OrderSessionBean {
 
     int getNextOrderNumber() throws EJBException;
 
-    void addOrder(int customernumber, String requiredDate) throws EJBException, ParseException;
+    void addOrder(int ordernumber, int customernumber) throws EJBException;
+
+//    void addOrderDetails(int ordernumber, String productcode);
+
+    void addOrderDetails(int ordernumber, String productcode) throws EJBException;
 
     List<Order> readOrder(int currentPage, int recordsPerPage, String sql) throws EJBException;
 

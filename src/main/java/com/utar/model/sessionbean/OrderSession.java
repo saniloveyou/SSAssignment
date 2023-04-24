@@ -1,6 +1,8 @@
 package com.utar.model.sessionbean;
 
 import com.utar.model.entity.Order;
+import com.utar.model.entity.Orderdetail;
+import com.utar.model.entity.OrderdetailId;
 import com.utar.model.entity.Product;
 
 import javax.ejb.EJBException;
@@ -9,8 +11,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.math.BigInteger;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Stateless
@@ -27,8 +29,18 @@ public class OrderSession implements OrderSessionBean{
 
     @Override
     public Order findOrder(String ordernumber) throws EJBException {
-        Query query = entityManager.createNamedQuery("Order.findbyId");
-        return (Order) query.getSingleResult();
+        String sql = "SELECT * FROM classicmodels.orders WHERE ordernumber = " + ordernumber;
+
+        Query query = entityManager.createNativeQuery("SELECT * FROM classicmodels.orders WHERE ordernumber = :ordernumber", Order.class);
+        query.setParameter("ordernumber", ordernumber);
+
+        Order result = null;
+        try {
+            result = (Order) query.getSingleResult();
+        } catch (Exception e) {
+            System.out.println("Order not found");
+        }
+        return result;
     }
 
     @Override
@@ -43,17 +55,56 @@ public class OrderSession implements OrderSessionBean{
         return Integer.parseInt(query.getSingleResult().toString());
     }
 
+
     @Override
-    public void addOrder(int customernumber, String requiredDate) throws EJBException, ParseException {
-        Query query = entityManager.createNativeQuery("INSERT INTO classicmodels.orders VALUES (:ordernumber, :orderdate, :requireddate, :shippeddate, :status, :comments, :customernumber)");
-        query.setParameter("ordernumber", getNextOrderNumber());
-        query.setParameter("orderdate", java.sql.Date.valueOf(java.time.LocalDate.now()));
-        query.setParameter("requireddate", new SimpleDateFormat("yyyy-MM-dd").parse(requiredDate));
-        query.setParameter("shippeddate", null);
+    public void addOrder(int ordernumber, int customernumber) throws EJBException {
+        Query query = entityManager.createNativeQuery("INSERT INTO classicmodels.orders (ordernumber, orderdate, requireddate, shippeddate, status, comments, customernumber) VALUES (:ordernumber, :orderdate, :requireddate, :shippeddate, :status, :comments, :customernumber)");
+        query.setParameter("ordernumber", ordernumber);
+        query.setParameter("orderdate", new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+        query.setParameter("requireddate", new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+        query.setParameter("shippeddate", new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
         query.setParameter("status", "In Process");
         query.setParameter("comments", "");
         query.setParameter("customernumber", customernumber);
         query.executeUpdate();
+
+    }
+
+    @Override
+    public void addOrderDetails(int ordernumber, String productcode) throws EJBException {
+        Query query = entityManager.createNativeQuery("SELECT * FROM classicmodels.orderdetails WHERE ordernumber = :ordernumber AND productcode = :productcode", Orderdetail.class);
+        query.setParameter("ordernumber", ordernumber);
+        query.setParameter("productcode", productcode);
+        Orderdetail result = null;
+        try {
+            result = (Orderdetail) query.getSingleResult();
+        } catch (Exception e) {
+            System.out.println("Order not found");
+        }
+
+        query = entityManager.createNativeQuery("SELECT * FROM classicmodels.orders WHERE ordernumber = :ordernumber", Order.class);
+        query.setParameter("ordernumber", ordernumber);
+        Order order = (Order) query.getSingleResult();
+
+
+        query = entityManager.createNativeQuery("SELECT CASE WHEN MAX(orderlinenumber) IS NULL THEN 1 ELSE MAX(orderlinenumber)+1 END FROM classicmodels.orderdetails WHERE ordernumber = :ordernumber");
+        query.setParameter("ordernumber", ordernumber);
+        int orderlinenumber = Integer.parseInt(query.getSingleResult().toString());
+
+        query = entityManager.createNativeQuery("SELECT * FROM classicmodels.products WHERE productcode = :productcode", Product.class);
+        query.setParameter("productcode", productcode);
+        Product product = (Product) query.getSingleResult();
+
+        query = entityManager.createNativeQuery("INSERT INTO classicmodels.orderdetails (ordernumber, productcode, quantityordered, priceeach, orderlinenumber) VALUES (:ordernumber, :productcode, :quantityordered, :priceeach, :orderlinenumber)");
+        query.setParameter("ordernumber", ordernumber);
+        query.setParameter("productcode", productcode);
+        query.setParameter("quantityordered", 1);
+        query.setParameter("priceeach", product.getMsrp());
+        query.setParameter("orderlinenumber", orderlinenumber);
+        query.executeUpdate();
+
+
+
     }
 
     @Override

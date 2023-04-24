@@ -83,12 +83,12 @@ public class PaymentNow extends HttpServlet {
         String[]  s = {String.valueOf(c.getId()), String.valueOf(check), today,total};
         paymentbean.addPayment(s);
 
-        //getting error on this section
-        try {
-            orderbean.addOrder(c.getId(),requiredate);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+//        //getting error on this section
+//        try {
+//            orderbean.addOrder(c.getId(),requiredate);
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
 
         RequestDispatcher dispatcher = request.getRequestDispatcher("paymentsuccesfull.jsp");
         dispatcher.forward(request, response);

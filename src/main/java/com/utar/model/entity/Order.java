@@ -13,13 +13,13 @@ public class Order {
     private Integer id;
 
     @Column(name = "orderdate", nullable = false, length = 10)
-    private Date orderdate;
+    private String orderdate;
 
     @Column(name = "requireddate", nullable = false, length = 10)
-    private Date requireddate;
+    private String requireddate;
 
     @Column(name = "shippeddate", length = 10)
-    private Date shippeddate;
+    private String shippeddate;
 
     @Column(name = "status", nullable = false, length = 10)
     private String status;
@@ -54,27 +54,27 @@ public class Order {
         this.status = status;
     }
 
-    public Date getShippeddate() {
+    public String getShippeddate() {
         return shippeddate;
     }
 
-    public void setShippeddate(Date shippeddate) {
+    public void setShippeddate(String shippeddate) {
         this.shippeddate = shippeddate;
     }
 
-    public Date getRequireddate() {
+    public String getRequireddate() {
         return requireddate;
     }
 
-    public void setRequireddate(Date requireddate) {
+    public void setRequireddate(String requireddate) {
         this.requireddate = requireddate;
     }
 
-    public Date getOrderdate() {
+    public String getOrderdate() {
         return orderdate;
     }
 
-    public void setOrderdate(Date orderdate) {
+    public void setOrderdate(String orderdate) {
         this.orderdate = orderdate;
     }
 
