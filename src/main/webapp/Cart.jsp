@@ -94,7 +94,7 @@
         %>
         <tr>
             <td><%=c.getProductcode().getId()%></td>
-            <td><%=c.getProductcode().getProductname()%></td>
+            <td><%=c.getProductcode().getId()%></td>
             <%System.out.println(c.getProductcode().getId());%>
             <td><%=priceFormatter.format(c.getPriceeach().doubleValue())%></td>
             <td>
