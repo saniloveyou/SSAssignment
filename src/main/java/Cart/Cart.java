@@ -5,7 +5,7 @@ import com.utar.model.entity.Product;
 
 public class Cart{
     public Orderdetail orderdetail;
-    private Product product;
+    public Product product;
 
     public Cart() {}
 
@@ -15,6 +15,14 @@ public class Cart{
 
     public void setOrderdetail(Orderdetail orderdetail) {
         this.orderdetail = orderdetail;
+    }
+
+    public Product getProduct(){
+        return this.product;
+    }
+
+    public void setProduct(Product product){
+        this.product = product;
     }
 
 }

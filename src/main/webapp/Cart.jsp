@@ -9,12 +9,16 @@
 //    if (auth != null) {request.setAttribute("person", auth);}
     ArrayList<Cart> cart_list = (ArrayList<Cart>) session.getAttribute("cart_list");
 
+
+    System.out.println("Test 1");
+
     double total = 0;
     if (cart_list != null) {
         for (Cart c : cart_list) {
-            total += (c.getQuantity() * c.product.getMsrp().doubleValue());
+            total += (c.orderdetail.getQuantityordered() * c.product.getMsrp().doubleValue());
         }
     }
+    System.out.println("Test 2");
 
 //    List<Cart> cartProduct = null;
 //    if (cart_list != null) {
@@ -93,7 +97,7 @@
             <td>
                 <div class="form-group d-flex justify-content-between">
                     <a class="btn bnt-sm btn-incre" href="quantity-inc-dec?action=dec&id=<%=c.product.getId()%>"><i class="glyphicon glyphicon-minus"></i></a>
-                    <input type="text" name="quantity" class="form-control"  value="<%=c.getQuantity()%>" readonly>
+                    <input type="text" name="quantity" class="form-control"  value="<%=c.getOrderdetail().getQuantityordered()%>" readonly>
                     <a class="btn bnt-sm btn-incre" href="quantity-inc-dec?action=inc&id=<%=c.product.getId()%>"><i class="glyphicon glyphicon-plus"></i></a>
                 </div>
             </td>

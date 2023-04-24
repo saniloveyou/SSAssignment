@@ -31,7 +31,7 @@ public class AddToCartServlet extends HttpServlet {
 
         HttpSession session = request.getSession();
         int ordernumber = 0;
-        try (PrintWriter out = response.getWriter()) {
+        try{
             Integer.parseInt((String) session.getAttribute("ordernumber"));
             if (ordernumber == 0) {
                 ordernumber = orderSessionBean.getNextOrderNumber();
@@ -67,8 +67,10 @@ public class AddToCartServlet extends HttpServlet {
         orderdetail.setId(orderdetailId);
         orderdetail.setPriceeach(product.getMsrp());
         orderdetail.setQuantityordered(1);
-        orderdetail.setOrderlinenumber(1);
-
+        orderdetail.setOrderlinenumber(orderlinenumber);
+        session.setAttribute("orderlinenumber", orderlinenumber + 1);
+        cart.setOrderdetail(orderdetail);
+        cart.setProduct(product);
 
         ArrayList<Cart> cart_list = (ArrayList<Cart>) session.getAttribute("cart_list");
 
@@ -80,7 +82,7 @@ public class AddToCartServlet extends HttpServlet {
             cartList = cart_list;
             boolean exist = false;
             for (Cart c : cart_list) {
-                if (c.orderdetail.getProductcode().equals(productcode)) {
+                if (c.product.getId().equals(productcode)) {
                     exist = true;
                 }
             }
