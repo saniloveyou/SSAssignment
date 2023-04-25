@@ -185,8 +185,6 @@
                                 Order Line Number
                             </a>
                         </th>
-                        <th>Update</th>
-                        <th>Delete</th>
                     </tr>
                     <%
                         List<Orderdetail> orders = (List<Orderdetail>) request.getAttribute("orders");
@@ -198,8 +196,6 @@
                                 out.println("<td>" + o.getQuantityordered() + "</td>");
                                 out.println("<td>" + o.getPriceeach() + "</td>");
                                 out.println("<td>" + o.getOrderlinenumber() + "</td>");
-                                out.println("<td><a href=\"EmployeeController?id=" + o.getId() + "\">Update</a></td>");
-                                out.println("<td><a href=\"EmployeeController?id=" + o.getId() + "\">Delete</a></td>");
                                 out.println("</tr>");
                             }
                         } else {

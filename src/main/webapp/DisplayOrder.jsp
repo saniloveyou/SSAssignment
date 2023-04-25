@@ -274,8 +274,6 @@
                                 Customer Number
                             </a>
                         </th>
-                        <th>Update</th>
-                        <th>Delete</th>
                     </tr>
                     <%
                         List<Order> orders = (List<Order>) request.getAttribute("orders");
@@ -289,8 +287,6 @@
                                 out.println("<td>" + o.getStatus() + "</td>");
                                 out.println("<td>" + o.getComments() + "</td>");
                                 out.println("<td>" + o.getCustomernumber() + "</td>");
-                                out.println("<td><a href=\"EmployeeController?id=" + o.getId() + "\">Update</a></td>");
-                                out.println("<td><a href=\"EmployeeController?id=" + o.getId() + "\">Delete</a></td>");
                                 out.println("</tr>");
                             }
                         } else {
