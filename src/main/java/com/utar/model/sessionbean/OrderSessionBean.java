@@ -26,7 +26,7 @@ public interface OrderSessionBean {
 
     List<Order> readOrder(int currentPage, int recordsPerPage, String sql) throws EJBException;
 
-    List<Orderdetail> readOrderdetail(int ordernumber) throws EJBException;
+    List<Orderdetail> readOrderdetail(int currentPage, int recordsPerPage, String sql) throws EJBException;
 
     void updateOrder(int ordernumber, String requiredDate, String shippedDate, String status, String comments) throws EJBException;
 

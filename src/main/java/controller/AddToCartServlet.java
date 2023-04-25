@@ -56,8 +56,8 @@ public class AddToCartServlet extends HttpServlet {
             System.out.println("Error adding order details");
         }
 
-        List<Orderdetail> orderdetails = orderSessionBean.readOrderdetail(ordernumber);
-        session.setAttribute("cart_list", orderdetails);
+//        List<Orderdetail> orderdetails = orderSessionBean.readOrderdetail();
+//        session.setAttribute("cart_list", orderdetails);
 
         PrintWriter out = response.getWriter();
         out.println("<h1>Added to cart</h1>");

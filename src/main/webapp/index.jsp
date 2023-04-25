@@ -63,7 +63,7 @@
                 <div class="col-md-6 col-sm-6">
                     <div class="top-header-left text-right">
                         <a href="Profile?currentPage=1&recordsPerPage=20&direction=asc">Edit Profile</a>
-                        <a href="Cart.jsp">Cart (<%= ((ArrayList<Orderdetail>)session.getAttribute("cart_list")) != null ? ((ArrayList<Orderdetail>)session.getAttribute("cart_list")).size() : 0%>) </a>
+<%--                        <a href="Cart.jsp">Cart (<%= ((ArrayList<Orderdetail>)session.getAttribute("cart_list")) != null ? ((ArrayList<Orderdetail>)session.getAttribute("cart_list")).size() : 0%>) </a>--%>
                         <a href="LoginServlet?action=logout">Logout</a>
 
                     </div> <!-- /.top-header-left -->
@@ -89,7 +89,8 @@
                             <li><a href="index.html">Shop</a></li>
                             <li><a href="ProductPaginationServlet?currentPage=1&recordsPerPage=12&admin=false&keyword=&sort=ASC">Catalogs</a></li>
                             <li><a href="ProductlineDisplayServlet?currentPage=1&recordsPerPage=12&&keyword=&sort=ASC">Productline</a></li>
-                            <li><a href="OrderServlet?currentPage=1&recordsPerPage=20&sortBy=ordernumber&direction=asc">Order Details</a></li>
+                            <li><a href="OrderServlet?currentPage=1&recordsPerPage=20&sortBy=ordernumber&direction=asc">View Orders</a></li>
+                            <li><a href="OrderdetailServlet?currentPage=1&recordsPerPage=20&sortBy=ordernumber&direction=asc">View Order Details</a></li>
                             <li><a href="PaymentServlet?currentPage=1&recordsPerPage=20&direction=asc">Payment Details</a></li>
                             <li><a href="contact.html">Contact</a></li>
                             <li><a href="adminProductPage.html">Product Edit</a></li>

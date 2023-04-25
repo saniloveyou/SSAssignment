@@ -114,10 +114,10 @@ public class OrderSession implements OrderSessionBean{
     }
 
     @Override
-    public List<Orderdetail> readOrderdetail(int ordernumber) throws EJBException {
-        Query query = entityManager.createNativeQuery("SELECT * FROM classicmodels.orderdetails WHERE ordernumber = :ordernumber ORDER BY orderlinenumber", Orderdetail.class);
-        query.setParameter("ordernumber", ordernumber);
-        return query.getResultList();
+    public List<Orderdetail> readOrderdetail(int currentPage, int recordsPerPage, String sql) throws EJBException {
+        Query query = entityManager.createNativeQuery(sql, Orderdetail.class);
+        int start = currentPage * recordsPerPage - recordsPerPage;
+        return query.setFirstResult(start).setMaxResults(recordsPerPage).getResultList();
     }
 
 
