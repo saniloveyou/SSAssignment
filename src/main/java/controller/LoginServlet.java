@@ -29,7 +29,7 @@ public class LoginServlet extends HttpServlet {
             HttpSession httpSession = request.getSession();
             httpSession.invalidate();
             try {
-                response.sendRedirect("Login.jsp");
+                response.sendRedirect("index.html");
             } catch (IOException e) {
                 e.printStackTrace();
             }

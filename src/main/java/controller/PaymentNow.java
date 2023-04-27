@@ -74,12 +74,16 @@ public class PaymentNow extends HttpServlet {
         String[]  s = {String.valueOf(c.getId()), String.valueOf(check), today,total};
         paymentbean.addPayment(s);
 
-//        //getting error on this section
-//        try {
-//            orderbean.addOrder(c.getId(),requiredate);
-//        } catch (ParseException e) {
-//            e.printStackTrace();
-//        }
+        int check1 = orderbean.getNextOrderNumber();
+        String today1 = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+        Date date1 = new Date();
+        long t1 = date1.getTime();
+        Date aftersixDays1 = new Date(t1 + (6 * 24 * 3600 * 1000));
+        String requiredate1 = new SimpleDateFormat("yyyy-MM-dd").format(aftersixDays1);
+
+        String[] s1 = {String.valueOf(check1), today1, requiredate1,requiredate1,"Shipped","0",String.valueOf(c.getId())};
+
+        orderbean.addit(s1);
 
         RequestDispatcher dispatcher = request.getRequestDispatcher("paymentsuccesfull.jsp");
         dispatcher.forward(request, response);

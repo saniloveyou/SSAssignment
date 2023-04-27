@@ -89,14 +89,12 @@ public class PaymentServlet extends HttpServlet {
                 lists = paymentSessionBean.findPaymentCustomer(category);
             }else {
                 try {
-
                     currentPage = Integer.parseInt(request.getParameter("currentPage"));
                     recordsPerPage = Integer.parseInt(request.getParameter("recordsPerPage"));
                     int rows = paymentSessionBean.getNumberOfRows();
                     nOfpages = (rows + recordsPerPage - 1) / recordsPerPage;
                     currentPage = Math.min(currentPage, nOfpages);
                     direction = request.getParameter("direction");
-
                     lists = paymentSessionBean.readpaymentdetails(currentPage, recordsPerPage, direction);
 
                 } catch (Exception e) {
