@@ -12,13 +12,17 @@
 <%@ page import="java.util.List" %>
 
 <!DOCTYPE html>
-<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]><html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]><html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<!--[if lt IE 7]>
+<html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>
+<html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>
+<html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js"> <!--<![endif]-->
 <head>
     <meta charset="utf-8">
-    <title>Kool Store | Products</title>
+    <title>Products</title>
 
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
@@ -40,13 +44,11 @@
             border-top: 0;
             padding: 20px 20px 15px 20px;
         }
-        .pageref {
-            text-align: center;
-            font-weight: bold;
-        }
+
         .product-content h5 {
             text-transform: none;
         }
+
         form {
             padding: 15px;
         }
@@ -56,7 +58,9 @@
 </head>
 <body>
 <!--[if lt IE 7]>
-<p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+<p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
+    your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to
+    improve your experience.</p>
 <![endif]-->
 
 
@@ -66,8 +70,7 @@
             <div class="row">
                 <div class="col-md-6 col-sm-6">
                     <div class="top-header-left">
-                        <a href="#">Sign Up</a>
-                        <a href="#">Log In</a>
+                        <a href="Logout.jsp">Logout</a>
                     </div> <!-- /.top-header-left -->
                 </div> <!-- /.col-md-6 -->
                 <div class="col-md-6 col-sm-6">
@@ -116,8 +119,11 @@
                     <div class="list-menu">
                         <ul>
                             <li><a href="index.html">Shop</a></li>
-                            <li><a href="ProductPaginationServlet?currentPage=1&recordsPerPage=12&admin=false&keyword=&sort=ASC">Catalogs</a></li>
-                            <li><a href="ProductlineDisplayServlet?currentPage=1&recordsPerPage=12&&keyword=&sort=ASC">Productline</a></li>
+                            <li>
+                                <a href="ProductPaginationServlet?currentPage=1&recordsPerPage=12&admin=false&keyword=&sort=ASC">Catalogs</a>
+                            </li>
+                            <li><a href="ProductlineDisplayServlet?currentPage=1&recordsPerPage=12&&keyword=&sort=ASC">Productline</a>
+                            </li>
                             <li><a href="contact.html">Contact</a></li>
                             <li><a href="adminProductPage.html">Product Edit</a></li>
                         </ul>
@@ -143,26 +149,28 @@
                 String keyword = (String) request.getAttribute("keyword");
                 String sort = (String) request.getAttribute("sort");
             %>
-
-            <form class="form-inline md-form mr-auto mb-4"
-                  action="ProductPaginationServlet" method="get">
-                <input class="form-control mr-sm-2" type="text" aria-label="Search"
-                       name="keyword" />
-                <select class="form-control" id="sort" name="sort">
-                    <option value="ASC">Ascending</option>
-                    <option value="DESC">Descending</option>
-                </select>
-                <button class="btn aqua-gradient btn-rounded btn-sm my-0 btn btn-info"
-                        type="submit">Search</button>
-                <input type="hidden" name="currentPage" value="<%=currentPage%>" />
-                <input type="hidden" name="recordsPerPage" value="<%=recordsPerPage%>" />
-                <input type="hidden" name="admin" value="false"/>
-            </form>
+            <nav class="navbar navbar-light bg-light" style="margin: 0">
+                <form class="form-inline md-form mr-auto mb-4"
+                      action="ProductPaginationServlet" method="get">
+                    <input class="form-control mr-sm-2" type="text" aria-label="Search"
+                           name="keyword"/>
+                    <select class="form-control" id="sort" name="sort">
+                        <option value="ASC">Ascending</option>
+                        <option value="DESC">Descending</option>
+                    </select>
+                    <button class="btn aqua-gradient btn-rounded btn-sm my-0 btn btn-info"
+                            type="submit">Search
+                    </button>
+                    <input type="hidden" name="currentPage" value="<%=currentPage%>"/>
+                    <input type="hidden" name="recordsPerPage" value="<%=recordsPerPage%>"/>
+                    <input type="hidden" name="admin" value="false"/>
+                </form>
+            </nav>
 
             <%
                 List<Product> products = (List<Product>) request.getAttribute("products");
                 if (products.size() != 0) {
-                    for (Product p:products){
+                    for (Product p : products) {
             %>
 
             <div class="col-md-3">
@@ -171,66 +179,69 @@
                         <img src="images/<%=p.getProductline().getId()%>.jpg" alt="Product Title">
                     </div> <!-- /.product-thumb -->
                     <div class="product-content">
-                        <h5><a href="ProductController?display=product&id=<%=p.getId()%>"><%=p.getProductname()%></a></h5>
+                        <h5><a href="ProductController?display=product&id=<%=p.getId()%>"><%=p.getProductname()%>
+                        </a></h5>
                         <span class="tagline"><%=p.getProductline().getId()%></span>
                         <span class="price">RM <%=p.getMsrp()%></span>
-                        <p><%=p.getProductdescription()%></p>
+                        <p><%=p.getProductdescription()%>
+                        </p>
                     </div> <!-- /.product-content -->
                 </div> <!-- /.product-item -->
             </div> <!-- /.col-md-3 -->
-            <%      }
-                 }else{%>
+            <% }
+            } else {%>
         </div> <!-- /.row -->
         <h1>No relevant product found</h1>
         <%}%>
-        <nav>
-            <ul class="pagination">
-                <%
-
-                    if (currentPage != 1 && nOfPages != 0) {
-                    out.println("<li class=\"page-item\">");
-
-                    //&admin=true might affect going to next page
-                    out.println("<a class=\"page-link\" href=\"" + "ProductPaginationServlet?admin=false&recordsPerPage=" + recordsPerPage
-                            + "&currentPage=1" + "&keyword=" + keyword + "&sort="  +
-                            sort +"\">First</a>");
-                    out.println("</li>");
-                %>
-                <li class="page-item">
-                    <%
-                        out.println("<a class=\"page-link\" href=\"" + "ProductPaginationServlet?admin=false&recordsPerPage=" + recordsPerPage
-                                + "&currentPage=" + (currentPage - 1) + "&keyword=" + keyword + "&sort="  +
-                                sort +"\">Previous</a>");
-                    %>
-                </li>
-                <%
-                    }
-                %>
-                <%
-                    if (currentPage < nOfPages) {
-                        out.println("<li class=\"page-item\">");
-                        out.println("<a class=\"page-link\" href=\"" + "ProductPaginationServlet?admin=false&recordsPerPage=" + recordsPerPage
-                                + "&currentPage=" + (currentPage + 1) + "&keyword=" + keyword + "&sort="  +
-                                sort + "\">Next</a>");
-                        out.println("</li>");
-                        out.println("<li class=\"page-item\">");
-                        out.println("<a class=\"page-link\" href=\"" + "ProductPaginationServlet?admin=false&recordsPerPage=" + recordsPerPage
-                                + "&currentPage=" + nOfPages + "&keyword=" + keyword +"&sort="  +
-                                sort + "\">Last</a>");
-                        out.println("</li>");
-                    }
-                %>
-            </ul>
-        </nav>
-        <%
-            if (nOfPages != 0) {
-                out.println("<p class=\"pageref\">");
-                out.println("Page " + currentPage + " of " + nOfPages);
-                out.println("</p>");
-            }
-        %>
     </div> <!-- /.container -->
 </div> <!-- /.content-section -->
+
+<!-- Navigation of the page -->
+<div>
+    <ul style="list-style-type: none; display: flex;
+            flex-direction: row; justify-content: center;
+            align-items: center">
+        <%
+            if (currentPage != 1 && nOfPages != 0) {
+                out.println("<li style=\"padding-right: 50px\">");
+
+                //&admin=true might affect going to next page
+                out.println("<a class=\"page-link\" href=\"" + "ProductPaginationServlet?admin=false&recordsPerPage=" + recordsPerPage
+                        + "&currentPage=1" + "&keyword=" + keyword + "&sort=" +
+                        sort + "\">First</a>");
+                out.println("</li>");
+        %>
+        <li style="padding-right: 50px">
+            <%
+                out.println("<a class=\"page-link\" href=\"" + "ProductPaginationServlet?admin=false&recordsPerPage=" + recordsPerPage
+                        + "&currentPage=" + (currentPage - 1) + "&keyword=" + keyword + "&sort=" +
+                        sort + "\">Previous</a>");
+            %>
+        </li>
+        <%
+            }
+            if (currentPage < nOfPages) {
+                out.println("<li style=\"padding-right: 50px\">");
+                out.println("<a class=\"page-link\" href=\"" + "ProductPaginationServlet?admin=false&recordsPerPage=" + recordsPerPage
+                        + "&currentPage=" + (currentPage + 1) + "&keyword=" + keyword + "&sort=" +
+                        sort + "\">Next</a>");
+                out.println("</li>");
+                out.println("<li style=\"padding-right: 50px\">");
+                out.println("<a class=\"page-link\" href=\"" + "ProductPaginationServlet?admin=false&recordsPerPage=" + recordsPerPage
+                        + "&currentPage=" + nOfPages + "&keyword=" + keyword + "&sort=" +
+                        sort + "\">Last</a>");
+                out.println("</li>");
+            }
+        %>
+    </ul>
+</div>
+<%
+    if (nOfPages != 0) {
+        out.println("<p style=\"text-align: center; justify-content: center\">");
+        out.println("Page " + currentPage + " of " + nOfPages);
+        out.println("</p>");
+    }
+%>
 
 
 <footer class="site-footer">
@@ -250,8 +261,10 @@
                 <div class="col-md-3">
                     <div class="footer-widget">
                         <h3 class="widget-title">Why Choose Us?</h3>
-                        Kool Store is free responsive eCommerce template provided by templatemo website. You can use this layout for any website.
-                        <br><br>Tempore cum mollitia eveniet laboriosam corporis voluptas earum voluptate. Lorem ipsum dolor sit amet.
+                        Kool Store is free responsive eCommerce template provided by templatemo website. You can use
+                        this layout for any website.
+                        <br><br>Tempore cum mollitia eveniet laboriosam corporis voluptas earum voluptate. Lorem ipsum
+                        dolor sit amet.
                         <br><br>Credit goes to <a rel="nofollow" href="http://unsplash.com">Unsplash</a> for all images.
                     </div> <!-- /.footer-widget -->
                 </div> <!-- /.col-md-3 -->
@@ -286,14 +299,16 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12 text-center">
-                    <span>Copyright &copy; 2084 <a href="#">Company Name</a> | Design: <a href="http://www.templatemo.com">templatemo</a></span>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium, expedita soluta mollitia accusamus ut architecto maiores cum fugiat. Pariatur ipsum officiis fuga deleniti alias quia nostrum veritatis enim doloremque eligendi?</p>
+                    <span>Copyright &copy; 2084 <a href="#">Company Name</a> | Design: <a
+                            href="http://www.templatemo.com">templatemo</a></span>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium, expedita soluta mollitia
+                        accusamus ut architecto maiores cum fugiat. Pariatur ipsum officiis fuga deleniti alias quia
+                        nostrum veritatis enim doloremque eligendi?</p>
                 </div> <!-- /.col-md-12 -->
             </div> <!-- /.row -->
         </div> <!-- /.container -->
     </div> <!-- /.bottom-footer -->
 </footer> <!-- /.site-footer -->
-
 
 
 <script src="js/vendor/jquery-1.10.1.min.js"></script>

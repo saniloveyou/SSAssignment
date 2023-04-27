@@ -9,7 +9,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Product catalog for admin </title>
+    <title>Product Catalog for Admin</title>
     <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800" rel="stylesheet">
 
     <link rel="stylesheet" href="css/bootstrap.css">
@@ -20,6 +20,13 @@
     <link rel="stylesheet" href="css/templatemo-style.css">
 
     <script src="js/vendor/modernizr-2.6.2.min.js"></script>
+
+    <style>
+        /* Set the content in the table to centered */
+        table th, td {
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
 <!--[if lt IE 7]>
@@ -33,8 +40,7 @@
             <div class="row">
                 <div class="col-md-6 col-sm-6">
                     <div class="top-header-left">
-                        <a href="#">Sign Up</a>
-                        <a href="#">Log In</a>
+                        <a href="Logout.jsp">Logout</a>
                     </div> <!-- /.top-header-left -->
                 </div> <!-- /.col-md-6 -->
                 <div class="col-md-6 col-sm-6">
@@ -138,6 +144,8 @@
                     <th>Quantity in Stock</th>
                     <th>Buy Price</th>
                     <th>MSRP</th>
+                    <th>Update</th>
+                    <th>Delete</th>
                 </tr>
                 <%
                     List<Product> products = (List<Product>) request.getAttribute("products");
@@ -162,53 +170,54 @@
             <%}%>
             </table>
         </div> <!-- /.row -->
-        <nav aria-label="Navigation for staffs">
-            <ul class="pagination">
-                <%
-                    if (currentPage != 1 && nOfPages != 0) {
-                %>
-                <%
-                    out.println("<li class=\"page-item\">");
-                    out.println("<a class=\"page-link\" href=\"" + "ProductPaginationServlet?admin=true&recordsPerPage=" + recordsPerPage
-                            + "&currentPage=1" + "&keyword=" + keyword +"&sort="  +
-                            sort +"\">First</a>");
-                    out.println("</li>");
-                %>
-                <li class="page-item">
-                    <%
-                        out.println("<a class=\"page-link\" href=\"" + "ProductPaginationServlet?admin=true&recordsPerPage=" + recordsPerPage
-                                + "&currentPage=" + (currentPage - 1) + "&keyword=" + keyword +"&sort="  +
-                                sort +"\">Previous</a>");
-                    %>
-                </li>
-                <%
-                    }
-                %>
-                <%
-                    if (currentPage < nOfPages) {
-                        out.println("<li class=\"page-item\">");
-                        out.println("<a class=\"page-link\" href=\"" + "ProductPaginationServlet?admin=true&recordsPerPage=" + recordsPerPage
-                                + "&currentPage=" + (currentPage + 1) + "&keyword=" + keyword +"&sort="  +
-                                sort +"\">Next</a>");
-                        out.println("</li>");
-                        out.println("<li class=\"page-item\">");
-                        out.println("<a class=\"page-link\" href=\"" + "ProductPaginationServlet?admin=true&recordsPerPage=" + recordsPerPage
-                                + "&currentPage=" + nOfPages + "&keyword=" + keyword +"&sort="  +
-                                sort +"\">Last</a>");
-                        out.println("</li>");
-                    }
-                %>
-            </ul>
-        </nav>
-        <%
-            if (nOfPages != 0) {
-                out.println("<p class=\"pageref\">");
-                out.println("Page " + currentPage + " of " + nOfPages);
-                out.println("</p>");
-            }
-        %>
     </div> <!-- /.container -->
 </div> <!-- /.content-section -->
+
+<div>
+    <ul  style="list-style-type: none; display: flex;
+            flex-direction: row; justify-content: center;
+            align-items: center">
+        <%
+            if (currentPage != 1 && nOfPages != 0) {
+        %>
+        <%
+            out.println("<li style=\"padding-right: 50px\">");
+            out.println("<a class=\"page-link\" href=\"" + "ProductPaginationServlet?admin=true&recordsPerPage=" + recordsPerPage
+                    + "&currentPage=1" + "&keyword=" + keyword +"&sort="  +
+                    sort +"\">First</a>");
+            out.println("</li>");
+        %>
+        <li style="padding-right: 50px">
+            <%
+                out.println("<a class=\"page-link\" href=\"" + "ProductPaginationServlet?admin=true&recordsPerPage=" + recordsPerPage
+                        + "&currentPage=" + (currentPage - 1) + "&keyword=" + keyword +"&sort="  +
+                        sort +"\">Previous</a>");
+            %>
+        </li>
+        <%
+            }
+            if (currentPage < nOfPages) {
+                out.println("<li style=\"padding-right: 50px\">");
+                out.println("<a class=\"page-link\" href=\"" + "ProductPaginationServlet?admin=true&recordsPerPage=" + recordsPerPage
+                        + "&currentPage=" + (currentPage + 1) + "&keyword=" + keyword +"&sort="  +
+                        sort +"\">Next</a>");
+                out.println("</li>");
+                out.println("<li style=\"padding-right: 50px\">");
+                out.println("<a class=\"page-link\" href=\"" + "ProductPaginationServlet?admin=true&recordsPerPage=" + recordsPerPage
+                        + "&currentPage=" + nOfPages + "&keyword=" + keyword +"&sort="  +
+                        sort +"\">Last</a>");
+                out.println("</li>");
+            }
+        %>
+    </ul>
+</div>
+<%
+    if (nOfPages != 0) {
+        out.println("<p style=\"text-align: center; justify-content: center\">");
+        out.println("Page " + currentPage + " of " + nOfPages);
+        out.println("</p>");
+    }
+%>
 
 </body>
 </html>

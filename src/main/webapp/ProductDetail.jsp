@@ -121,12 +121,10 @@
                     </p>
                     <ul class="product-buttons">
                         <li>
-<%--                            set the product in session--%>
-                            <% request.getSession().setAttribute("product", p); %>
-                            <a href="PaymentNow" class="main-btn">Buy Now</a>
+                            <a href="#" class="main-btn">Buy Now</a>
                         </li>
                         <li>
-                            <a href="AddToCartServlet?productcode=<%=p.getId()%>" class="main-btn">Add to Cart</a>
+                            <a href="#" class="main-btn">Add to Cart</a>
                         </li>
                     </ul>
                 </div> <!-- /.product-information -->
@@ -134,8 +132,6 @@
         </div> <!-- /.row -->
     </div> <!-- /.container -->
 </div> <!-- /.content-section -->
-
-
 
 
 <footer class="site-footer">

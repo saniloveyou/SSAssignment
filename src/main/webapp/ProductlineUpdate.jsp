@@ -9,66 +9,65 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="ISO-8859-1">
-    <title>Update Product Information</title>
+    <meta charset="UTF-8">
+    <title>Update Product Line Information</title>
+
+    <!-- CSS links -->
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          rel="stylesheet">
     <style>
-        table {
-            font-family: arial, sans-serif;
-            border-collapse: collapse;
-            width: 100%;
+        .form-wrapper {
+            width: 40%;
+            margin: 1rem auto 10rem;
+
         }
-        td, th {
-            border: 1px solid #dddddd;
-            text-align: left;
-            padding: 8px;
-        }
-        tr:nth-child(even) {
-            background-color: #dddddd;
+
+        .right {
+            float: right;
         }
     </style>
+
+    <script src="js/vendor/modernizr-2.6.2.min.js"></script>
 </head>
 <body>
-
 <%
     Productline productline = (Productline) request.getAttribute("productline");
 %>
-<form action="ProductlineController" method="post">
-    <table>
-        <tr>
-            <td>Productline</td>
-            <td>
-                <%
-                    out.println("<textarea name=\"productline\" cols=\"50\" >" + productline.getId() +"</textarea>");
-                %>
-            </td>
-        </tr>
-        <tr>
-            <td>Text Description</td>
-            <td>
-                <%
-                    out.println("<textarea name=\"textDescription\" cols=\"50\" >" + productline.getTextdescription() +"</textarea>");
-                %>
-            </td>
-        </tr>
-        <tr>
-            <td>HTML Description</td>
-            <td>
-                <%
-                    out.println("<textarea name=\"htmlDescription\" cols=\"50\" >" + productline.getHtmldescription() +"</textarea>");
-                %>
-            </td>
-        </tr>
-        <tr>
-            <td>Image</td>
-            <td>
-                <%
-                    out.println("<input type=\"text\" name=\"image\" " + productline.getImage() +">");
-                %>
-            </td>
-        </tr>
-    </table>
-    <input type="submit" name="UPDATE" value="UPDATE" />
-    <input type="submit" name="DELETE" value="DELETE" />
-</form>
+<div class="form-wrapper">
+    <form action="ProductlineController" method="post">
+        <div class="row justify-content-center">
+            <h3>Update Product Line Form</h3>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-4 col-form-label">Product Line: </label>
+            <%
+                out.println("<textarea name=\"productline\" id=\"productline\" cols=\"50\" >" + productline.getId() + "</textarea>");
+            %>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-4 col-form-label">Text Description: </label>
+            <%
+                out.println("<textarea name=\"textDescription\" id=\"textDescription\" cols=\"50\" >" + productline.getTextdescription() + "</textarea>");
+            %>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-4 col-form-label">HTML Description: </label>
+            <%
+                out.println("<textarea name=\"htmlDescription\" id=\"htmlDescription\" cols=\"50\" >" + productline.getHtmldescription() + "</textarea>");
+            %>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-4 col-form-label">Image: </label>
+            <%
+                out.println("<input type=\"text\" name=\"image\" id=\"image\" " + productline.getImage() + ">");
+            %>
+        </div>
+        <div class="right">
+            <button class="btn btn-primary" type="update">Update</button>
+        </div>
+    </form>
+</div>
 </body>
 </html>
