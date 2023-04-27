@@ -41,9 +41,15 @@ public class LoginServlet extends HttpServlet {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 
-        if (loginSessionBean.authenticate(username, password))
+        if( username.equals("admin") && loginSessionBean.authenticate(username, password)){
+            HttpSession httpSession = request.getSession();
+            httpSession.setAttribute("username", username);
+            httpSession.setAttribute("user_role", loginSessionBean.getUserRole(username));
+            response.sendRedirect("SuccesfullLogin.jsp");
+            return;
+        }
+       else if (loginSessionBean.authenticate(username, password))
         {
-
             HttpSession httpSession = request.getSession();
             httpSession.setAttribute("username", username);
             httpSession.setAttribute("user_role", loginSessionBean.getUserRole(username));

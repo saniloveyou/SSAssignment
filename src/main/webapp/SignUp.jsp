@@ -73,10 +73,35 @@
 String customernumber = session.getAttribute("customernumber").toString();
 %>
 
+<style>
+    #btnuser {
+        background-color: green;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+    #btnuser.green {
+        background-color: red;
+    }
+
+</style>
+
 <body>
+
+
+
+
+
+
 <div class="container">
-    <h1>Sign Up</h1>
+    <div style="text-align: center; ;">
+        <h1 style="display: inline-block;" >Sign Up</h1>
+    </div>
     <form action="SignUp" method="post">
+
 
         <div class="input-group">
             <div class="input-row1">
@@ -131,8 +156,22 @@ String customernumber = session.getAttribute("customernumber").toString();
     </form>
 
     <script>
+
         document.getElementById("ids").value = <%=customernumber%>;
+        var button = document.getElementById("btnuser");
+
+        button.addEventListener("click", function() {
+            if (button.classList.contains("green")) {
+                button.classList.remove("green");
+                button.value = "admin";
+            } else {
+                button.classList.add("green");
+                button.value = "user";
+
+            }
+        });
     </script>
+
 
 </div>
 </body>

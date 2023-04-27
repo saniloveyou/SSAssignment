@@ -49,12 +49,13 @@
                     <div class="top-header-left">
                         <%
                             Customer customer = session.getAttribute("customer") == null ? null : (Customer) session.getAttribute("customer");
-                            if(customer != null){
+                            String username = session.getAttribute("username") == null ? null : (String) session.getAttribute("username");
+                            if(username != null){
                         %>
-                        <p style="color: black">Welcome, <b><%=customer.getCustomername()%></b></p>
+                        <p style="color: black">Welcome, <b><%=customer == null ? "Admin" : customer.getCustomername()%></b></p>
                         <%} else {%>
-                            <a href="SignUp">Sign Up</a>
-                            <a href="Login.jsp">Log In</a>
+                        <a href="SignUp">Sign Up</a>
+                        <a href="Login.jsp">Log In</a>
 
                         <%}%>
                     </div> <!-- /.top-header-left -->
