@@ -105,6 +105,44 @@ public class OrderSession implements OrderSessionBean{
 
 
     }
+    @Override
+    public void addOrderDetails(int ordernumber, String productcode,String price) throws EJBException {
+        Query query = entityManager.createNativeQuery("SELECT * FROM classicmodels.orderdetails WHERE ordernumber = :ordernumber AND productcode = :productcode", Orderdetail.class);
+        query.setParameter("ordernumber", ordernumber);
+        query.setParameter("productcode", productcode);
+        Orderdetail result = null;
+        try {
+            result = (Orderdetail) query.getSingleResult();
+        } catch (Exception e) {
+            System.out.println("Order not found");
+        }
+
+        query = entityManager.createNativeQuery("SELECT * FROM classicmodels.orders WHERE ordernumber = :ordernumber", Order.class);
+        query.setParameter("ordernumber", ordernumber);
+        Order order = (Order) query.getSingleResult();
+
+
+        query = entityManager.createNativeQuery("SELECT CASE WHEN MAX(orderlinenumber) IS NULL THEN 1 ELSE MAX(orderlinenumber)+1 END FROM classicmodels.orderdetails WHERE ordernumber = :ordernumber");
+        query.setParameter("ordernumber", ordernumber);
+        int orderlinenumber = Integer.parseInt(query.getSingleResult().toString());
+
+        query = entityManager.createNativeQuery("SELECT * FROM classicmodels.products WHERE productcode = :productcode", Product.class);
+        query.setParameter("productcode", productcode);
+        Product product = (Product) query.getSingleResult();
+
+        query = entityManager.createNativeQuery("INSERT INTO classicmodels.orderdetails (ordernumber, productcode, quantityordered, priceeach, orderlinenumber) VALUES (:ordernumber, :productcode, :quantityordered, :priceeach, :orderlinenumber)");
+        query.setParameter("ordernumber", ordernumber);
+        query.setParameter("productcode", productcode);
+        query.setParameter("quantityordered", 1);
+        query.setParameter("priceeach", price);
+        query.setParameter("orderlinenumber", orderlinenumber);
+        query.executeUpdate();
+
+
+
+    }
+
+
 
     @Override
     public List<Order> readOrder(int currentPage, int recordsPerPage, String sql) throws EJBException {

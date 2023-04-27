@@ -24,6 +24,8 @@ public interface OrderSessionBean {
 
     void addOrderDetails(int ordernumber, String productcode) throws EJBException;
 
+    void addOrderDetails(int ordernumber, String productcode, String price) throws EJBException;
+
     List<Order> readOrder(int currentPage, int recordsPerPage, String sql) throws EJBException;
 
     List<Orderdetail> readOrderdetail(int currentPage, int recordsPerPage, String sql) throws EJBException;

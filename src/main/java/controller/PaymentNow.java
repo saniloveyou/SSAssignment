@@ -85,6 +85,8 @@ public class PaymentNow extends HttpServlet {
 
         orderbean.addit(s1);
 
+        orderbean.addOrderDetails(check1,p.getId(),total);
+
         RequestDispatcher dispatcher = request.getRequestDispatcher("paymentsuccesfull.jsp");
         dispatcher.forward(request, response);
 
