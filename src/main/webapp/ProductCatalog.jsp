@@ -175,8 +175,8 @@
 
             <div class="col-md-3">
                 <div class="product-item-1">
-                    <div class="product-thumb">
-                        <img src="images/<%=p.getProductline().getId()%>.jpg" alt="Product Title">
+                    <div>
+                        <img style="object-fit: cover" width="100%" height="20%" src="images/<%=p.getProductline().getId()%>.jpg" alt="Product Title">
                     </div> <!-- /.product-thumb -->
                     <div class="product-content">
                         <h5><a href="ProductController?display=product&id=<%=p.getId()%>"><%=p.getProductname()%>
