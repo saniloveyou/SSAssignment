@@ -43,7 +43,13 @@ public class AddToCartServlet extends HttpServlet {
 
         HttpSession session = request.getSession();
         Customer customer = (Customer) session.getAttribute("customer");
-        String customernumber = customer.getId().toString();
+        String customernumber = "";
+        try {
+            customernumber = String.valueOf(customer.getId());
+        } catch (Exception e) {
+            RequestDispatcher dispatcher = request.getRequestDispatcher("Login.jsp");
+            dispatcher.forward(request, response);
+        }
         String productcode = request.getParameter("productcode");
 
         System.out.println("customernumber: " + customernumber);

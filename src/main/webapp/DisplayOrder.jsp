@@ -3,6 +3,7 @@
 <%@ page import="com.utar.model.sessionbean.OrderSessionBean" %>
 <%@ page import="javax.ejb.EJB" %>
 <%@ page import="java.util.Arrays" %>
+<%@ page import="com.utar.model.entity.Customer" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 
 <!DOCTYPE html>
@@ -37,6 +38,22 @@
 </head>
 <body>
 <%
+
+    Customer cust = session.getAttribute("customer") == null ? null : (Customer) session.getAttribute("customer");
+    String user = session.getAttribute("username") == null ? null : (String) session.getAttribute("username");
+
+    if(cust == null){
+        response.sendRedirect("Login.jsp");
+        return;
+    }
+
+    if (!user.equals("admin")){
+        response.sendRedirect("adminprompt.jsp");
+        return;
+    }
+
+
+
     int nOfPages = (int) request.getAttribute("nOfPages");
     int currentPage = (int) request.getAttribute("currentPage");
     int recordsPerPage = (int) request.getAttribute("recordsPerPage");
@@ -66,24 +83,30 @@
             <div class="row">
                 <div class="col-md-6 col-sm-6">
                     <div class="top-header-left">
-                        <a href="SignUp.jsp">Sign Up</a>
+                        <%
+                            Customer customer = session.getAttribute("customer") == null ? null : (Customer) session.getAttribute("customer");
+                            String username = session.getAttribute("username") == null ? null : (String) session.getAttribute("username");
+                            if(username != null){
+                        %>
+                        <p style="color: black">Welcome, <b><%=username ==  "admin" ? "admin" : customer.getCustomername()%></b></p>
+                        <%} else {%>
+                        <a href="SignUp">Sign Up</a>
                         <a href="Login.jsp">Log In</a>
+
+                        <%}%>
                     </div> <!-- /.top-header-left -->
                 </div> <!-- /.col-md-6 -->
-            </div> <!-- /.row -->
-        </div> <!-- /.container -->
+                <div class="col-md-6 col-sm-6">
+                    <div class="top-header-left text-right">
+                        <a href="Profile?currentPage=1&recordsPerPage=20&direction=asc">Edit Profile</a>
+                        <a href="CartServlet">Cart (<%= session.getAttribute("cartcount") == null ? 0 : session.getAttribute("cartcount")%>) </a>
+                        <a href="LoginServlet?action=logout">Logout</a>
+                    </div> <!-- /.top-header-left -->
+                </div> <!-- /.col-md-6 -->
+            </div> <!-- /.col-md-6 -->
+        </div> <!-- /.row -->
+    </div> <!-- /.container -->
     </div> <!-- /.top-header -->
-    <div class="main-header">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4 col-sm-6 col-xs-8">
-                    <div class="logo">
-                        <h1><a href="#"><b>Kool Store</b></a></h1>
-                    </div> <!-- /.logo -->
-                </div> <!-- /.col-md-4 -->
-            </div> <!-- /.row -->
-        </div> <!-- /.container -->
-    </div> <!-- /.main-header -->
     <div class="main-nav">
         <div class="container">
             <div class="row">
@@ -96,7 +119,7 @@
                             <li><a href="adminProductPage.html">Product Edit</a></li>
                             <li><a href="OrderServlet?currentPage=1&recordsPerPage=20&sortBy=ordernumber&direction=asc">Order Details</a></li>
                             <li><a href="OrderdetailServlet?currentPage=1&recordsPerPage=20&sortBy=ordernumber&direction=asc">View Order Details</a></li>
-                            <li><a href="PaymentServlet">Order payment</a></li>
+                            <li><a href="PaymentServlet?currentPage=1&recordsPerPage=20&direction=asc">Payment Details</a></li>
                             <li><a href="contact.html">Contact</a></li>
                         </ul>
                     </div> <!-- /.list-menu -->
@@ -104,7 +127,7 @@
             </div> <!-- /.row -->
         </div> <!-- /.container -->
     </div> <!-- /.main-nav -->
-</header>
+</header> <!-- /.site-header -->
 
 <div class="content-section">
     <div class="container">

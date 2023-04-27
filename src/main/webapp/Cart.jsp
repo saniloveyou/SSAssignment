@@ -2,6 +2,7 @@
 <%@page import="java.text.DecimalFormat"%>
 <%@ page import="Cart.Cart" %>
 <%@ page import="com.utar.model.entity.Orderdetail" %>
+<%@ page import="com.utar.model.entity.Customer" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%
     DecimalFormat priceFormatter = new DecimalFormat("$#0.00");
@@ -59,6 +60,58 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js" integrity="sha384-Y4oOpwW3duJdCWv5ly8SCFYWqFDsfob/3GkgExXKV4idmbt98QcxXYs9UoXAB7BZ" crossorigin="anonymous"></script>
 </head>
 <body>
+
+<header class="site-header">
+    <div class="top-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-sm-6">
+                    <div class="top-header-left">
+                        <%
+                            Customer customer = session.getAttribute("customer") == null ? null : (Customer) session.getAttribute("customer");
+                            String username = session.getAttribute("username") == null ? null : (String) session.getAttribute("username");
+                            if(username != null){
+                        %>
+                        <p style="color: black">Welcome, <b><%=username ==  "admin" ? "admin" : customer.getCustomername()%></b></p>
+                        <%} else {%>
+                        <a href="SignUp">Sign Up</a>
+                        <a href="Login.jsp">Log In</a>
+
+                        <%}%>
+                    </div> <!-- /.top-header-left -->
+                </div> <!-- /.col-md-6 -->
+                <div class="col-md-6 col-sm-6">
+                    <div class="top-header-left text-right">
+                        <a href="Profile?currentPage=1&recordsPerPage=20&direction=asc">Edit Profile</a>
+                        <a href="CartServlet">Cart (<%= session.getAttribute("cartcount") == null ? 0 : session.getAttribute("cartcount")%>) </a>
+                        <a href="LoginServlet?action=logout">Logout</a>
+                    </div> <!-- /.top-header-left -->
+                </div> <!-- /.col-md-6 -->
+            </div> <!-- /.col-md-6 -->
+        </div> <!-- /.row -->
+    </div> <!-- /.container -->
+    </div> <!-- /.top-header -->
+    <div class="main-nav">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="list-menu">
+                        <ul>
+                            <li><a href="index.html">Shop</a></li>
+                            <li><a href="ProductPaginationServlet?currentPage=1&recordsPerPage=12&admin=false&keyword=&sort=ASC">Catalogs</a></li>
+                            <li><a href="ProductlineDisplayServlet?currentPage=1&recordsPerPage=12&&keyword=&sort=ASC">Productline</a></li>
+                            <li><a href="adminProductPage.html">Product Edit</a></li>
+                            <li><a href="OrderServlet?currentPage=1&recordsPerPage=20&sortBy=ordernumber&direction=asc">Order Details</a></li>
+                            <li><a href="OrderdetailServlet?currentPage=1&recordsPerPage=20&sortBy=ordernumber&direction=asc">View Order Details</a></li>
+                            <li><a href="PaymentServlet?currentPage=1&recordsPerPage=20&direction=asc">Payment Details</a></li>
+                            <li><a href="contact.html">Contact</a></li>
+                        </ul>
+                    </div> <!-- /.list-menu -->
+                </div> <!-- /.col-md-6 -->
+            </div> <!-- /.row -->
+        </div> <!-- /.container -->
+    </div> <!-- /.main-nav -->
+</header> <!-- /.site-header -->
 
 <div class="container my-3">
     <div class="d-flex py-3"><h3>Total Price: <%=priceFormatter.format(total)%> </h3> <a class="mx-3 btn btn-primary" href="#">Check Out</a></div>

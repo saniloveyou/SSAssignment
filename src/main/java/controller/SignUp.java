@@ -84,6 +84,7 @@ public class SignUp extends HttpServlet {
         httpSession.setAttribute("user_role", "user");
         Customer info = customerSessionBean.findcustomer(username);
         httpSession.setAttribute("customer", info);
+
         request.getSession().setAttribute("cartcount", orderSessionBean.cartCount(String.valueOf(info.getId())));
 
     }

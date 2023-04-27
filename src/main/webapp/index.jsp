@@ -52,7 +52,7 @@
                             String username = session.getAttribute("username") == null ? null : (String) session.getAttribute("username");
                             if(username != null){
                         %>
-                        <p style="color: black">Welcome, <b><%=customer == null ? "Admin" : customer.getCustomername()%></b></p>
+                        <p style="color: black">Welcome, <b><%=username ==  "admin" ? "admin" : customer.getCustomername()%></b></p>
                         <%} else {%>
                         <a href="SignUp">Sign Up</a>
                         <a href="Login.jsp">Log In</a>

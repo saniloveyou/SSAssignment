@@ -25,7 +25,7 @@ public class CartServlet extends HttpServlet {
             HttpSession session = request.getSession();
             String user_role = session.getAttribute("user_role").toString();
 
-            if (!user_role.equals("[user]")) {
+            if (!user_role.equals("[user]") && !user_role.equals("user")) {
                 RequestDispatcher dispatcher = request.getRequestDispatcher("adminprompt.jsp");
                 dispatcher.forward(request, response);
                 return;
@@ -38,7 +38,14 @@ public class CartServlet extends HttpServlet {
 
         HttpSession session = request.getSession();
         Customer customer = (Customer) session.getAttribute("customer");
-        String customernumber = String.valueOf(customer.getId());
+        String customernumber = "";
+        try {
+            customernumber = String.valueOf(customer.getId());
+        } catch (Exception e) {
+            RequestDispatcher dispatcher = request.getRequestDispatcher("Login.jsp");
+            dispatcher.forward(request, response);
+            return;
+        }
 
         List<Orderdetail> orderdetails = orderSessionBean.cartList(customernumber);
         request.setAttribute("orderdetails", orderdetails);

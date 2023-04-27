@@ -45,9 +45,16 @@ public class OrderdetailServlet extends HttpServlet {
             if (action.equals("delete")){
                 String ordernumber = request.getParameter("ordernumber");
                 String productcode = request.getParameter("productcode");
+                String only = request.getParameter("only");
                 orderSessionBean.deleteOrderdetail(ordernumber, productcode);
+                Customer customer = (Customer) request.getSession().getAttribute("customer");
+                request.getSession().setAttribute("cartcount", orderSessionBean.cartCount(String.valueOf(customer.getId())));
                 PrintWriter out = response.getWriter();
-                response.sendRedirect("OrderdetailServlet");
+                if (only.equals("quantity")) {
+                    response.sendRedirect("CartServlet");
+                } else {
+                    response.sendRedirect("OrderdetailServlet");
+                }
             }
 
             return;
@@ -142,7 +149,8 @@ public class OrderdetailServlet extends HttpServlet {
             out.println("alert('Order detail updated successfully');");
             out.println("</script>");
 
-            request.getSession().setAttribute("cartcount", orderSessionBean.cartCount(String.valueOf(((Customer) request.getSession().getAttribute("username")).getId())));
+            Customer customer = (Customer) request.getSession().getAttribute("customer");
+            request.getSession().setAttribute("cartcount", orderSessionBean.cartCount(String.valueOf(customer.getId())));
 
             try {
                 String only = request.getParameter("only");
