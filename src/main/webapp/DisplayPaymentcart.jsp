@@ -1,6 +1,10 @@
 <%@ page import="com.utar.model.entity.Product" %>
 <%@ page import="com.utar.model.entity.Customer" %>
 <%@ page import="java.text.DecimalFormat" %>
+<%@ page import="Cart.Cart" %>
+<%@ page import="com.utar.model.entity.Orderdetail" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.ArrayList" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 
 <!doctype html>
@@ -13,6 +17,9 @@
     <link href='https://use.fontawesome.com/releases/v5.7.2/css/all.css' rel='stylesheet'>
     <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
 
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800" rel="stylesheet">
 
     <link rel="stylesheet" href="css/bootstrap.css">
@@ -409,7 +416,11 @@
 <%
     Product p = (Product) request.getSession().getAttribute("product");
     Customer c = (Customer) request.getSession().getAttribute("customer");
-    String quantity = request.getParameter("quantity");
+    List<Orderdetail> cart_list = (List<Orderdetail>) session.getAttribute("orderdetails");
+    int total = 0;
+    for (Orderdetail od : cart_list) {
+        total += (od.getQuantityordered() * od.getPriceeach().doubleValue());
+    }
 
 %>
 
@@ -460,15 +471,24 @@
     </div> <!-- /.main-nav -->
 </header>
 
-<div class="container d-lg-flex">
+
+
+<%
+   int count = 0;
+        for(int i=0;i < cart_list.size();i++){
+
+
+%>
+
+<div id="container-clear" class="container d-lg-flex">
     <div class="box-1 bg-light user">
         <div class="d-flex align-items-center mb-3"><img
                 src="https://images.pexels.com/photos/4925916/pexels-photo-4925916.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
                 class="pic rounded-circle" alt="">
             <p class="ps-2 name"><%=c.getCustomername()%></p></div>
         <div class="box-inner-1 pb-3 mb-3 ">
-            <div class="d-flex justify-content-between mb-3 userdetails"><p class="fw-bold"><%=p.getProductname()%></p>
-                <p class="fw-lighter"><span class="fas fa-dollar-sign"></span><%=p.getMsrp()%></p></div>
+            <div class="d-flex justify-content-between mb-3 userdetails"><p class="fw-bold"><%=cart_list.get(i).getProductcode().getProductname()%></p>
+                <p class="fw-lighter"><span class="fas fa-dollar-sign"></span><%=cart_list.get(i).getPriceeach()%></p></div>
             <div id="my" class="carousel slide carousel-fade img-details" data-bs-ride="carousel"
                  data-bs-interval="2000">
                 <div class="carousel-indicators">
@@ -495,10 +515,10 @@
                     <div class="icon"><span class="fas fa-arrow-right"></span></div>
                     <span class="visually-hidden">Next</span></button>
             </div>
-            <p class="dis my-3 info"><%=p.getProductdescription()%> </p>
-            <p class="dis mb-3 updates"><%=p.getProductline().getId()%></p>
-            <p class="dis mb-3 different">Product Code =  <%=p.getId()%></p>
-            <p class="dis mb-3 different">Quantity in stock = <%=p.getQuantityinstock()%></p>
+            <p class="dis my-3 info"><%=cart_list.get(i).getProductcode().getProductdescription()%> </p>
+            <p class="dis mb-3 updates"><%=cart_list.get(i).getProductcode().getProductline().getId()%></p>
+            <p class="dis mb-3 different">Product Code =  <%=cart_list.get(i).getProductcode().getId()%></p>
+            <p class="dis mb-3 different">Quantity in stock = <%=cart_list.get(i).getQuantityordered()%></p>
             <div class="dis"><p class="black"><span class="fas fa-arrow-right mb-3 pe-2"></span>Black</p>
                 <p class="white"><span class="fas fa-arrow-right mb-3 pe-2"></span>White</p>
                 <p class="pastel"><span class="fas fa-arrow-right mb-3 pe-2"></span>Pastel</p></div>
@@ -506,22 +526,15 @@
         </div>
     </div>
 
+
     <%
-        int random = (int)(Math.random() * 10 + 40);
-
         String address = c.getAddressline1()  +   c.getAddressline2();
-
         DecimalFormat df = new DecimalFormat("0.00");
-
-        float total = p.getMsrp().floatValue() * Integer.parseInt(quantity);
-
-        String totalString = df.format(total - random);
-
-
     %>
 
+    <% if(count ==0) { %>
 
-    <div class="box-2">
+    <div  class="box-2">
         <div class="box-inner-2">
             <div><p class="fw-bold">Payment Details</p>
                 <p class="dis mb-3">Complete your purchase by providing your payment details</p></div>
@@ -549,25 +562,12 @@
                         </select>
                         <div class="d-flex"><input class="form-control zip" type="text" value="<%=c.getPostalcode()%>" placeholder="ZIP"> <input
                                 value="<%=c.getState()%>"  class="form-control state" type="text" placeholder="State"></div>
-                        <div class=" my-3"><p class="dis fw-bold mb-2">Discount price</p>
-                            <div class="inputWithcheck">
-                                <input class="form-control" type="text" value="<%=random%>" name = "discount">
-                                <span class="fas fa-check"></span></div>
-                        </div>
 
                         <div class="d-flex flex-column dis">
-                            <div class="d-flex align-items-center justify-content-between mb-2"><p>Quantity</p>
-                                <p><span class=""></span><%=quantity%></p></div>
-                            <div class="d-flex align-items-center justify-content-between mb-2"><p>Subtotal</p>
-                                <p><span class="fas fa-dollar-sign"></span><%=total%></p></div>
-                            <div class="d-flex align-items-center justify-content-between mb-2">
-                                <div class="d-flex align-items-center"><p class="pe-2">Discount
-                                </p></div>
-                                <p><span class="fas fa-dollar-sign"></span><%=random%></p></div>
-                            <input type="hidden" name="total" value="<%=totalString%>">
+                            <input type="hidden" name="total" value="<%=total%>">
                             <div class="d-flex align-items-center justify-content-between mb-2"><p class="fw-bold">
                                 Total</p>
-                                <p class="fw-bold"><span class="fas fa-dollar-sign"></span><%=totalString%></p></div>
+                                <p class="fw-bold"><span class="fas fa-dollar-sign"></span><%=total%></p></div>
                             <div  class="btn btn-primary mt-2">
                                 <input style="background-color: #7700ff; color: white; border: none; " type="submit" value="Pay Now" />
                             </div>
@@ -578,6 +578,13 @@
         </div>
     </div>
 </div>
+
+<%
+            count +=1;
+        }
+    }
+%>
+
 
 
 <script type='text/javascript'

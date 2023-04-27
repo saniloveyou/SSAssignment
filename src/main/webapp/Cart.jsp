@@ -9,7 +9,7 @@
 
 //    User auth = (User) request.getSession().getAttribute("auth");
 //    if (auth != null) {request.setAttribute("person", auth);}
-    List<Orderdetail> cart_list = (List<Orderdetail>) request.getAttribute("orderdetails");
+    List<Orderdetail> cart_list = (List<Orderdetail>) session.getAttribute("orderdetails");
 
     double total = 0;
     if (cart_list != null) {
@@ -114,7 +114,7 @@
 </header> <!-- /.site-header -->
 
 <div class="container my-3">
-    <div class="d-flex py-3"><h3>Total Price: <%=priceFormatter.format(total)%> </h3> <a class="mx-3 btn btn-primary" href="#">Check Out</a></div>
+    <div class="d-flex py-3"><h3>Total Price: <%=priceFormatter.format(total)%> </h3> <a class="mx-3 btn btn-primary" href="PaymentCart">Check Out</a></div>
     <table class="table table-light">
         <thead>
         <tr>

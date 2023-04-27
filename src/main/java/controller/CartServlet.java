@@ -48,7 +48,7 @@ public class CartServlet extends HttpServlet {
         }
 
         List<Orderdetail> orderdetails = orderSessionBean.cartList(customernumber);
-        request.setAttribute("orderdetails", orderdetails);
+        session.setAttribute("orderdetails", orderdetails);
         request.getRequestDispatcher("Cart.jsp").forward(request, response);
         return;
     }

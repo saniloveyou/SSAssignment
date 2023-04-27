@@ -38,10 +38,10 @@ public class PaymentCart extends HttpServlet {
             String username = session.getAttribute("username").toString();
             String user_role = session.getAttribute("user_role").toString();
 
-            String productidcart = request.getParameter("productid");
-
-            Product info =  productbean.getProduct(productidcart);
-            session.setAttribute("product", info);
+//            String productidcart = request.getParameter("productid");
+//
+//            Product info =  productbean.getProduct(productidcart);
+//            session.setAttribute("product", info);
 
             if (user_role.equals("[user]")) {
                 RequestDispatcher dispatcher = request.getRequestDispatcher("DisplayPaymentcart.jsp");

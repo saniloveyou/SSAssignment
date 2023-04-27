@@ -780,12 +780,17 @@
                         <div class="mb-3"><p class="dis fw-bold mb-2">Phone</p>
                             <input class="form-control" type="text"   required id="row4" name="row4"
                                    value="2017-06-01"></div>
+                        <div class="mb-3"><p class="dis fw-bold mb-2">Address 1</p>
+                            <input class="form-control" type="text"   required id="row5" name="row5"
+                                   value="2017-06-01"></div>
+                        <div class="mb-3"><p class="dis fw-bold mb-2">Address 2</p>
+                            <input class="form-control" type="text"   required id="row6" name="row6"
+                                   value="2017-06-01"></div>
                         <div  class="mb-3"><p class="dis fw-bold mb-2">City</p>
-                            <input  class="form-control" type="text" id="row5" name="row5"
+                            <input  class="form-control" type="text" id="row7" name="row7"
                                    value="5"></div>
-
                         <div  class="mb-3"><p class="dis fw-bold mb-2">State</p>
-                            <input  class="form-control" type="text" id="row6" name="row6"
+                            <input  class="form-control" type="text" id="row8" name="row8"
                                    value="5"></div>
 
                         <div  class="mb-3"><p class="dis fw-bold mb-2">Postal</p>

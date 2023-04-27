@@ -27,9 +27,9 @@ public class AddToCartServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        HttpSession session = request.getSession();
         try {
-            HttpSession session = request.getSession();
+
             String user_role = session.getAttribute("user_role").toString();
 
             if (!user_role.equals("[user]")) {
@@ -41,7 +41,6 @@ public class AddToCartServlet extends HttpServlet {
             dispatcher.forward(request, response);
         }
 
-        HttpSession session = request.getSession();
         Customer customer = (Customer) session.getAttribute("customer");
         String customernumber = "";
         try {
