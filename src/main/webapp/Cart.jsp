@@ -85,17 +85,34 @@
             <td><%=c.getOrdernumber().getId()%></td>
             <td><%=c.getProductcode().getId()%></td>
             <td><%=c.getProductcode().getProductname()%></td>
-            <%System.out.println(c.getProductcode().getId());%>
             <td><%=priceFormatter.format(c.getPriceeach().doubleValue())%></td>
             <td><%=c.getQuantityordered()%></td>
             <td id="update" ><a href="OrderdetailServlet?action=update&only=quantity&ordernumber=<%=c.getOrdernumber().getId()%>&productcode=<%=c.getProductcode().getId()%>">Update</a></td>
-            <td><a href="remove-from-cart?id=<%=c.getProductcode().getId() %>" class="btn btn-sm btn-danger">Remove</a></td>
+            <td id="delete" ><a style='color: red;' href="#" onclick="deleteCart(<%=c.getOrdernumber().getId()%>, '<%=c.getProductcode().getId()%>')">Delete</a></td>
         </tr>
 
-        <%}}%>
+        <%}
+            } else {
+            out.println("<tr>");
+            for (int i = 0; i < 6; i++) out.println("<td>No records</td>");
+            out.println("</tr>");
+            }
+        %>
+
         </tbody>
         </form>
     </table>
 </div>
+
+<script>
+    function deleteCart(id, productcode) {
+        var r = confirm('Are you sure you want to delete Order Number: '+id+'?');
+        if (r == true) {
+            window.location.href = 'OrderdetailServlet?action=delete&only=quantity&ordernumber=' + id + '&productcode=' + productcode;
+        } else {
+            return false;
+        }
+    }
+</script>
 </body>
 </html>

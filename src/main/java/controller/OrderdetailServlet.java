@@ -1,5 +1,6 @@
 package controller;
 
+import com.utar.model.entity.Customer;
 import com.utar.model.entity.Order;
 import com.utar.model.entity.Orderdetail;
 import com.utar.model.sessionbean.OrderSessionBean;
@@ -140,6 +141,8 @@ public class OrderdetailServlet extends HttpServlet {
             out.println("<script type=\"text/javascript\">");
             out.println("alert('Order detail updated successfully');");
             out.println("</script>");
+
+            request.getSession().setAttribute("cartcount", orderSessionBean.cartCount(String.valueOf(((Customer) request.getSession().getAttribute("username")).getId())));
 
             try {
                 String only = request.getParameter("only");
