@@ -10,12 +10,12 @@ public class Orderdetail {
     private OrderdetailId id;
 
     @MapsId("ordernumber")
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "ordernumber", nullable = false)
     private Order ordernumber;
 
     @MapsId("productcode")
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "productcode", nullable = false)
     private Product productcode;
 

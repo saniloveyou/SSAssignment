@@ -3,6 +3,7 @@ package controller;
 import com.utar.model.entity.Customer;
 import com.utar.model.sessionbean.CustomerSessionBean;
 import com.utar.model.sessionbean.LoginSessionBean;
+import com.utar.model.sessionbean.OrderSessionBean;
 
 import java.io.IOException;
 import javax.ejb.EJB;
@@ -22,6 +23,9 @@ public class LoginServlet extends HttpServlet {
 
     @EJB
     private CustomerSessionBean customerSessionBean;
+
+    @EJB
+    private OrderSessionBean orderSessionBean;
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response){
         String action = request.getParameter("action");
@@ -55,6 +59,7 @@ public class LoginServlet extends HttpServlet {
             httpSession.setAttribute("user_role", loginSessionBean.getUserRole(username));
             Customer info = customerSessionBean.findcustomer(username);
             httpSession.setAttribute("customer", info);
+            request.getSession().setAttribute("cartcount", orderSessionBean.cartCount(String.valueOf(info.getId())));
             response.sendRedirect("SuccesfullLogin.jsp");
         }
         else {

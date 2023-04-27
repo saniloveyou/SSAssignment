@@ -3,6 +3,7 @@ package controller;
 import com.utar.model.entity.Customer;
 import com.utar.model.entity.User;
 import com.utar.model.sessionbean.CustomerSessionBean;
+import com.utar.model.sessionbean.OrderSessionBean;
 import com.utar.model.sessionbean.SignUpSessionBean;
 
 import javax.ejb.EJB;
@@ -28,6 +29,9 @@ public class SignUp extends HttpServlet {
 
     @EJB
     private CustomerSessionBean customerSessionBean;
+
+    @EJB
+    private OrderSessionBean orderSessionBean;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -80,6 +84,7 @@ public class SignUp extends HttpServlet {
         httpSession.setAttribute("user_role", "user");
         Customer info = customerSessionBean.findcustomer(username);
         httpSession.setAttribute("customer", info);
+        request.getSession().setAttribute("cartcount", orderSessionBean.cartCount(String.valueOf(info.getId())));
 
     }
 

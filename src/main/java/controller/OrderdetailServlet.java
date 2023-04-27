@@ -31,12 +31,14 @@ public class OrderdetailServlet extends HttpServlet {
             if(action.equals("update")){
                 String ordernumber = request.getParameter("ordernumber");
                 String productcode = request.getParameter("productcode");
+                String only = request.getParameter("only");
                 Orderdetail orderdetail = orderSessionBean.findOrderdetail(ordernumber, productcode);
                 request.setAttribute("ordernumber", ordernumber);
                 request.setAttribute("productcode", productcode);
                 request.setAttribute("quantityordered", orderdetail.getQuantityordered().toString());
                 request.setAttribute("priceeach", orderdetail.getPriceeach().toString());
                 request.setAttribute("orderlinenumber", orderdetail.getOrderlinenumber().toString());
+                request.setAttribute("only", only);
                 request.getRequestDispatcher("UpdateOrderdetail.jsp").forward(request, response);
             }
             if (action.equals("delete")){
@@ -138,6 +140,16 @@ public class OrderdetailServlet extends HttpServlet {
             out.println("<script type=\"text/javascript\">");
             out.println("alert('Order detail updated successfully');");
             out.println("</script>");
+
+            try {
+                String only = request.getParameter("only");
+                if (only.equals("quantity")) {
+                    response.sendRedirect("CartServlet");
+                    return;
+                }
+            } catch (Exception e) {
+                System.out.println("Not from cart");
+            }
 
             response.sendRedirect("OrderdetailServlet?currentPage=1&recordsPerPage=20&sortBy=ordernumber&direction=asc");
         }

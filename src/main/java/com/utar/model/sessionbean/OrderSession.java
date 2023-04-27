@@ -40,12 +40,52 @@ public class OrderSession implements OrderSessionBean{
     }
 
     @Override
+    public List<Order> findOrders(String customernumber) throws EJBException {
+        String sql = "SELECT * FROM classicmodels.orders WHERE customernumber = " + customernumber + " AND status = 'In Process'";
+        Query query = entityManager.createNativeQuery(sql, Order.class);
+        List<Order> result = null;
+        try {
+            result = query.getResultList();
+        } catch (Exception e) {
+            System.out.println("Order not found");
+        }
+        return result;
+    }
+
+    @Override
+    public int cartCount(String customernumber) throws EJBException {
+        String sql = "SELECT count(*) FROM classicmodels.orderdetails WHERE orderNumber in (SELECT orderNumber FROM classicmodels.orders WHERE customernumber = " + customernumber + " AND status = 'In Process')";
+        Query query = entityManager.createNativeQuery(sql);
+        return ((BigInteger) query.getSingleResult()).intValue();
+    }
+
+    @Override
+    public List<Orderdetail> cartList(String customernumber) throws EJBException {
+        String sql = "SELECT * FROM classicmodels.orderdetails WHERE orderNumber in (SELECT orderNumber FROM classicmodels.orders WHERE customernumber = " + customernumber + " AND status = 'In Process')";
+        Query query = entityManager.createNativeQuery(sql, Orderdetail.class);
+        return query.getResultList();
+    }
+
+    @Override
     public Orderdetail findOrderdetail(String ordernumber, String productcode) throws EJBException {
         String sql = "SELECT * FROM classicmodels.orderdetails WHERE ordernumber = " + ordernumber + " AND productcode = '" + productcode + "'";
         Query query = entityManager.createNativeQuery(sql, Orderdetail.class);
         Orderdetail result = null;
         try {
             result = (Orderdetail) query.getSingleResult();
+        } catch (Exception e) {
+            System.out.println("Order not found");
+        }
+        return result;
+    }
+
+    @Override
+    public List<Orderdetail> findOrderdetails(String ordernumber) throws EJBException{
+        String sql = "SELECT * FROM classicmodels.orderdetails WHERE ordernumber = " + ordernumber;
+        Query query = entityManager.createNativeQuery(sql, Orderdetail.class);
+        List<Orderdetail> result = null;
+        try {
+            result = query.getResultList();
         } catch (Exception e) {
             System.out.println("Order not found");
         }
@@ -68,15 +108,22 @@ public class OrderSession implements OrderSessionBean{
     @Override
     public int getNextOrderNumber(String customernumber) throws EJBException {
         Query query = entityManager.createNativeQuery("SELECT max(ordernumber) FROM classicmodels.orders WHERE customernumber = " + customernumber);
-        int lastOrderNumber = Integer.parseInt(query.getSingleResult().toString());
+        int lastOrderNumber = 0;
+        try {
+            lastOrderNumber = Integer.parseInt(query.getSingleResult().toString());
+            query = entityManager.createNativeQuery("SELECT orderdate FROM classicmodels.orders WHERE ordernumber = " + lastOrderNumber);
+            String orderDate = query.getSingleResult().toString();
+            if (!orderDate.equals(new SimpleDateFormat("yyyy-MM-dd").format(new Date()))){
+                return lastOrderNumber + 1;
+            }
+            else {
+                return lastOrderNumber;
+            }
 
-        query = entityManager.createNativeQuery("SELECT orderdate FROM classicmodels.orders WHERE ordernumber = " + lastOrderNumber);
-        String orderDate = query.getSingleResult().toString();
-        if (!orderDate.equals(new SimpleDateFormat("yyyy-MM-dd").format(new Date()))){
-            return lastOrderNumber + 1;
-        }
-        else {
-            return lastOrderNumber;
+        } catch (Exception e) {
+            System.out.println("Order not found");
+            query = entityManager.createNativeQuery("SELECT max(ordernumber)+1 FROM classicmodels.orders");
+            return Integer.parseInt(query.getSingleResult().toString());
         }
     }
 

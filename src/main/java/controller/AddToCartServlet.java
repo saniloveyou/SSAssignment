@@ -43,8 +43,10 @@ public class AddToCartServlet extends HttpServlet {
 
         HttpSession session = request.getSession();
         Customer customer = (Customer) session.getAttribute("customer");
-        String customernumber = String.valueOf(customer.getId());
+        String customernumber = customer.getId().toString();
         String productcode = request.getParameter("productcode");
+
+        System.out.println("customernumber: " + customernumber);
 
         int ordernumber = 0;
         try {
@@ -61,7 +63,7 @@ public class AddToCartServlet extends HttpServlet {
             out.println("<script type=\"text/javascript\">");
             out.println("alert('Product already in cart');");
             out.println("</script>");
-            response.sendRedirect("ProductHomeDisplayServlet");
+            response.setHeader("Refresh", "0; URL=ProductHomeDisplayServlet");
             return;
         }
 
@@ -78,14 +80,14 @@ public class AddToCartServlet extends HttpServlet {
             System.out.println("Error adding order details");
         }
 
-//        List<Orderdetail> orderdetails = orderSessionBean.readOrderdetail();
-//        session.setAttribute("cart_list", orderdetails);
-
         PrintWriter out = response.getWriter();
         out.println("<script type=\"text/javascript\">");
         out.println("alert('Product added to cart');");
         out.println("</script>");
-        response.sendRedirect("ProductHomeDisplayServlet");
+
+        request.getSession().setAttribute("cartcount", orderSessionBean.cartCount(String.valueOf(customer.getId())));
+
+        response.setHeader("Refresh", "0; URL=ProductHomeDisplayServlet");
     }
 
 

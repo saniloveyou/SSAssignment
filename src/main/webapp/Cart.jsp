@@ -8,12 +8,7 @@
 
 //    User auth = (User) request.getSession().getAttribute("auth");
 //    if (auth != null) {request.setAttribute("person", auth);}
-    List<Orderdetail> cart_list = (List<Orderdetail>) session.getAttribute("cart_list");
-
-    if (cart_list != null)
-    for ( Orderdetail o: cart_list) {
-     //   System.out.println(o.getProductcode().getId());
-    }
+    List<Orderdetail> cart_list = (List<Orderdetail>) request.getAttribute("orderdetails");
 
     double total = 0;
     if (cart_list != null) {
@@ -22,14 +17,6 @@
         }
     }
 
-//    List<Cart> cartProduct = null;
-//    if (cart_list != null) {
-//        ProductDao pDao = new ProductDao(DbCon.getConnection());
-//        cartProduct = pDao.getCartProducts(cart_list);
-//        double total = pDao.getTotalCartPrice(cart_list);
-//        request.setAttribute("total", total);
-//        request.setAttribute("cart_list", cart_list);
-//    }
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -78,11 +65,13 @@
     <table class="table table-light">
         <thead>
         <tr>
-            <th scope="col">Product Coded</th>
+            <th scope="col">Order Number</th>
+            <th scope="col">Product Code</th>
             <th scope="col">Name</th>
             <th scope="col">Price</th>
             <th scope="col">Quantity</th>
-            <th scope="col">Cancel</th>
+            <th scope="col">Update</th>
+            <th scope="col">Delete</th>
         </tr>
         </thead>
         <form action="PaymentCart" method="get" class="form-inline">
@@ -93,22 +82,13 @@
 
         %>
         <tr>
+            <td><%=c.getOrdernumber().getId()%></td>
             <td><%=c.getProductcode().getId()%></td>
-            <td><%=c.getProductcode().getId()%></td>
+            <td><%=c.getProductcode().getProductname()%></td>
             <%System.out.println(c.getProductcode().getId());%>
             <td><%=priceFormatter.format(c.getPriceeach().doubleValue())%></td>
-            <td>
-                <div class="form-group d-flex justify-content-between">
-                    <a class="btn bnt-sm btn-incre" href="quantity-inc-dec?action=dec&id=<%=c.getProductcode().getId()%>"><i class="glyphicon glyphicon-minus"></i></a>
-                    <input type="text" name="quantity" class="form-control"  value="<%=c.getQuantityordered()%>" >
-                    <a class="btn bnt-sm btn-incre" href="quantity-inc-dec?action=inc&id=<%=c.getProductcode().getId()%>"><i class="glyphicon glyphicon-plus"></i></a>
-                </div>
-            </td>
-            <td>
-                    <input type="hidden" name="productid" value="<%= c.getProductcode().getId()%>" class="form-input">
-                <input type="hidden" name="productid" value="<%= c.getProductcode().getId()%>" class="form-input">
-                    <button type="button"  class="btn btn-primary btn-sm"><a href="PaymentCart?quantity=<%="2"%>&productid=<%=c.getProductcode().getId()%>" >Buy</a></button>
-            </td>
+            <td><%=c.getQuantityordered()%></td>
+            <td id="update" ><a href="OrderdetailServlet?action=update&only=quantity&ordernumber=<%=c.getOrdernumber().getId()%>&productcode=<%=c.getProductcode().getId()%>">Update</a></td>
             <td><a href="remove-from-cart?id=<%=c.getProductcode().getId() %>" class="btn btn-sm btn-danger">Remove</a></td>
         </tr>
 

@@ -7,6 +7,7 @@
     String quantityordered = String.valueOf(request.getAttribute("quantityordered"));
     String priceeach = String.valueOf(request.getAttribute("priceeach"));
     String orderlinenumber = String.valueOf(request.getAttribute("orderlinenumber"));
+    String only = String.valueOf(request.getAttribute("only"));
 %>
 
 <html>
@@ -22,6 +23,7 @@
 <h1 style="text-align: center">Update Order</h1>
 <form id="form1" class="container form-container" action="OrderdetailServlet" method="post">
     <input type="hidden" name="action" value="updateOrderdetail"/>
+    <input type="hidden" name="only" value="<%=only%>"/>
     <table>
         <div class="row mb-3">
             <label class="col-sm-2 col-form-label">Order Number:</label>
@@ -47,7 +49,7 @@
         <div class="row mb-3">
             <label class="col-sm-2 col-form-label">Price Each:</label>
             <div class="col input-group">
-                <input required type="text" class="form-control" name="priceeach" placeholder="Price Each" value="<%=priceeach%>"/>
+                <input <%=only.equals("quantity") ? "readonly" : ""%> required type="text" class="form-control" name="priceeach" placeholder="Price Each" value="<%=priceeach%>"/>
             </div>
         </div>
 

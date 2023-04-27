@@ -16,7 +16,6 @@ public class Adminaccess extends HttpServlet {
        String id = request.getParameter("id");
         System.out.println("this line here"+ id);
 
-
     }
 
     @Override

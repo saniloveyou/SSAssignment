@@ -1,6 +1,7 @@
 package controller;
 
 import com.utar.model.entity.Product;
+import com.utar.model.sessionbean.OrderSessionBean;
 import com.utar.model.sessionbean.ProductSessionBeanLocal;
 
 import javax.ejb.EJB;
@@ -16,6 +17,10 @@ public class ProductHomeDisplayServlet extends HttpServlet {
 
     @EJB
     private ProductSessionBeanLocal productbean;
+
+    @EJB
+    private OrderSessionBean orderSessionBean;
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try{
@@ -24,6 +29,7 @@ public class ProductHomeDisplayServlet extends HttpServlet {
         } catch (EJBException ex){
 
         }
+
         RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
         dispatcher.forward(request, response);
 
