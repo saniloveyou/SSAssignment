@@ -61,28 +61,27 @@ public class PaymentServlet extends HttpServlet {
         int nOfpages = 0,currentPage = 1,recordsPerPage = 20;
         String direction = "ASC";
 
-        System.out.println("creditlimit: " + creditlimit);
-        System.out.println("creditlimit: " + minamount);
-        System.out.println("creditlimit: " + maxamount);
+        System.out.println("fromda: " + fromDateStr);
+        System.out.println("toda: " + toDateStr);
+
         try {
             if (customernumber != null && customernumber.length() > 0 && !customernumber.matches(".*[a-zA-Z]+.*")) {
                 category = "c.customernumber = " + "'" + customernumber + "'";
                 lists = paymentSessionBean.findPaymentCustomer(category);
-
             } else if (customername != null && customername.length() > 0) {
                 category = "c.customername LIKE " + "'%" + customername + "%'";
                 lists = paymentSessionBean.findPaymentCustomer(category);
             } else if (checknumber != null && checknumber.length() > 0) {
-                category = "pd.checknumber = " + "'" + checknumber + "'";
+                category = "pd.checknumber LIKE " + "'%" + checknumber + "%'";
                 lists = paymentSessionBean.findPaymentCustomer(category);
             } else if (phonenumber != null && phonenumber.length() > 0) {
-                category = "c.phone = " + "'" + phonenumber + "'";
+                category = "c.phone = LIKE " + "'%" + phonenumber + "%'";
                 lists = paymentSessionBean.findPaymentCustomer(category);
             } else if (fromDateStr != null && toDateStr != null && fromDateStr.length() > 0 && toDateStr.length() > 0) {
-                category = "pd.paymentdate BETWEEN " + "'" + fromDateStr + "'" + " AND " + "'" + toDateStr + "'";
+                category = "to_date(pd.paymentdate, 'DD/MM/YYYY')  BETWEEN " + "'" + fromDateStr + "'" + " AND " + "'" + toDateStr + "'";
                 lists = paymentSessionBean.findPaymentCustomer(category);
             } else if (creditlimit != null && creditlimit.length() > 0) {
-                category = "c.creditlimit BETWEEN " +  minamount  + " AND " +  maxamount;
+                category = "c.creditlimit BETWEEN " + "'" + minamount +"'"  + " AND " + "'" + maxamount+"'";
                 lists = paymentSessionBean.findPaymentCustomer(category);
             } else if (amount != null && amount.length() > 0) {
                 category = "pd.amount BETWEEN " +  minamount  + " AND " +  maxamount;
@@ -99,48 +98,43 @@ public class PaymentServlet extends HttpServlet {
 
                 } catch (Exception e) {
 
+                    RequestDispatcher req = request.getRequestDispatcher("failureprocess.jsp");
+                    req.forward(request, response);
+
                 }
             }
         request.setAttribute("nOfPages", nOfpages);
         request.setAttribute("currentPage", currentPage);
         request.setAttribute("recordsPerPage", recordsPerPage);
         request.setAttribute("direction", direction);
-            HttpSession session = request.getSession();
-            session.setAttribute("payment",lists);
+        HttpSession session = request.getSession();
+        session.setAttribute("payment",lists);
 
         }catch (Exception e) {
-            request.setAttribute("msg", "Unable to access the method ");
-            RequestDispatcher req = request.getRequestDispatcher("DeniedAccessMethod.jsp");
+            RequestDispatcher req = request.getRequestDispatcher("failureprocess.jsp");
             req.forward(request, response);
         }
 
+    try {
         RequestDispatcher req = request.getRequestDispatcher("DisplayPayment.jsp");
         req.forward(request, response);
+    }catch (Exception e) {
+        RequestDispatcher req = request.getRequestDispatcher("failureprocess.jsp");
+        req.forward(request, response);
+    }
         }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-
         String id = request.getParameter("row0");
         String checknumber = request.getParameter("row1");
-
         String creditlimit = request.getParameter("row3");
         String paymentdate = request.getParameter("row4");
         String amount = request.getParameter("row5");
-
-        System.out.println("this line here "+creditlimit);
-
-        String[] date = paymentdate.split("-");
-        paymentdate = date[2] + "/" + date[1] + "/" + date[0];
-
         String[] spayment = {checknumber,amount,paymentdate,creditlimit, id};
-
         paymentSessionBean.updatePayment(spayment);
-
-//        String[] scustomer = {creditlimit, id};
-//        customerSessionBean.updateCustomer(scustomer);
-
+        response.setHeader("Refresh", "0; URL=PaymentServlet?currentPage=1&recordsPerPage=20&direction=asc");
 
     }
 }

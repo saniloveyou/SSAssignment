@@ -17,7 +17,7 @@ public class Payment {
     private Customer customernumber;
 
     @Column(name = "paymentdate", nullable = false, length = 10)
-    private Date paymentdate;
+    private String paymentdate;
 
 
     @Column(name = "amount", nullable = false, precision = 8, scale = 2)
@@ -31,11 +31,11 @@ public class Payment {
         this.amount = amount;
     }
 
-    public Date getPaymentdate() {
+    public String getPaymentdate() {
         return paymentdate;
     }
 
-    public void setPaymentdate(Date paymentdate) {
+    public void setPaymentdate(String paymentdate) {
         this.paymentdate = paymentdate;
     }
 

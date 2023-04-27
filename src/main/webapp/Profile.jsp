@@ -140,6 +140,14 @@
             width: 10%;
         }
 
+        select{
+            width: 20%;
+        }
+
+        #search-now{
+            width: 20%;
+        }
+
         select:focus, input[type="text"]:focus, input[type="submit"]:focus,button[type="reset"], input[type="date"]:focus {
             outline: none;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
@@ -181,15 +189,6 @@
             transition: background-color 0.2s ease-in-out;
         }
 
-        .range-select {
-            display: none;
-            flex-wrap: wrap;
-            margin-top: 10px;
-        }
-
-        .range-select.show {
-            display: flex;
-        }
 
         .range-sel {
             display: none;
@@ -532,29 +531,7 @@
         String direction = (String) request.getAttribute("direction");
     %>
 
-    <script>
 
-        function categorySelected() {
-            var categorySelect = document.getElementById("category-select");
-            var selectedValue = categorySelect.options[categorySelect.selectedIndex].value;
-            var rangeSelect = document.getElementById("range-select");
-            var rangeSelect1 = document.getElementById("range-sel");
-            rangeSelect.classList.remove("show");
-            rangeSelect1.classList.remove("show");
-            if (selectedValue == "date"  ) {
-                rangeSelect.classList.add("show");
-            }
-            else if(selectedValue == "creditlimit" ) {
-                rangeSelect1.classList.add("show");
-                document.getElementById("search-now").setAttribute("value",selectedValue);
-                document.getElementById("search-now").setAttribute("name",selectedValue);
-            }
-            else {
-                rangeSelect.classList.remove("show");
-                document.getElementById("search-now").setAttribute("name",selectedValue);
-            }
-        }
-    </script>
     <link rel="stylesheet"
           href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">
 </head>
@@ -571,8 +548,6 @@
                 <option value="customernumber">Customer Number</option>
                 <option value="customername">Customer Name</option>
                 <option value="phonenumber">Phone Number</option>
-                <option value="Address">Address 1</option>
-                <option value="Address">Address 2</option>
                 <option value="City">City</option>
                 <option value="State">State</option>
                 <option value="postal">Postal code</option>
@@ -596,8 +571,7 @@
                 </div>
             </div>
 
-
-            <input type="text" name="customernumber" placeholder="Search..." id="search-now" >
+            <input type="text" name="search" placeholder="Search..." id="search-now" >
             <input type="submit" value="Search" id="search-it">
             <div id="reset-home" >
                 <button id="resetbtn" type="reset" value="Reset">Reset</button>
@@ -605,6 +579,8 @@
             </div>
 
         </form>
+
+
 
         <script>
             let amount = 0;
@@ -637,7 +613,28 @@
                 location.href = "Profile?direction=<%="ASC"%>&currentPage=<%=currentPage%>&recordsPerPage=<%=recordsPerPage%>";
             };
         </script>
+        <script>
 
+            function categorySelected() {
+                var categorySelect = document.getElementById("category-select");
+                var selectedValue = categorySelect.options[categorySelect.selectedIndex].value;
+
+                var rangeSelect1 = document.getElementById("range-sel");
+
+                console.log("this line here "+ selectedValue);
+                rangeSelect1.classList.remove("show");
+
+                if(selectedValue == "Limit" ) {
+                    rangeSelect1.classList.add("show");
+                    document.getElementById("search-now").setAttribute("value",selectedValue);
+                    document.getElementById("search-now").setAttribute("name",selectedValue);
+                }
+                else {
+                    rangeSelect1.classList.remove("show");
+                    document.getElementById("search-now").setAttribute("name",selectedValue);
+                }
+            }
+        </script>
 
 
         <tr>
@@ -648,8 +645,7 @@
             <th>Customer Last Name</th>
             <th>Customer First Name</th>
             <th>Phone</th>
-            <th>Address Line 1</th>
-            <th>Address Line 2</th>
+            <th>Address</th>
             <th>City</th>
             <th>State</th>
             <th>Postal</th>
@@ -657,6 +653,8 @@
             <th>Sales Rep</th>
             <th>Credit Limit</th>
             <th>Update</th>
+            <th>Delete</th>
+            <th>View</th>
         </tr>
 
 </body>
@@ -673,22 +671,22 @@
             out.println("<td>" + row[2] + "</td>");
             out.println("<td>" + row[3] + "</td>");
             out.println("<td>" + row[4] + "</td>");
-            out.println("<td>" + row[5] + "</td>");
-            out.println("<td>" + row[6] + "</td>");
+            out.println("<td>" + row[5] + row[6] + "</td>");
             out.println("<td>" + row[7] + "</td>");
             out.println("<td>" + row[8] + "</td>");
             out.println("<td>" + row[9] + "</td>");
             out.println("<td>" + row[10] + "</td>");
             out.println("<td>" + row[11] + "</td>");
             out.println("<td>" + row[12] + "</td>");
-
             out.println("<td><button onclick=\"openForm('"+ row[0] + "','" + row[1] + "','" + row[2] + "','" + row[3] +"','" + row[4]  +"','" + row[5] + "','" + row[6] + "','" + row[7] + "','" + row[8] + "','" + row[9] +"','" + row[10]  +"','" + row[11] + "','" + row[12] +"'  )\" > Update</button></td>");
+            out.println("<td><a href=\"DeletePayment?id=" + row[0] + "&flag=true" + "\">Delete</a></td>");
+            out.println("<td><a href=\"PaymentServlet?from_date=&to_date=&minamount=0&maxamount=0&customernumber="+row[0]+ "\">View</a></td>");
             out.println("</tr>");
         }
     } else {
         out.println("<tr>");
         String status = "No records";
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < 13; i++) {
             out.println("<td>" + status + "</td>");
         }
         out.println("</tr>");
@@ -782,18 +780,12 @@
                         <div class="mb-3"><p class="dis fw-bold mb-2">Phone</p>
                             <input class="form-control" type="text"   required id="row4" name="row4"
                                    value="2017-06-01"></div>
-                        <div class="mb-3"><p class="dis fw-bold mb-2">Address Line 1</p>
-                            <input class="form-control" type="text"   required id="row5" name="row5"
-                                   value="12345"></div>
-                        <div  class="mb-3"><p class="dis fw-bold mb-2">Address Line 2</p>
-                            <input  class="form-control" type="text" id="row6" name="row6"
-                                   value="5"></div>
                         <div  class="mb-3"><p class="dis fw-bold mb-2">City</p>
-                            <input  class="form-control" type="text" id="row7" name="row7"
+                            <input  class="form-control" type="text" id="row5" name="row5"
                                    value="5"></div>
 
                         <div  class="mb-3"><p class="dis fw-bold mb-2">State</p>
-                            <input  class="form-control" type="text" id="row8" name="row8"
+                            <input  class="form-control" type="text" id="row6" name="row6"
                                    value="5"></div>
 
                         <div  class="mb-3"><p class="dis fw-bold mb-2">Postal</p>

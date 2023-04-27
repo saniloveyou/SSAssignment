@@ -108,11 +108,12 @@
     <div class="container">
         <div class="row">
             <div class="col-md-8">
+                <% Product p = (Product) request.getAttribute("product");%>-
                 <div class="product-image">
-                    <img src="images/featured/7.jpg" alt="">
+                    <img src="images/<%=p.getProductline().getId()%>.jpg" alt="">
                 </div> <!-- /.product-image -->
                 <div class="product-information">
-                    <% Product p = (Product) request.getAttribute("product");%>
+
                     <h2><%=p.getProductname()%></h2>
                     <p><%=p.getProductline().getId()%></p>
                     <p><%=p.getProductdescription()%></p>

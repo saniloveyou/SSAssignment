@@ -62,7 +62,7 @@ String paymentID = request.getParameter("id");
   <h1>Payment Delete</h1>
     <p>Are you sure you want to delete the payment <%=paymentID%></p>
     <button onclick="window.location.href='DeletePayment?id=<%=paymentID%>'">Yes</button>
-    <button onclick="window.location.href='index.html'">No</button>
+    <button onclick="window.location.href='PaymentServlet?direction=DESC&currentPage=1&recordsPerPage=20'">No</button>
 </div>
 </body>
 </html>

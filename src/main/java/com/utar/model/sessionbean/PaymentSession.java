@@ -31,11 +31,12 @@ public class PaymentSession implements PaymentSessionBean {
     @Override
     public List<Object[]> readpaymentdetails(int currentPage, int recordsPerPage, String direction) throws EJBException {
 
-        String sql = "SELECT c.customernumber, c.customername,c.phone,c.creditlimit,pd.checknumber,pd.paymentdate,pd.amount\n" +
+        String sql = "SELECT c.customernumber, c.customername,c.phone,c.creditlimit,pd.checknumber,pd.paymentdate,pd.amount,o.status\n" +
                 "                            from classicmodels.customers c\n" +
                 "                            join classicmodels.payments pd on c.customernumber = pd.customernumber\n" +
                 "                                join classicmodels.orders o on c.customernumber = o.customernumber\n" +
-                "                                where c.creditlimit IS NOT NULL  AND o.status = 'Shipped' group by c.customernumber,pd.checknumber,pd.paymentdate,pd.amount,o.status order by c.customernumber "+direction;
+                "                                where c.creditlimit IS NOT NULL AND o.status = 'Shipped' group by c.customernumber,pd.checknumber,pd.paymentdate,pd.amount,o.status " +
+                "order by c.customernumber "+direction;
         Query q = null;
         q = em.createNativeQuery(sql);
         int start = currentPage * recordsPerPage - recordsPerPage;
@@ -53,7 +54,7 @@ public class PaymentSession implements PaymentSessionBean {
                 "                            from classicmodels.customers c\n" +
                 "                            join classicmodels.payments pd on c.customernumber = pd.customernumber\n" +
                 "                                join classicmodels.orders o on c.customernumber = o.customernumber\n" +
-                "                                where c.creditlimit IS NOT NULL  AND o.status = 'Shipped' AND "+ category +" group by c.customernumber,pd.checknumber,pd.paymentdate,pd.amount,o.status " +
+                "                                where c.creditlimit IS NOT NULL AND  o.status = 'Shipped' AND "+ category +" group by c.customernumber,pd.checknumber,pd.paymentdate,pd.amount,o.status " +
                 "order by c.customernumber ";
         Query q = null;
         q = em.createNativeQuery(sql);
@@ -93,6 +94,7 @@ public class PaymentSession implements PaymentSessionBean {
     public void updatePayment(String[] s) throws EJBException {
         String sql = "UPDATE classicmodels.payments SET paymentdate = ?, amount = ? WHERE checknumber = ?";
         Query query = em.createNativeQuery(sql);
+
         query.setParameter(1, s[2]);
         query.setParameter(2,new BigDecimal(s[1]));
         query.setParameter(3, s[0]);

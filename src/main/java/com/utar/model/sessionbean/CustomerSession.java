@@ -49,6 +49,17 @@ public class CustomerSession implements CustomerSessionBean{
     }
 
     @Override
+    public List<Object[]> filterpayment(String category) throws EJBException {
+        String sql = "SELECT * \n" +
+                "                            from classicmodels.customers c\n" +
+                "                             where "+ category +" order by c.customernumber ";
+        Query q = null;
+        q = em.createNativeQuery(sql);
+        List<Object[]> results = q.getResultList();
+        return results;
+    }
+
+    @Override
     public List<Customer> readCustomer(int currentPage, int recordsPerPage) throws EJBException {
         return null;
     }
@@ -89,6 +100,27 @@ public class CustomerSession implements CustomerSessionBean{
 
     @Override
     public void deleteCustomer(String id) throws EJBException {
+
+//        delete in payment with same id in payment db
+        String sql = "DELETE FROM classicmodels.payments WHERE customernumber = ?";
+        Query query = em.createNativeQuery(sql);
+        query.setParameter(1,Short.parseShort(id));
+        query.executeUpdate();
+
+        String sql1 = "DELETE FROM classicmodels.customers WHERE customernumber = ?";
+        Query query1 = em.createNativeQuery(sql1);
+        query1.setParameter(1,Short.parseShort(id));
+        query1.executeUpdate();
+
+        sql1 = "DELETE FROM classicmodels.users WHERE username  = ?";
+        query1 = em.createNativeQuery(sql1);
+        query1.setParameter(1,id);
+        query1.executeUpdate();
+
+        sql1  = "DELETE FROM classicmodels.user_roles WHERE username = ?";
+        query1 = em.createNativeQuery(sql1);
+        query1.setParameter(1,id);
+        query1.executeUpdate();
 
     }
 

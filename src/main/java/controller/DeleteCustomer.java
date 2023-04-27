@@ -1,6 +1,6 @@
 package controller;
 
-import com.utar.model.sessionbean.PaymentSessionBean;
+import com.utar.model.sessionbean.CustomerSessionBean;
 
 import javax.ejb.EJB;
 import javax.servlet.*;
@@ -8,11 +8,11 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 
-@WebServlet(name = "DeletePayment", value = "/DeletePayment")
-public class DeletePayment extends HttpServlet {
+@WebServlet(name = "DeleteCustomer", value = "/DeleteCustomer")
+public class DeleteCustomer extends HttpServlet {
 
     @EJB
-    private PaymentSessionBean paymentbean;
+    private CustomerSessionBean customerbean;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -30,13 +30,15 @@ public class DeletePayment extends HttpServlet {
         }catch (Exception e) {
             doPost(request, response);
         }
-        
+
     }
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String paymentid = request.getParameter("id");
-        paymentbean.deletePayment(paymentid);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("PaymentServlet?currentPage=1&recordsPerPage=20&direction=asc");
+
+    String customerid = request.getParameter("id");
+        customerbean.deleteCustomer(customerid);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("Profile?direction=ASC&currentPage=1&recordsPerPage=20");
         dispatcher.forward(request, response);
     }
 }

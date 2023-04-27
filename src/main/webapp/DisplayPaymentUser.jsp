@@ -480,13 +480,7 @@
                 </div>
                 <div class="carousel-inner">
                     <div class="carousel-item active"><img
-                            src="https://images.pexels.com/photos/356056/pexels-photo-356056.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260"
-                            class="d-block w-100"></div>
-                    <div class="carousel-item"><img
-                            src="https://images.pexels.com/photos/270694/pexels-photo-270694.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
-                            class="d-block w-100"></div>
-                    <div class="carousel-item"><img
-                            src="https://images.pexels.com/photos/7974/pexels-photo.jpg?auto=compress&cs=tinysrgb&dpr=2&w=500"
+                            src="images/<%=p.getProductline().getId()%>.jpg"
                             class="d-block w-100"></div>
                 </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#my" data-bs-slide="prev">

@@ -139,6 +139,20 @@
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
+        select{
+            width: 30%;
+            padding-top: 1.4%;
+            padding-bottom: 1.2%;
+        }
+
+        #search-now{
+            width: 37.2%;
+        }
+
+        #search-it{
+            width: 30%;
+        }
+
         select:focus, input[type="text"]:focus, input[type="submit"]:focus,button[type="reset"], input[type="date"]:focus {
             outline: none;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
@@ -563,7 +577,7 @@
 <body class="m-3">
 
 
-<div class="row col-md-6">
+<div class="">
     <table class="table table-striped table-bordered table-sm">
 
         <h1> Payment Details </h1>
@@ -659,9 +673,6 @@
             <th>Delete</th>
         </tr>
 
-</body>
-
-</html>
 
         <%
             List<Object[]> list = (List<Object[]>) session.getAttribute("payment");
@@ -682,7 +693,7 @@
             } else {
                 out.println("<tr>");
                 String status = "No records";
-                for (int i = 0; i < 8; i++) {
+                for (int i = 0; i < 7; i++) {
                     out.println("<td>" + status + "</td>");
                 }
                 out.println("</tr>");
@@ -774,8 +785,8 @@
                         <input class="form-control" type="text" required id="row3" name="row3"
                                value=""></div>
                     <div class="mb-3"><p class="dis fw-bold mb-2">Payment Date</p>
-                        <input class="form-control" type="date"   required id="row4" name="row4"
-                               value="2017-06-01"></div>
+                        <input readonly class="form-control" type="text"   id="row4" name="row4"
+                               value=""></div>
                     <div class="mb-3"><p class="dis fw-bold mb-2">Product Amount</p>
                         <input class="form-control" type="text"   required id="row5" name="row5"
                                value="12345"></div>

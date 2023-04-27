@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.List;
 
 @WebServlet(name = "Profile", value = "/Profile")
-public class Profile extends HttpServlet {
+public class Customerservlet extends HttpServlet {
     @EJB
     private PaymentSessionBean paymentSessionBean;
 
@@ -35,22 +35,15 @@ public class Profile extends HttpServlet {
 
         String customernumber = request.getParameter("customernumber");
         String customername = request.getParameter("customername");
-        String checknumber = request.getParameter("checknumber");
         String phonenumber = request.getParameter("phonenumber");
-        String creditlimit = request.getParameter("creditlimit");
-        String amount = request.getParameter("amount");
-        String fromDateStr = request.getParameter("from_date");
-        String toDateStr = request.getParameter("to_date");
+        String city = request.getParameter("City");
+        String state = request.getParameter("State");
+        String postalcode = request.getParameter("postal");
+        String country = request.getParameter("Country");
+        String creditlimit = request.getParameter("Limit");
         String minamount = request.getParameter("minamount");
         String maxamount = request.getParameter("maxamount");
 
-        if (fromDateStr != null && toDateStr != null && fromDateStr.length() > 0 && toDateStr.length() > 0) {
-            String[] date = fromDateStr.split("-");
-            fromDateStr = date[2] + "/" + date[1] + "/" + date[0];
-
-            date = toDateStr.split("-");
-            toDateStr = date[2] + "/" + date[1] + "/" + date[0];
-        }
 
         String category;
 
@@ -58,35 +51,36 @@ public class Profile extends HttpServlet {
         int nOfpages = 0,currentPage = 1,recordsPerPage = 20;
         String direction = "ASC";
 
-        System.out.println("creditlimit: " + creditlimit);
-        System.out.println("creditlimit: " + minamount);
-        System.out.println("creditlimit: " + maxamount);
+
         try {
             if (customernumber != null && customernumber.length() > 0 && !customernumber.matches(".*[a-zA-Z]+.*")) {
                 category = "c.customernumber = " + "'" + customernumber + "'";
-                lists = paymentSessionBean.findPaymentCustomer(category);
-
+                lists = customerSessionBean.filterpayment(category);
             } else if (customername != null && customername.length() > 0) {
                 category = "c.customername LIKE " + "'%" + customername + "%'";
-                lists = paymentSessionBean.findPaymentCustomer(category);
-            } else if (checknumber != null && checknumber.length() > 0) {
-                category = "pd.checknumber = " + "'" + checknumber + "'";
-                lists = paymentSessionBean.findPaymentCustomer(category);
+                lists = customerSessionBean.filterpayment(category);
             } else if (phonenumber != null && phonenumber.length() > 0) {
-                category = "c.phone = " + "'" + phonenumber + "'";
-                lists = paymentSessionBean.findPaymentCustomer(category);
-            } else if (fromDateStr != null && toDateStr != null && fromDateStr.length() > 0 && toDateStr.length() > 0) {
-                category = "pd.paymentdate BETWEEN " + "'" + fromDateStr + "'" + " AND " + "'" + toDateStr + "'";
-                lists = paymentSessionBean.findPaymentCustomer(category);
+                category = "c.phone LIKE " + "'%" + phonenumber + "%'";
+                lists = customerSessionBean.filterpayment(category);
             } else if (creditlimit != null && creditlimit.length() > 0) {
                 category = "c.creditlimit BETWEEN " +  minamount  + " AND " +  maxamount;
-                lists = paymentSessionBean.findPaymentCustomer(category);
-            } else if (amount != null && amount.length() > 0) {
-                category = "pd.amount BETWEEN " +  minamount  + " AND " +  maxamount;
-                lists = paymentSessionBean.findPaymentCustomer(category);
-            }else {
+                lists = customerSessionBean.filterpayment(category);
+            }else if(city != null && city.length() > 0){
+                category = "c.city LIKE " + "'%" + city + "%'";
+                lists = customerSessionBean.filterpayment(category);
+            }else if(state != null && state.length() > 0){
+                category = "c.state LIKE " + "'%" + state + "%'";
+                lists = customerSessionBean.filterpayment(category);
+            }
+            else if(postalcode != null && postalcode.length() > 0){
+                category = "c.postalcode LIKE " + "'%" + postalcode + "%'";
+                lists = customerSessionBean.filterpayment(category);
+            }
+            else if(country != null && country.length() > 0) {
+                category = "c.country LIKE " + "'%" + country + "%'";
+                lists = customerSessionBean.filterpayment(category);
+            } else {
                 try {
-
                     currentPage = Integer.parseInt(request.getParameter("currentPage"));
                     recordsPerPage = Integer.parseInt(request.getParameter("recordsPerPage"));
                     int rows = customerSessionBean.getNumberOfRows();
