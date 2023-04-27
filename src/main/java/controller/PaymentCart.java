@@ -85,7 +85,7 @@ public class PaymentCart extends HttpServlet {
 
         int check1 = orderbean.getNextOrderNumber();
 
-        String[] s1 = {String.valueOf(check1), today1, requiredate1,requiredate1,"pending","0",String.valueOf(c.getId())};
+        String[] s1 = {String.valueOf(check1), today1, requiredate1,requiredate1,"pending"," ",String.valueOf(c.getId())};
 
         orderbean.addit(s1);
 

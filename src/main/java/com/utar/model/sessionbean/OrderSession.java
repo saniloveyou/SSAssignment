@@ -29,10 +29,7 @@ public class OrderSession implements OrderSessionBean{
     @Override
     public Order findOrder(String ordernumber) throws EJBException {
         String sql = "SELECT * FROM classicmodels.orders WHERE ordernumber = " + ordernumber;
-
-        Query query = entityManager.createNativeQuery("SELECT * FROM classicmodels.orders WHERE ordernumber = :ordernumber", Order.class);
-        query.setParameter("ordernumber", ordernumber);
-
+        Query query = entityManager.createNativeQuery(sql, Order.class);
         Order result = null;
         try {
             result = (Order) query.getSingleResult();
@@ -41,6 +38,20 @@ public class OrderSession implements OrderSessionBean{
         }
         return result;
     }
+
+    @Override
+    public Orderdetail findOrderdetail(String ordernumber, String productcode) throws EJBException {
+        String sql = "SELECT * FROM classicmodels.orderdetails WHERE ordernumber = " + ordernumber + " AND productcode = '" + productcode + "'";
+        Query query = entityManager.createNativeQuery(sql, Orderdetail.class);
+        Orderdetail result = null;
+        try {
+            result = (Orderdetail) query.getSingleResult();
+        } catch (Exception e) {
+            System.out.println("Order not found");
+        }
+        return result;
+    }
+
 
     @Override
     public int getNumberOfRows(String sql) throws EJBException {
@@ -52,6 +63,21 @@ public class OrderSession implements OrderSessionBean{
     public int getNextOrderNumber() throws EJBException {
         Query query = entityManager.createNativeQuery("SELECT max(ordernumber)+1 FROM classicmodels.orders");
         return Integer.parseInt(query.getSingleResult().toString());
+    }
+
+    @Override
+    public int getNextOrderNumber(String customernumber) throws EJBException {
+        Query query = entityManager.createNativeQuery("SELECT max(ordernumber) FROM classicmodels.orders WHERE customernumber = " + customernumber);
+        int lastOrderNumber = Integer.parseInt(query.getSingleResult().toString());
+
+        query = entityManager.createNativeQuery("SELECT orderdate FROM classicmodels.orders WHERE ordernumber = " + lastOrderNumber);
+        String orderDate = query.getSingleResult().toString();
+        if (!orderDate.equals(new SimpleDateFormat("yyyy-MM-dd").format(new Date()))){
+            return lastOrderNumber + 1;
+        }
+        else {
+            return lastOrderNumber;
+        }
     }
 
 
@@ -134,11 +160,9 @@ public class OrderSession implements OrderSessionBean{
         query.setParameter("ordernumber", ordernumber);
         query.setParameter("productcode", productcode);
         query.setParameter("quantityordered", 1);
-        query.setParameter("priceeach", price);
+        query.setParameter("priceeach", Double.parseDouble(price));
         query.setParameter("orderlinenumber", orderlinenumber);
         query.executeUpdate();
-
-
 
     }
 
@@ -160,30 +184,76 @@ public class OrderSession implements OrderSessionBean{
 
 
     @Override
-    public void updateOrder(int ordernumber, String requiredDate, String shippedDate, String status, String comments) throws EJBException {
+    public void updateOrder(int ordernumber, String requireddate, String shippeddate, String status, String comments) throws EJBException {
         String sql = "UPDATE classicmodels.orders SET ";
-        if (!requiredDate.isEmpty()) {
-            sql += "requireddate = :requireddate, ";
+        if (!requireddate.isEmpty()) {
+            sql += "requireddate = '" + requireddate +"', ";
         }
-        if (!shippedDate.isEmpty()) {
-            sql += "shippeddate = :shippeddate, ";
+        if (!shippeddate.isEmpty()) {
+            sql += "shippeddate = '"+shippeddate+"', ";
         }
         if (!status.isEmpty()) {
-            sql += "status = :status, ";
+            sql += "status = '"+status+"', ";
         }
-        if (!comments.isEmpty()) {
-            sql += "comments = :comments ";
+
+        sql += "comments = '"+comments+"' ";
+
+        if (sql.endsWith(", ")) {
+            sql = sql.substring(0, sql.length() - 2);
         }
-        sql += "WHERE ordernumber = :ordernumber";
+
+        sql += " WHERE ordernumber = "+ordernumber+"";
+
+        System.out.println(sql);
         Query query = entityManager.createNativeQuery(sql);
         query.executeUpdate();
     }
 
     @Override
-    public void deleteOrder(String id) throws EJBException {
-        Query query = entityManager.createNativeQuery("DELETE FROM classicmodels.orders WHERE ordernumber = :ordernumber");
-        query.setParameter("ordernumber", id);
+    public void updateOrderdetail(int ordernumber, String productcode, int quantityordered, double priceeach) throws EJBException {
+        String sql = "UPDATE classicmodels.orderdetails SET ";
+        if (quantityordered != 0) {
+            sql += "quantityordered = " + quantityordered +", ";
+        }
+        if (priceeach != 0) {
+            sql += "priceeach = "+priceeach+", ";
+        }
+
+
+        if (sql.endsWith(", ")) {
+            sql = sql.substring(0, sql.length() - 2);
+        }
+
+        sql += " WHERE ordernumber = "+ordernumber+" AND productcode = '"+productcode+"'";
+
+        System.out.println(sql);
+        Query query = entityManager.createNativeQuery(sql);
         query.executeUpdate();
+    }
+
+
+    @Override
+    public void deleteOrder(String id) throws EJBException {
+        // first delete record from orderdetails table since it have the foreign key
+        Query query = entityManager.createNativeQuery("DELETE FROM classicmodels.orderdetails WHERE ordernumber = "+id);
+        query.executeUpdate();
+        query = entityManager.createNativeQuery("DELETE FROM classicmodels.orders WHERE ordernumber = "+id);
+        query.executeUpdate();
+    }
+
+    @Override
+    public void deleteOrderdetail(String id, String productcode) throws EJBException {
+        // first delete record from orderdetails table since it have the foreign key
+        Query query = entityManager.createNativeQuery("DELETE FROM classicmodels.orderdetails WHERE ordernumber = "+id + " AND productcode = '"+productcode+"'");
+        query.executeUpdate();
+
+        // check if there is no more orderdetail with the same ordernumber
+        query = entityManager.createNativeQuery("SELECT * FROM classicmodels.orderdetails WHERE ordernumber = "+id);
+        List<Orderdetail> result = query.getResultList();
+        if (result.isEmpty()) {
+            query = entityManager.createNativeQuery("DELETE FROM classicmodels.orders WHERE ordernumber = "+id);
+            query.executeUpdate();
+        }
     }
 
     @Override

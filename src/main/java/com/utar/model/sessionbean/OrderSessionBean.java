@@ -14,9 +14,13 @@ public interface OrderSessionBean {
 
     public Order findOrder(String id) throws EJBException;
 
+    public Orderdetail findOrderdetail(String ordernumber, String productcode) throws EJBException;
+
     public int getNumberOfRows(String sql) throws EJBException;
 
     int getNextOrderNumber() throws EJBException;
+
+    int getNextOrderNumber(String customernumber) throws EJBException;
 
     void addOrder(int ordernumber, int customernumber) throws EJBException;
 
@@ -32,7 +36,11 @@ public interface OrderSessionBean {
 
     void updateOrder(int ordernumber, String requiredDate, String shippedDate, String status, String comments) throws EJBException;
 
+    void updateOrderdetail(int ordernumber, String productcode, int quantityordered, double priceeach) throws EJBException;
+
     public void deleteOrder(String id) throws EJBException; // Delete
+
+    void deleteOrderdetail(String id, String productcode) throws EJBException;
 
     void addit(String[] s) throws EJBException;
 }

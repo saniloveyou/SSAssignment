@@ -155,8 +155,8 @@
                     <td><%=pl.getTextdescription()%></td>
                     <td><%=pl.getHtmldescription()%></td>
                     <td><%=pl.getImage()%></td>
-                    <td><a href="ProductlineController?id=<%=pl.getId()%>">UPDATE</a></td>
-                    <td><a href="ProductlineController?id=<%=pl.getId()%>">DELETE</a></td>
+                    <td><a href="ProductlineController?action=update&id=<%=pl.getId()%>">UPDATE</a></td>
+                    <td><a href="ProductlineController?action=delete&id=<%=pl.getId()%>">DELETE</a></td>
                 </tr>
                 <%      }
                 }else{%>

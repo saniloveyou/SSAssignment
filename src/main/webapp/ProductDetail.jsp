@@ -125,7 +125,7 @@
                             <a href="PaymentNow" class="main-btn">Buy Now</a>
                         </li>
                         <li>
-                            <a href="#" class="main-btn">Add to Cart</a>
+                            <a href="AddToCartServlet?productcode=<%=p.getId()%>"  class="main-btn">Add to Cart</a>
                         </li>
                     </ul>
                 </div> <!-- /.product-information -->
@@ -248,6 +248,13 @@
 <script src="js/plugins.js"></script>
 <script src="js/main.js"></script>
 
+
+<script>
+    function addTocart(id){
+        // check if user logged in
+
+    }
+</script>
 
 </body>
 </html>

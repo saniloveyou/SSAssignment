@@ -10,6 +10,7 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 
 @WebServlet(name = "OrderdetailServlet", value = "/OrderdetailServlet")
@@ -24,6 +25,30 @@ public class OrderdetailServlet extends HttpServlet {
 
         int nOfPages = 0;
         int currentPage = 1;
+
+        String action = request.getParameter("action");
+        if (action != null){
+            if(action.equals("update")){
+                String ordernumber = request.getParameter("ordernumber");
+                String productcode = request.getParameter("productcode");
+                Orderdetail orderdetail = orderSessionBean.findOrderdetail(ordernumber, productcode);
+                request.setAttribute("ordernumber", ordernumber);
+                request.setAttribute("productcode", productcode);
+                request.setAttribute("quantityordered", orderdetail.getQuantityordered().toString());
+                request.setAttribute("priceeach", orderdetail.getPriceeach().toString());
+                request.setAttribute("orderlinenumber", orderdetail.getOrderlinenumber().toString());
+                request.getRequestDispatcher("UpdateOrderdetail.jsp").forward(request, response);
+            }
+            if (action.equals("delete")){
+                String ordernumber = request.getParameter("ordernumber");
+                String productcode = request.getParameter("productcode");
+                orderSessionBean.deleteOrderdetail(ordernumber, productcode);
+                PrintWriter out = response.getWriter();
+                response.sendRedirect("OrderdetailServlet");
+            }
+
+            return;
+        }
 
         try {
             currentPage = Integer.parseInt(request.getParameter("currentPage") == null ? "1" : request.getParameter("currentPage"));
@@ -40,20 +65,27 @@ public class OrderdetailServlet extends HttpServlet {
         String sortBy = request.getParameter("sortBy") == null ? "ordernumber" : request.getParameter("sortBy");
 
         String ordernumber = request.getParameter("ordernumber");
-        String productcode = request.getParameter("productcode");
+
+        String productcode = "";
+        try {
+            productcode = request.getParameter("productcode");
+        } catch (NullPointerException e) {
+            System.out.println("No productcode selected");
+        }
+        finally {
+            if (productcode == null) productcode = "";
+        }
+
         String quantityordered = request.getParameter("quantityordered");
         String priceeach = request.getParameter("priceeach");
         String orderlinenumber = request.getParameter("orderlinenumber");
 
-        String orderBy = sortBy + " " + direction;
+        String orderBy = sortBy + ", orderlinenumber " + direction;
 
         String where = "WHERE ";
 
         if (ordernumber != null && !ordernumber.equals("")) where += "ordernumber = " + ordernumber + " AND ";
-        if (productcode != null && !productcode.equals("")) where += "productcode = " + productcode + " AND ";
-        if (quantityordered != null && !quantityordered.equals("")) where += "quantityordered = " + quantityordered + " AND ";
-        if (priceeach != null && !priceeach.equals("")) where += "priceeach = " + priceeach + " AND ";
-        if (orderlinenumber != null && !orderlinenumber.equals("")) where += "orderlinenumber = " + orderlinenumber + " AND ";
+        if (productcode != null && !productcode.equals("")) where += "productcode = '" + productcode + "' AND ";
 
         if (where.equals("WHERE ")) where = "";
         else where = where.substring(0, where.length() - 5);
@@ -95,6 +127,19 @@ public class OrderdetailServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if(request.getParameter("action").equals("updateOrderdetail")){
+            int ordernumber = Integer.parseInt(request.getParameter("ordernumber"));
+            String productcode = request.getParameter("productcode");
+            int quantityordered = Integer.parseInt(request.getParameter("quantityordered"));
+            double priceeach = Double.parseDouble(request.getParameter("priceeach"));
 
+            orderSessionBean.updateOrderdetail(ordernumber, productcode, quantityordered, priceeach);
+            PrintWriter out = response.getWriter();
+            out.println("<script type=\"text/javascript\">");
+            out.println("alert('Order detail updated successfully');");
+            out.println("</script>");
+
+            response.sendRedirect("OrderdetailServlet?currentPage=1&recordsPerPage=20&sortBy=ordernumber&direction=asc");
+        }
     }
 }

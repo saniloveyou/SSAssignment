@@ -1,5 +1,6 @@
 package com.utar.model.sessionbean;
 
+import com.utar.model.entity.Product;
 import com.utar.model.entity.Productline;
 
 import javax.ejb.EJBException;
@@ -7,6 +8,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.List;
 

@@ -28,24 +28,46 @@ public class AddToCartServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        HttpSession session = request.getSession();
+        try {
+            HttpSession session = request.getSession();
+            String user_role = session.getAttribute("user_role").toString();
 
+            if (!user_role.equals("[user]")) {
+                RequestDispatcher dispatcher = request.getRequestDispatcher("adminprompt.jsp");
+                dispatcher.forward(request, response);
+            }
+        }catch (Exception e) {
+            RequestDispatcher dispatcher = request.getRequestDispatcher("Login.jsp");
+            dispatcher.forward(request, response);
+        }
+
+        HttpSession session = request.getSession();
+        Customer customer = (Customer) session.getAttribute("customer");
+        String customernumber = String.valueOf(customer.getId());
         String productcode = request.getParameter("productcode");
 
         int ordernumber = 0;
         try {
-            ordernumber = session.getAttribute("ordernumber") == null ? orderSessionBean.getNextOrderNumber() : (int) session.getAttribute("ordernumber");
+            ordernumber = session.getAttribute("ordernumber") == null ? orderSessionBean.getNextOrderNumber(customernumber) : (int) session.getAttribute("ordernumber");
+            session.setAttribute("ordernumber", ordernumber);
         } catch (EJBException e) {
             System.out.println("Error getting next order number");
         }
-        session.setAttribute("ordernumber", ordernumber);
 
 
-        Customer customer = (Customer) session.getAttribute("customer");
-        int customernumber = customer.getId();
+        // check if product is already in cart
+        if (orderSessionBean.findOrderdetail(String.valueOf(ordernumber), productcode) != null) {
+            PrintWriter out = response.getWriter();
+            out.println("<script type=\"text/javascript\">");
+            out.println("alert('Product already in cart');");
+            out.println("</script>");
+            response.sendRedirect("ProductHomeDisplayServlet");
+            return;
+        }
+
 
         try {
-            orderSessionBean.addOrder(ordernumber, customernumber);
+            orderSessionBean.addOrder(ordernumber, Integer.parseInt(customernumber));
         } catch (EJBException e) {
             System.out.println("Error adding order");
         }
@@ -60,9 +82,10 @@ public class AddToCartServlet extends HttpServlet {
 //        session.setAttribute("cart_list", orderdetails);
 
         PrintWriter out = response.getWriter();
-        out.println("<h1>Added to cart</h1>");
-        // refresh page
-        response.setHeader("Refresh", "1; URL=index.jsp");
+        out.println("<script type=\"text/javascript\">");
+        out.println("alert('Product added to cart');");
+        out.println("</script>");
+        response.sendRedirect("ProductHomeDisplayServlet");
     }
 
 

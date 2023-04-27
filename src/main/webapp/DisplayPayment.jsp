@@ -558,8 +558,7 @@
             }
         }
     </script>
-    <link rel="stylesheet"
-          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">
 </head>
 <body class="m-3">
 
@@ -808,7 +807,6 @@
             </div>
         </div>
     </div>
-
 </div>
 
 

@@ -14,7 +14,6 @@
         body {font-family: Arial, Helvetica, sans-serif;}
         * {box-sizing: border-box;}
     </style>
-
     <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800" rel="stylesheet">
 
     <link rel="stylesheet" href="css/bootstrap.css">
@@ -96,6 +95,7 @@
                             <li><a href="ProductlineDisplayServlet?currentPage=1&recordsPerPage=12&&keyword=&sort=ASC">Productline</a></li>
                             <li><a href="adminProductPage.html">Product Edit</a></li>
                             <li><a href="OrderServlet?currentPage=1&recordsPerPage=20&sortBy=ordernumber&direction=asc">Order Details</a></li>
+                            <li><a href="OrderdetailServlet?currentPage=1&recordsPerPage=20&sortBy=ordernumber&direction=asc">View Order Details</a></li>
                             <li><a href="PaymentServlet">Order payment</a></li>
                             <li><a href="contact.html">Contact</a></li>
                         </ul>
@@ -110,6 +110,10 @@
     <div class="container">
         <h1 class="text-center"><b>Order Details</b></h1>
 
+
+
+
+
         <form id="form1" class="container form-container" action="OrderServlet" method="get">
             <input type="hidden" name="currentPage" value="<%=currentPage%>">
             <input type="hidden" name="sortBy" value="<%=sortBy%>">
@@ -118,13 +122,13 @@
             <div class="row mb-3">
                 <label class="col-sm-2 col-form-label">Order Number:</label>
                 <div class="col input-group">
-                    <div class="input-group-text">#</div>
+                    <div class="input-group-text" style="height: 34px;">#</div>
                     <input type="number" class="form-control" name="ordernumber" placeholder="Order Number" value="<%=ordernumber%>">
                 </div>
 
                 <label class="col-sm-2 col-form-label">Customer Number:</label>
                 <div class="col input-group">
-                    <div class="input-group-text">#</div>
+                    <div class="input-group-text" style="height: 34px;">#</div>
                     <input type="number" class="form-control" name="customernumber" placeholder="Customer Number" value="<%=customernumber%>">
                 </div>
             </div>
@@ -132,11 +136,11 @@
             <div class="row mb-3">
                 <label class="col-sm-2 col-form-label">Order Date:</label>
                 <div class="col input-group">
-                    <div class="input-group-text">From Date</div>
+                    <div class="input-group-text" style="height: 34px;">From Date</div>
                     <input type="date" class="form-control" name="fromOrderDate"  value="<%=fromOrderDate%>"/>
                 </div>
                 <div class="col input-group">
-                    <div class="input-group-text">To Date</div>
+                    <div class="input-group-text" style="height: 34px;">To Date</div>
                     <input type="date" class="form-control" name="toOrderDate" value="<%=toOrderDate%>"/>
                 </div>
             </div>
@@ -144,11 +148,11 @@
             <div class="row mb-3">
                 <label class="col-sm-2 col-form-label">Required Date:</label>
                 <div class="col input-group">
-                    <div class="input-group-text">From Date</div>
+                    <div class="input-group-text" style="height: 34px;">From Date</div>
                     <input type="date" class="form-control" name="fromRequiredDate" value="<%=fromRequiredDate%>"/>
                 </div>
                 <div class="col input-group">
-                    <div class="input-group-text">To Date</div>
+                    <div class="input-group-text" style="height: 34px;">To Date</div>
                     <input type="date" class="form-control" name="toRequiredDate" value="<%=toRequiredDate%>"/>
                 </div>
             </div>
@@ -156,11 +160,11 @@
             <div class="row mb-3">
                 <label class="col-sm-2 col-form-label">Shipped Date:</label>
                 <div class="col input-group">
-                    <div class="input-group-text">From Date</div>
+                    <div class="input-group-text" style="height: 34px;"> From Date</div>
                     <input type="date" class="form-control" name="fromShippedDate" value="<%=fromShippedDate%>"/>
                 </div>
                 <div class="col input-group">
-                    <div class="input-group-text">To Date</div>
+                    <div class="input-group-text" style="height: 34px;">To Date</div>
                     <input type="date" class="form-control" name="toShippedDate" value="<%=toShippedDate%>"/>
                 </div>
             </div>
@@ -205,12 +209,12 @@
                         <label class="form-check-label">Cancelled</label>
                     </div>
                 </div>
-                <div class="col-md-2 input-group" style="flex-basis: content" >
-                    <div class="input-group-text">Records per page</div>
+                <div class="col-md-2 input-group" style="flex-basis: content; height: 34px;" >
+                    <div class="input-group-text" style="flex-basis: content; height: 34px;">Records per page</div>
                     <input type="number" class="form-control" name="recordsPerPage" value="<%=recordsPerPage%>" min="1" required>
                 </div>
                 <div class="col-md-2" style="flex-basis: content">
-                    <input type="submit" class="btn btn-primary" value="Submit"/>
+                    <input type="submit" class="btn btn-primary" value="Search"/>
                     <a href="OrderServlet" class="btn btn-danger">Reset</a>
                 </div>
             </fieldset>
@@ -274,24 +278,37 @@
                                 Customer Number
                             </a>
                         </th>
+
+                        <th>
+                            Order Details
+                        </th>
+                        <th>
+                            Update
+                        </th>
+                        <th>
+                            Delete
+                        </th>
                     </tr>
                     <%
                         List<Order> orders = (List<Order>) request.getAttribute("orders");
                         if (orders.size() != 0) {
-                            for (Order o : orders) {
-                                out.println("<tr>");
-                                out.println("<td>" + o.getId() + "</td>");
-                                out.println("<td>" + o.getOrderdate() + "</td>");
-                                out.println("<td>" + o.getRequireddate() + "</td>");
-                                out.println("<td>" + (o.getShippeddate() == null ? "" : o.getShippeddate()) + "</td>");
-                                out.println("<td>" + o.getStatus() + "</td>");
-                                out.println("<td>" + o.getComments() + "</td>");
-                                out.println("<td>" + o.getCustomernumber() + "</td>");
-                                out.println("</tr>");
-                            }
+                            for (Order o : orders) {%>
+                    <tr id="<%=o.getId()%>">
+                        <td><%=o.getId()%></td>
+                        <td><%=o.getOrderdate()%></td>
+                        <td><%=o.getRequireddate()%></td>
+                        <td><%=o.getShippeddate() == null ? "" : o.getShippeddate()%></td>
+                        <td><%=o.getStatus()%></td>
+                        <td><%=o.getComments()%></td>
+                        <td><%=o.getCustomernumber()%></td>
+                        <td id="view" ><a href="OrderdetailServlet?currentPage=1&sortBy=ordernumber&direction=asc&ordernumber=<%=o.getId()%>&recordsPerPage=20">View</a></td>
+                        <td id="update" ><a href="OrderServlet?action=update&ordernumber=<%=o.getId()%>">Update</a></td>
+                        <td id="delete" ><a style='color: red;'  href="#" onclick="deleteOrder(<%=o.getId()%>)">Delete</a></td>
+                    </tr>
+                            <%}
                         } else {
                             out.println("<tr>");
-                            for (int i = 0; i < 9; i++) out.println("<td>No records</td>");
+                            for (int i = 0; i < 10; i++) out.println("<td>No records</td>");
                             out.println("</tr>");
                         }
                     %>
@@ -322,6 +339,7 @@
     </div>
 </div>
 
+
 <script>
     function pagination(action)
     {
@@ -334,6 +352,15 @@
         else if (action == "previous")
             document.getElementById("currentPage").value = <%=currentPage%> - 1;
         document.getElementById("searchForm").submit();
+    }
+
+    function deleteOrder(id) {
+        var r = confirm('Are you sure you want to delete Order Number: '+id+'?');
+        if (r == true) {
+            window.location.href = 'OrderServlet?action=delete&ordernumber=' + id;
+        } else {
+            return false;
+        }
     }
 </script>
 </body>

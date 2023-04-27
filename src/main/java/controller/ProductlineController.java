@@ -3,15 +3,11 @@ package controller;
 import com.utar.model.entity.Productline;
 import com.utar.model.sessionbean.ProductlineSessionBeanLocal;
 import utilities.ProductChangesValidation;
-
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.*;
+import javax.servlet.http.*;
+import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -23,6 +19,13 @@ public class ProductlineController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        if(request.getParameter("action").equals("delete")){
+            productlinebean.deleteProductline(request.getParameter("id"));
+            response.sendRedirect("ProductlineDisplayServlet?currentPage=1&recordsPerPage=12&&keyword=&sort=ASC");
+            return;
+        }
+
         try {
             String id = request.getParameter("id");
             Productline pl = productlinebean.getProductline(id);
@@ -47,19 +50,10 @@ public class ProductlineController extends HttpServlet {
             String[] s = { pl, textDescription, htmlDescription, image};
             if (ProductChangesValidation.validateManager(request).equals("UPDATE")) {
                 productlinebean.updateProductline(s);
-
             }
-            else if (ProductChangesValidation.validateManager(request).equals("DELETE")) {
-                productlinebean.deleteProductline(pl); //NEED TO WAIT FOR INTEGRATION TO DEBUG
-
-
-            } else {
+            else {
                productlinebean.addProductline(s);
-
             }
-            // this line is to redirect to notify record has been updated and redirect to
-            // another page
-
                 out.println("<SCRIPT type=\"text/javascript\">");
                 out.println("alert(\"Record has been updated and url will be redirected\")");
                 out.println("window.location.assign(\"ProductlineDisplayServlet?currentPage=1&recordsPerPage=12&keyword=&sort=ASC\")"); //CHANGE URL

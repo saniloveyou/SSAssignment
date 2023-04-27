@@ -9,7 +9,9 @@ import javax.ejb.EJBException;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
+import javax.ws.rs.core.Response;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.List;
 
@@ -24,6 +26,32 @@ public class OrderServlet extends HttpServlet {
 
         int nOfPages = 0;
         int currentPage = 1;
+
+        String action = request.getParameter("action");
+        if (action != null){
+            if(action.equals("update")){
+                String ordernumber = request.getParameter("ordernumber");
+                Order order = orderSessionBean.findOrder(ordernumber);
+                request.setAttribute("ordernumber", ordernumber);
+                request.setAttribute("orderdate", order.getOrderdate());
+                request.setAttribute("requireddate", order.getRequireddate());
+                request.setAttribute("shippeddate", order.getShippeddate());
+                request.setAttribute("status", order.getStatus());
+                request.setAttribute("comments", order.getComments());
+                request.setAttribute("customernumber", order.getCustomernumber().toString());
+                request.getRequestDispatcher("UpdateOrder.jsp").forward(request, response);
+            }
+            if (action.equals("delete")){
+                String ordernumber = request.getParameter("ordernumber");
+                orderSessionBean.deleteOrder(ordernumber);
+                System.out.println("OrderServlet: Order deleted");
+                PrintWriter out = response.getWriter();
+                response.sendRedirect("OrderServlet");
+            }
+
+            return;
+        }
+
 
         try {
             currentPage = Integer.parseInt(request.getParameter("currentPage") == null ? "1" : request.getParameter("currentPage"));
@@ -122,5 +150,22 @@ public class OrderServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if(request.getParameter("action").equals("updateOrder")){
+            String ordernumber = request.getParameter("ordernumber");
+            String orderdate = request.getParameter("orderdate");
+            String requireddate = request.getParameter("requireddate");
+            String shippeddate = request.getParameter("shippeddate");
+            String status = request.getParameter("status");
+            String comments = request.getParameter("comments");
+            String customernumber = request.getParameter("customernumber");
+
+            orderSessionBean.updateOrder(Integer.parseInt(ordernumber), requireddate, shippeddate, status, comments);
+            PrintWriter out = response.getWriter();
+            out.println("<script type=\"text/javascript\">");
+            out.println("alert('Order updated successfully');");
+            out.println("</script>");
+
+            response.sendRedirect("OrderServlet?currentPage=1&recordsPerPage=20&sortBy=ordernumber&direction=asc");
+        }
     }
 }

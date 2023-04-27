@@ -36,13 +36,14 @@
 %>
 <div class="form-wrapper">
     <form action="ProductlineController" method="post">
+        <input type="hidden" name="UPDATE" value="UPDATE">
         <div class="row justify-content-center">
             <h3>Update Product Line Form</h3>
         </div>
         <div class="form-group row">
             <label class="col-sm-4 col-form-label">Product Line: </label>
             <%
-                out.println("<textarea name=\"productline\" id=\"productline\" cols=\"50\" >" + productline.getId() + "</textarea>");
+                out.println("<input type='text' readonly name=\"productline\" id=\"productline\" cols=\"50\" value='" + productline.getId() + "'></input>");
             %>
         </div>
 
@@ -65,7 +66,7 @@
             %>
         </div>
         <div class="right">
-            <button class="btn btn-primary" type="update">Update</button>
+            <button class="btn btn-primary" type="submit">Update</button>
         </div>
     </form>
 </div>

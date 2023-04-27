@@ -99,14 +99,11 @@
                     <div class="list-menu">
                         <ul>
                             <li><a href="index.html">Shop</a></li>
-                            <li>
-                                <a href="ProductPaginationServlet?currentPage=1&recordsPerPage=12&admin=false&keyword=&sort=ASC">Catalogs</a>
-                            </li>
-                            <li><a href="ProductlineDisplayServlet?currentPage=1&recordsPerPage=12&&keyword=&sort=ASC">Productline</a>
-                            </li>
+                            <li><a href="ProductPaginationServlet?currentPage=1&recordsPerPage=12&admin=false&keyword=&sort=ASC">Catalogs</a></li>
+                            <li><a href="ProductlineDisplayServlet?currentPage=1&recordsPerPage=12&&keyword=&sort=ASC">Productline</a></li>
                             <li><a href="adminProductPage.html">Product Edit</a></li>
-                            <li><a href="OrderServlet?currentPage=1&recordsPerPage=20&sortBy=ordernumber&direction=asc">Order
-                                Details</a></li>
+                            <li><a href="OrderServlet?currentPage=1&recordsPerPage=20&sortBy=ordernumber&direction=asc">Order Details</a></li>
+                            <li><a href="OrderdetailServlet?currentPage=1&recordsPerPage=20&sortBy=ordernumber&direction=asc">View Order Details</a></li>
                             <li><a href="PaymentServlet">Order payment</a></li>
                             <li><a href="contact.html">Contact</a></li>
                         </ul>
@@ -121,7 +118,7 @@
     <div class="container">
         <h1 class="text-center"><b>Order Details</b></h1>
 
-        <form id="form1" class="container form-container" action="OrderServlet" method="get">
+        <form id="form1" class="container form-container" action="OrderdetailServlet" method="get">
             <input type="hidden" name="currentPage" value="<%=currentPage%>">
             <input type="hidden" name="sortBy" value="<%=sortBy%>">
             <input type="hidden" name="direction" value="<%=direction%>">
@@ -129,23 +126,30 @@
             <div class="row mb-3">
                 <label class="col-sm-2 col-form-label">Order Number:</label>
                 <div class="col input-group">
-                    <div class="input-group-text">#</div>
+                    <div class="input-group-text" style="height: 34px;">#</div>
                     <input type="number" class="form-control" name="ordernumber" placeholder="Order Number" value="<%=ordernumber%>">
                 </div>
                 <label class="col-sm-2 col-form-label">Product Code:</label>
                 <div class="col input-group">
-                    <div class="input-group-text">#</div>
-                    <input type="text" class="form-control" name="productcode" placeholder="Order Number" value="<%=productcode%>">
+                    <div class="input-group-text" style="height: 34px;">#</div>
+                    <input type="text" class="form-control" name="productcode" placeholder="Product Code" value=<%=productcode%>>
                 </div>
             </div>
-
-            <div class="col-md-2" style="flex-basis: content">
-                <input type="submit" class="btn btn-primary" value="Submit"/>
-                <a href="OrderdetailServlet" class="btn btn-danger">Reset</a>
+            <div class="row mb-3">
+                <div class="col-sm-2"></div>
+                <div class="col"></div>
+                <div class="col-sm-3 input-group" style="flex-basis: content; height: 34px;" >
+                    <div class="input-group-text" style="flex-basis: content; height: 34px;">Records per page</div>
+                    <input type="number" class="form-control" name="recordsPerPage" value="<%=recordsPerPage%>" min="1" required>
+                </div>
+                <div class="col-md-2" style="flex-basis: content">
+                    <input type="submit" class="btn btn-primary" value="Search"/>
+                    <a href="OrderdetailServlet" class="btn btn-danger">Reset</a>
+                </div>
             </div>
         </form>
 
-        <form id="searchForm" action="OrderServlet" method="get">
+        <form id="OrderdetailSearchForm" action="OrderdetailServlet" method="get">
             <input type="hidden" name="currentPage" id="currentPage" value="<%=currentPage%>"/>
             <input type="hidden" name="sortBy" value="<%=sortBy%>"/>
             <input type="hidden" name="direction" value="<%=direction%>"/>
@@ -153,9 +157,7 @@
             <input type="hidden" name="recordsPerPage" value="<%=recordsPerPage%>"/>
             <input type="hidden" name="ordernumber" value="<%=ordernumber%>"/>
             <input type="hidden" name="productcode" value="<%=productcode%>"/>
-            <input type="hidden" name="quantityordered" value="<%=quantityordered%>"/>
-            <input type="hidden" name="priceeach" value="<%=priceeach%>"/>
-            <input type="hidden" name="orderlinenumber" value="<%=orderlinenumber%>"/>
+
 
             <div class="container table-responsive">
                 <table class="table table-striped table-bordered table-hover">
@@ -185,22 +187,34 @@
                                 Order Line Number
                             </a>
                         </th>
+                        <th>
+                            Product Details
+                        </th>
+                        <th>
+                            Update
+                        </th>
+                        <th>
+                            Delete
+                        </th>
                     </tr>
                     <%
                         List<Orderdetail> orders = (List<Orderdetail>) request.getAttribute("orders");
                         if (orders.size() != 0) {
-                            for (Orderdetail o : orders) {
-                                out.println("<tr>");
-                                out.println("<td>" + o.getOrdernumber().getId() + "</td>");
-                                out.println("<td>" + o.getProductcode().getId() + "</td>");
-                                out.println("<td>" + o.getQuantityordered() + "</td>");
-                                out.println("<td>" + o.getPriceeach() + "</td>");
-                                out.println("<td>" + o.getOrderlinenumber() + "</td>");
-                                out.println("</tr>");
-                            }
+                            for (Orderdetail o : orders) {%>
+                                <tr>
+                                    <td><%=o.getOrdernumber().getId()%></td>
+                                    <td><%=o.getProductcode().getId()%></td>
+                                    <td><%=o.getQuantityordered()%></td>
+                                    <td><%=o.getPriceeach()%></td>
+                                    <td><%=o.getOrderlinenumber()%></td>
+                                    <td id="view" ><a href="ProductController?display=product&id=<%=o.getProductcode().getId()%>">View</a></td>
+                                    <td id="update" ><a href="OrderdetailServlet?action=update&ordernumber=<%=o.getOrdernumber().getId()%>&productcode=<%=o.getProductcode().getId()%>">Update</a></td>
+                                    <td id="delete" ><a style='color: red;' href="#" onclick="deleteOrder(<%=o.getOrdernumber().getId()%>, '<%=o.getProductcode().getId()%>')">Delete</a></td>
+                                </tr>
+                    <%}
                         } else {
                             out.println("<tr>");
-                            for (int i = 0; i < 9; i++) out.println("<td>No records</td>");
+                            for (int i = 0; i < 7; i++) out.println("<td>No records</td>");
                             out.println("</tr>");
                         }
                     %>
@@ -241,7 +255,16 @@
             document.getElementById("currentPage").value = <%=currentPage%> +1;
         else if (action == "previous")
             document.getElementById("currentPage").value = <%=currentPage%> -1;
-        document.getElementById("searchForm").submit();
+        document.getElementById("OrderdetailSearchForm").submit();
+    }
+
+    function deleteOrder(id, productcode) {
+        var r = confirm('Are you sure you want to delete Order Number: '+id+'?');
+        if (r == true) {
+            window.location.href = 'OrderdetailServlet?action=delete&ordernumber=' + id + '&productcode=' + productcode;
+        } else {
+            return false;
+        }
     }
 </script>
 </body>

@@ -110,6 +110,7 @@
                             <li><a href="ProductlineDisplayServlet?currentPage=1&recordsPerPage=12&&keyword=&sort=ASC">Productline</a></li>
                             <li><a href="adminProductPage.html">Product Edit</a></li>
                             <li><a href="OrderServlet?currentPage=1&recordsPerPage=20&sortBy=ordernumber&direction=asc">Order Details</a></li>
+                            <li><a href="OrderdetailServlet?currentPage=1&recordsPerPage=20&sortBy=ordernumber&direction=asc">View Order Details</a></li>
                             <li><a href="PaymentServlet?currentPage=1&recordsPerPage=20&direction=asc">Payment Details</a></li>
                             <li><a href="contact.html">Contact</a></li>
                         </ul>
@@ -130,7 +131,7 @@
             <div class="col-md-3">
                 <div class="product-item-1">
                      <div class="product-thumb">
-                        <img src="images/gallery-image-1.jpg" alt="Product Title">
+                        <img src="images/<%=p.getProductline().getId()%>.jpg" alt="Product Title">
                     </div> <!-- /.product-thumb -->
                     <div class="product-content">
                         <h5><a href="ProductController?display=product&id=<%=p.getId()%>"><%=p.getProductname()%></a></h5>

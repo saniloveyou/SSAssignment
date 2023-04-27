@@ -81,7 +81,7 @@ public class PaymentNow extends HttpServlet {
         Date aftersixDays1 = new Date(t1 + (6 * 24 * 3600 * 1000));
         String requiredate1 = new SimpleDateFormat("yyyy-MM-dd").format(aftersixDays1);
 
-        String[] s1 = {String.valueOf(check1), today1, requiredate1,requiredate1,"Shipped","0",String.valueOf(c.getId())};
+        String[] s1 = {String.valueOf(check1), today1, requiredate1,requiredate1,"Shipped"," ",String.valueOf(c.getId())};
 
         orderbean.addit(s1);
 
