@@ -121,7 +121,8 @@
                     </p>
                     <ul class="product-buttons">
                         <li>
-                            <a href="#" class="main-btn">Buy Now</a>
+                            <% request.getSession().setAttribute("product", p); %>
+                            <a href="PaymentNow" class="main-btn">Buy Now</a>
                         </li>
                         <li>
                             <a href="#" class="main-btn">Add to Cart</a>
