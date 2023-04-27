@@ -2,6 +2,7 @@ package controller;
 
 import Cart.Cart;
 import com.utar.model.entity.Customer;
+import com.utar.model.entity.Orderdetail;
 import com.utar.model.entity.Product;
 import com.utar.model.sessionbean.OrderSessionBean;
 import com.utar.model.sessionbean.PaymentSessionBean;
@@ -15,6 +16,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 
 @WebServlet(name = "PaymentCart", value = "/PaymentCart")
@@ -66,30 +68,46 @@ public class PaymentCart extends HttpServlet {
         Customer c = (Customer) request.getSession().getAttribute("customer");
         Product p = (Product) request.getSession().getAttribute("product");
 
-        int check = paymentbean.getNextPaymentNumber();
-        String today = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
-        Date date = new Date();
+        HttpSession session = request.getSession();
+
+        List<Orderdetail> cart_list = (List<Orderdetail>) session.getAttribute("orderdetails");
 
 
-        String productidcart = request.getParameter("productid");
-        String quantity = request.getParameter("quantity");
 
-        String[]  s = {String.valueOf(c.getId()), String.valueOf(check), today,total};
-        paymentbean.addPayment(s);
 
-        String today1 = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-        Date date1 = new Date();
-        long t1 = date1.getTime();
-        Date aftersixDays1 = new Date(t1 + (6 * 24 * 3600 * 1000));
-        String requiredate1 = new SimpleDateFormat("yyyy-MM-dd").format(aftersixDays1);
+            int check = paymentbean.getNextPaymentNumber();
+            String today = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
+            Date date = new Date();
 
-        int check1 = orderbean.getNextOrderNumber();
 
-        String[] s1 = {String.valueOf(check1), today1, requiredate1,requiredate1,"pending"," ",String.valueOf(c.getId())};
+            String productidcart = request.getParameter("productid");
+            String quantity = request.getParameter("quantity");
 
-        orderbean.addit(s1);
+            String[] s = {String.valueOf(c.getId()), String.valueOf(check), today, total};
+            paymentbean.addPayment(s);
 
-        RequestDispatcher dispatcher = request.getRequestDispatcher("paymentsuccesfull.jsp");
+            String today1 = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+            Date date1 = new Date();
+            long t1 = date1.getTime();
+            Date aftersixDays1 = new Date(t1 + (6 * 24 * 3600 * 1000));
+            String requiredate1 = new SimpleDateFormat("yyyy-MM-dd").format(aftersixDays1);
+
+//            int check1 = orderbean.getNextOrderNumber();
+
+//            String[] s1 = {String.valueOf(check1), today1, requiredate1, requiredate1, "Shipped", " ", String.valueOf(c.getId())};
+
+//            orderbean.addit(s1);
+
+//        check1 = orderbean.getNextOrderNumber();
+
+        for (Orderdetail od : cart_list) {
+            orderbean.updateOrder(od.getOrdernumber().getId(), od.getOrdernumber().getRequireddate(), new SimpleDateFormat("yyyy-MM-dd").format(new Date()), "Shipped", od.getOrdernumber().getComments());
+        }
+        Customer customer = (Customer) session.getAttribute("customer");
+        request.getSession().setAttribute("cartcount", orderbean.cartCount(String.valueOf(customer.getId())));
+
+
+        RequestDispatcher dispatcher = request.getRequestDispatcher("cartsuccessfull.jsp");
         dispatcher.forward(request, response);
 
 
