@@ -150,6 +150,7 @@ public class OrderServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
         if(request.getParameter("action").equals("updateOrder")){
             String ordernumber = request.getParameter("ordernumber");
             String orderdate = request.getParameter("orderdate");

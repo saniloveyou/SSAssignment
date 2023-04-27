@@ -47,21 +47,6 @@
 </head>
 <body>
 <%
-    Customer cust = session.getAttribute("customer") == null ? null : (Customer) session.getAttribute("customer");
-    String user = session.getAttribute("username") == null ? null : (String) session.getAttribute("username");
-
-    if(cust == null){
-        response.sendRedirect("Login.jsp");
-        return;
-    }
-
-    if (!user.equals("admin")){
-        response.sendRedirect("adminprompt.jsp");
-        return;
-    }
-
-
-
     int nOfPages = (int) request.getAttribute("nOfPages");
     int currentPage = (int) request.getAttribute("currentPage");
     int recordsPerPage = (int) request.getAttribute("recordsPerPage");
